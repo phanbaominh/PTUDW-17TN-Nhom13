@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/server.js",
-    "prebuild:server": "node copy-view.js",
     "copy-views": "node copy-view.js",
     "tsc": "tsc",
     "dev:server": "concurrently \"nodemon --watch server -e hbs --exec npm run copy-views\" \"tsc --watch\" \"nodemon build/server.js\"",
