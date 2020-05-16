@@ -7,8 +7,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/server.js",
-    "prebuild": "node copy-view.js",
-    "build": "tsc"
+    "prebuild:server": "node copy-view.js",
+    "build:server": "tsc",
+    "build:client": "webpack --env development"
   },
   "dependencies": {
     "cookie-parser": "^1.4.5",
@@ -18,14 +19,31 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.2.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.6",
     "@types/http-errors": "^1.6.3",
     "@types/morgan": "^1.9.0",
     "@types/node": "^14.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "autoprefixer": "^9.7.6",
+    "css-loader": "^3.5.3",
+    "eslint": "^7.0.0",
+    "eslint-loader": "^4.0.2",
+    "mini-css-extract-plugin": "^0.9.0",
     "nodemon": "^2.0.4",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-loader": "^3.0.0",
     "rimraf": "^3.0.2",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
     "shelljs": "^0.8.4",
-    "typescript": "^3.9.2"
+    "source-map-loader": "^0.2.4",
+    "terser-webpack-plugin": "^3.0.1",
+    "ts-loader": "^7.0.4",
+    "typescript": "^3.9.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }
