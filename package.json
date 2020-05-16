@@ -8,15 +8,22 @@
   "scripts": {
     "start": "node build/server.js",
     "prebuild:server": "node copy-view.js",
-    "build:server": "tsc",
-    "build:client": "webpack --env development"
+    "copy-views": "node copy-view.js",
+    "tsc": "tsc",
+    "dev:server": "concurrently \"nodemon --watch server -e hbs --exec npm run copy-views\" \"tsc --watch\" \"nodemon build/server.js\"",
+    "dev:client": "webpack --env development --watch",
+    "build:server": "npm-run-all copy-views tsc",
+    "build:client": "webpack --env production",
+    "postinstall": "npm run build:server"
   },
   "dependencies": {
+    "concurrently": "^5.2.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "hbs": "^4.1.1",
     "http-errors": "^1.7.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "npm-run-all": "^4.1.5"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.2.0",
@@ -35,7 +42,6 @@
     "nodemon": "^2.0.4",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
-    "rimraf": "^3.0.2",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "shelljs": "^0.8.4",
