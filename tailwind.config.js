@@ -46,5 +46,6 @@ module.exports = {
         "10": "1rem"
       }
     }
-  }
+  },
+  purge: false
 };

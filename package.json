@@ -10,12 +10,13 @@
     "tsc": "tsc",
     "dev:server": "concurrently \"nodemon --watch server --ext hbs --exec 'npm-run-all copy-views start'\" \"tsc --watch\"",
     "dev:client": "webpack --env development --watch",
-    "build:server": "npm-run-all copy-views tsc",
-    "build:client": "webpack --env production"
+    "build:server": "cross-env NODE_ENV=production npm-run-all copy-views tsc",
+    "build:client": "cross-env NODE_ENV=production webpack --env production"
   },
   "dependencies": {
     "concurrently": "^5.2.0",
     "cookie-parser": "^1.4.5",
+    "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "hbs": "^4.1.1",
     "http-errors": "^1.7.3",

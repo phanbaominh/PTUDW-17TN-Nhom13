@@ -1,6 +1,8 @@
 const path = require("path");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserJSPlugin = require("terser-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = function (env) {
   var isProduction = env === "production";
@@ -15,6 +17,9 @@ module.exports = function (env) {
     resolve: {
       extensions: [".js", ".ts", ".tsx"]
     },
+    optimization: isProduction
+      ? { minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})] }
+      : {},
     module: {
       rules: [
         {
