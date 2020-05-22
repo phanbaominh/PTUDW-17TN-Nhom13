@@ -94,6 +94,13 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/hbs@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/hbs/-/hbs-4.0.1.tgz#9231d2d6c18b3eac1cc3140c76990f72a890fb8f"
+  integrity sha512-kbgeYPLGOG8LQhqNlAvMm7vMz6Iu3IaXDEufpkEYT/viTko1ZlIrj+b6lvo4cAIDRkh6eg+JdKVZkriDGTisEw==
+  dependencies:
+    handlebars "^4.1.0"
+
 "@types/http-errors@^1.6.3":
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/@types/http-errors/-/http-errors-1.6.3.tgz#619a55768eab98299e8f76747339f3373f134e69"
@@ -2392,7 +2399,7 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
-handlebars@4.7.6:
+handlebars@4.7.6, handlebars@^4.1.0:
   version "4.7.6"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.6.tgz#d4c05c1baf90e9945f77aa68a7a219aa4a7df74e"
   integrity sha512-1f2BACcBfiwAfStCKZNrUCgqNZkGsAT7UM3kkYtXuLo0KnaVfjKOyf7PRzB6++aK9STyT1Pd2ZCPe3EGOXleXA==
