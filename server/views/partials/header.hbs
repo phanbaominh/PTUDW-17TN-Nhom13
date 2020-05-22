@@ -1,1 +1,37 @@
-<h1>Hello</h1>
+<header class="flex items-center bg-fit-blue pl-12 pr-24 py-3">
+  <a class="flex items-center" aria-label="Go to homepage">
+    <img src="/images/logo.png" alt="Logo" class="h-p-85"/>
+    <span class="text-fit-yellow text-28 leading-38 font-semibold pt-4 pl-4">FITLIB</span>
+  </a>
+  <form class="flex items-center flex-grow pl-40 pr-32 text-20 leading-24 font-medium">
+    <div id="header-select">
+      <select class="main">
+        <option selected>Tất cả</option>
+        <option>Khoa học máy tính</option>
+        <option>Khoa học môi trường</option>
+      </select>
+      <select class="hidden tmp">
+        <option></option>
+      </select>
+    </div>
+    <input type="text" name="search" placeholder="Tìm kiếm sách, tạp chí, báo, ..." aria-label="Từ khóa tìm kiếm sách, tạp chí, báo, ..." class="flex-grow py-6 pl-12 pr-6" />
+    <button type="submit" aria-label="Tìm kiếm" class="flex items-center justify-center rounded-r-10 bg-fit-yellow w-p-54 h-p-54">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.6133 14.6667H16.6667L23.32 21.3333L21.3333 23.32L14.6667 16.6667V15.6133L14.3067 15.24C12.7867 16.5467 10.8133 17.3333 8.66667 17.3333C3.88005 17.3333 0 13.4533 0 8.66667C0 3.88001 3.88005 0 8.66667 0C13.4533 0 17.3333 3.88001 17.3333 8.66667C17.3333 10.8133 16.5467 12.7867 15.2401 14.3067L15.6133 14.6667ZM2.66667 8.66667C2.66667 11.9867 5.34668 14.6667 8.66667 14.6667C11.9867 14.6667 14.6667 11.9867 14.6667 8.66667C14.6667 5.34668 11.9867 2.66667 8.66667 2.66667C5.34668 2.66667 2.66667 5.34668 2.66667 8.66667Z" fill="black" fill-opacity="0.54"/>
+      </svg>
+    </button>
+  </form>
+  <nav class="text-white">
+    <ul class="flex items-center text-24 leading-28 font-bold">
+      <li class="inline-block">
+        <a href="/">Trang chủ</a>
+      </li>
+      <li class="inline-block ml-32">
+        <a href="/catalogue">Kho sách</a>
+      </li>
+      <li class="inline-block ml-32">
+        <a href="/login">Đăng nhập</a>
+      </li>
+    </ul>
+  </nav>
+</header>

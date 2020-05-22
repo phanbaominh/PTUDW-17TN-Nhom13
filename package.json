@@ -8,7 +8,7 @@
     "start": "node build/server.js",
     "copy-views": "node copy-view.js",
     "tsc": "tsc",
-    "dev:server": "concurrently \"nodemon --watch server -e hbs --exec npm run copy-views\" \"tsc --watch\" \"nodemon build/server.js\"",
+    "dev:server": "concurrently \"nodemon --watch server --ext hbs --exec 'npm-run-all copy-views start'\" \"tsc --watch\"",
     "dev:client": "webpack --env development --watch",
     "build:server": "npm-run-all copy-views tsc",
     "build:client": "webpack --env production"
@@ -19,8 +19,10 @@
     "express": "^4.17.1",
     "hbs": "^4.1.1",
     "http-errors": "^1.7.3",
+    "jquery": "^3.5.1",
     "morgan": "^1.10.0",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^1.4.6"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.2.0",
@@ -28,6 +30,7 @@
     "@types/express": "^4.17.6",
     "@types/hbs": "^4.0.1",
     "@types/http-errors": "^1.6.3",
+    "@types/jquery": "^3.3.38",
     "@types/morgan": "^1.9.0",
     "@types/node": "^14.0.1",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
@@ -44,6 +47,8 @@
     "sass-loader": "^8.0.2",
     "shelljs": "^0.8.4",
     "source-map-loader": "^0.2.4",
+    "stylelint": "^13.5.0",
+    "stylelint-config-recommended": "^3.0.0",
     "terser-webpack-plugin": "^3.0.1",
     "ts-loader": "^7.0.4",
     "typescript": "^3.9.2",
