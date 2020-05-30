@@ -1,7 +1,6 @@
 {
   "name": "ptudw-17tn-nhom13",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "https://github.com/lamnhh/PTUDW-17TN-Nhom13.git",
   "author": "Team 13",
   "license": "MIT",
@@ -12,8 +11,7 @@
     "dev:server": "concurrently \"nodemon --watch server -e hbs --exec npm run copy-views\" \"tsc --watch\" \"nodemon build/server.js\"",
     "dev:client": "webpack --env development --watch",
     "build:server": "npm-run-all copy-views tsc",
-    "build:client": "webpack --env production",
-    "postinstall": "npm run build:server"
+    "build:client": "webpack --env production"
   },
   "dependencies": {
     "concurrently": "^5.2.0",
