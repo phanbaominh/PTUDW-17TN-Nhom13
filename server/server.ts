@@ -7,6 +7,8 @@ import hbs from "hbs";
 
 import indexRouter from "./routes/index";
 import authRouter from "./routes/auth";
+import catalogueRouter from "./routes/catalogue";
+
 import { parseAuth } from "./middlewares/auth";
 
 var app = express();
@@ -25,6 +27,7 @@ app.use("*", parseAuth);
 
 app.use("/", indexRouter);
 app.use("/", authRouter);
+app.use("/", catalogueRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

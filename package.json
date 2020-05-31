@@ -22,6 +22,7 @@
     "hbs": "^4.1.1",
     "http-errors": "^1.7.3",
     "jquery": "^3.5.1",
+    "lodash": "^4.17.15",
     "morgan": "^1.10.0",
     "npm-run-all": "^4.1.5",
     "tailwindcss": "^1.4.6"
@@ -33,6 +34,7 @@
     "@types/hbs": "^4.0.1",
     "@types/http-errors": "^1.6.3",
     "@types/jquery": "^3.3.38",
+    "@types/lodash": "^4.14.154",
     "@types/morgan": "^1.9.0",
     "@types/node": "^14.0.1",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
