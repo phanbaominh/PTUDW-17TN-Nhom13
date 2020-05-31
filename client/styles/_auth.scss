@@ -1,0 +1,48 @@
+.auth-form {
+  @apply border-fit-grey;
+  @apply rounded-5 border text-20 leading-24 px-p-60 py-p-38;
+  @screen md {
+    @apply px-12 pt-10 pb-12;
+  }
+}
+
+.auth-form,
+.auth-form * {
+  @apply font-lato;
+}
+
+.auth-form__field {
+  @apply block;
+}
+
+.auth-form__field-name {
+  @apply flex justify-between items-center;
+  @apply mb-2;
+}
+
+.auth-form__field-name h2 {
+  @apply font-medium;
+}
+
+.auth-form__field-value {
+  border-color: #a6a6a6;
+  border-radius: 0.3rem;
+  @apply border w-full px-4 pt-3 pb-2;
+  @apply text-18 leading-20;
+  &:focus {
+    @apply border-fit-orange shadow-fit-orange;
+    @apply outline-none;
+  }
+}
+
+.auth-form__submit-button {
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+  border-color: #655e5e;
+  @apply w-full rounded-5 border font-medium py-4;
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
+    @apply border-fit-orange;
+    @apply outline-none;
+  }
+}
