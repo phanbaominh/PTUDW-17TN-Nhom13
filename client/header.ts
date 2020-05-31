@@ -19,6 +19,16 @@ function setup() {
       $("#sidebar").removeClass("active");
     }
   });
+
+  // Handlers for user menu
+  $("#header__user-menu__trigger").click(function () {
+    $("#header__user-menu").toggleClass("active");
+  });
+  $("body").click(function handleClickOutsideUserMenu(e: JQuery.ClickEvent) {
+    if ($("#header__user-menu--wrapper").has(e.target).length === 0) {
+      $("#header__user-menu").removeClass("active");
+    }
+  });
 }
 
 export default { setup };

@@ -52,6 +52,9 @@
       @apply rounded-l-6;
       @apply py-3;
     }
+    svg {
+      @apply h-8 w-8;
+    }
   }
 }
 
@@ -70,6 +73,7 @@
 }
 
 #sidebar {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
   top: calc(100% + 0.6rem);
   right: 0;
   @apply hidden absolute bg-white text-14 leading-18 border;
@@ -87,6 +91,34 @@
 #sidebar-wrapper {
   @apply hidden relative;
   @screen md {
-    @apply block;
+    @apply flex items-center pt-2;
   }
+}
+
+#header__user-menu {
+  border-color: #ddd;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+  display: none;
+  top: calc(100% + 0.5rem);
+  width: 19rem;
+  @apply absolute right-0 border bg-white;
+  li {
+    @apply text-black font-medium text-18 leading-22 font-lato;
+    @apply px-8 py-4;
+    &:focus,
+    &:hover {
+      @apply font-semibold;
+    }
+  }
+  li + li {
+    border-color: #ddd;
+    @apply border-t border-dashed;
+  }
+  a {
+    width: 100%;
+  }
+}
+
+#header__user-menu.active {
+  display: block;
 }
