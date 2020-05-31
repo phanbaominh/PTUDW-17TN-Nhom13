@@ -1,3 +1,4 @@
 let shell = require("shelljs");
 
-shell.cp("-R", "server/views", "build/");
+shell.mkdir("-p", "build/views");
+shell.cp("-R", "server/views", "build");
