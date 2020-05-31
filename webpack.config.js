@@ -34,6 +34,7 @@ module.exports = function (env) {
         },
         {
           test: /\.s?css$/,
+          exclude: /tailwind.css/,
           use: [
             { loader: MiniCssExtractPlugin.loader },
             { loader: "css-loader", options: { sourceMap: true } },
@@ -48,13 +49,30 @@ module.exports = function (env) {
             },
             { loader: "sass-loader", options: { sourceMap: true } }
           ]
+        },
+        {
+          test: /tailwind.css/,
+          use: [
+            { loader: MiniCssExtractPlugin.loader },
+            { loader: "css-loader", options: { sourceMap: true } },
+            {
+              loader: "postcss-loader",
+              options: {
+                sourceMap: true,
+                config: {
+                  path: "postcss.config.js"
+                }
+              }
+            }
+          ]
         }
       ]
     },
 
     entry: {
       index: path.join(__dirname, "client", "index.ts"),
-      style: path.join(__dirname, "client", "styles", "all.scss")
+      style: path.join(__dirname, "client", "styles", "all.scss"),
+      tailwind: path.join(__dirname, "client", "styles", "tailwind.css")
     },
     output: {
       filename: path.join("javascripts", "[name].js"),
