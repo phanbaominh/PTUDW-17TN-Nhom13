@@ -1,0 +1,26 @@
+.slick-slide {
+    @apply mx-2;
+    max-width: 17rem;
+    @screen lg {
+        max-width: 14rem;
+    }
+    @screen md {
+        max-width: 10rem;
+    }
+}
+
+.book-carousel-wrapper{
+    @apply flex flex-col;
+}
+.book-carousel {
+    width: 90%;
+    @apply self-center;
+    button {
+        @apply absolute text-32 z-10;
+        top: 40%;
+        left: -3rem;
+    }
+    .slick-next {
+        left: calc(100% + 1rem);
+    }
+}
