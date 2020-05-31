@@ -20,7 +20,9 @@ module.exports = {
         "18": "1.8rem",
         "20": "2rem",
         "24": "2.4rem",
-        "28": "2.8rem"
+        "28": "2.8rem",
+        "32": "3.2rem",
+        "36": "3.6rem"
       },
       lineHeight: {
         "18": "1.8rem",
@@ -34,14 +36,20 @@ module.exports = {
         "p-38": "3.8rem",
         "p-44": "4.4rem",
         "p-54": "5.4rem",
+        "p-60": "6rem",
         "p-70": "7rem",
+        "p-80": "8rem",
         "p-85": "8.5rem"
       },
       colors: {
         "fit-yellow": "#F0C14B",
-        "fit-blue": "#131A22"
+        "fit-yellow-light": "#f5c753",
+        "fit-blue": "#131A22",
+        "fit-orange": "#F08804",
+        "fit-grey": "#c4c4c4"
       },
       borderRadius: {
+        "5": "0.5rem",
         "6": "0.6rem",
         "10": "1rem"
       }
