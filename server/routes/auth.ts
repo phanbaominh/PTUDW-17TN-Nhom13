@@ -7,4 +7,10 @@ router.get("/login", function (req, res, next) {
   });
 });
 
+router.get("/forgot-password", function (req, res, next) {
+  res.render("forgot-password", {
+    title: "Forgot password"
+  });
+});
+
 export default router;

@@ -33,3 +33,12 @@
     @apply outline-none;
   }
 }
+
+.auth-form__submit-button {
+  border-color: #655e5e;
+  @apply w-full bg-fit-yellow rounded-5 border font-medium py-4;
+  &:hover,
+  &:focus {
+    @apply bg-fit-yellow-light outline-none;
+  }
+}
