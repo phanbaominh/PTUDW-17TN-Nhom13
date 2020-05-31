@@ -9,7 +9,8 @@ router.get("/login", function (req, res, next) {
     return;
   }
   res.render("login", {
-    title: "Login"
+    title: "Login",
+    user: res.locals.user
   });
 });
 
@@ -38,7 +39,8 @@ router.get("/profile", requireAuth, function (req, res, next) {
 
 router.get("/forgot-password", function (req, res, next) {
   res.render("forgot-password", {
-    title: "Forgot password"
+    title: "Forgot password",
+    user: res.locals.user
   });
 });
 

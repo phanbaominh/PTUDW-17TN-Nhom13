@@ -1,12 +1,12 @@
-<header class="flex items-center bg-fit-blue pl-12 pr-24 py-3 3xl:pl-6 3xl:pr-12 md:block md:px-4">
-  <div class="flex items-center justify-between">
+<header class="flex items-center bg-fit-blue pl-12 pr-24 py-3 3xl:pl-6 3xl:pr-12 md:block md:px-4 md:py-4">
+  <div class="flex items-center justify-between md:items-stretch md:pt-1 pb-3">
     <a href="/" class="flex items-center" aria-label="Go to homepage">
       <img src="/images/logo.png" alt="Logo" class="h-p-85 xl:h-p-70 lg:h-20 md:h-12"/>
       <span class="text-fit-yellow text-28 leading-38 font-semibold pt-4 pl-4 xl:hidden md:block md:text-16 md:leading-20">FITLIB</span>
     </a>
     <div id="sidebar-wrapper">
       <button id="header-hamburger" type="button" aria-label="Open sidebar">
-        <svg width="16" height="13" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="20" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M5.06055 6.89258L14.1404 6.89258" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M1.65576 1.78516H14.1406" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M5.06055 12L14.1404 12" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -20,9 +20,21 @@
           <li>
             <a href="/catalogue">Kho sách</a>
           </li>
+          {{#if user}}
+          <li>
+            <a href="/profile">Tài khoản</a>
+          </li>
+          <li>
+            <a href="/history">Lịch sử mượn</a>
+          </li>
+          <li>
+            <a href="/logout">Đăng xuất</a>
+          </li>
+          {{else}}
           <li>
             <a href="/login">Đăng nhập</a>
           </li>
+          {{/if}}
         </ul>
       </nav>
     </div>
@@ -61,7 +73,11 @@
         <a href="/catalogue">Kho sách</a>
       </li>
       <li class="ml-32 3xl:ml-20 xl:ml-10 lg:ml-6">
+        {{#if user}}
+        {{> header.user.menu}}
+        {{else}}
         <a href="/login">Đăng nhập</a>
+        {{/if}}
       </li>
     </ul>
     <div id="header-navbar-overlay"></div>
