@@ -8,7 +8,7 @@
     "start": "node build/server.js",
     "copy-views": "node copy-view.js",
     "tsc": "tsc",
-    "dev:server": "concurrently \"nodemon --watch server --ext hbs --exec 'npm-run-all copy-views start'\" \"tsc --watch\"",
+    "dev:server": "concurrently \"nodemon --watch server --ext hbs,ts --exec 'npm-run-all copy-views start'\" \"tsc --watch\"",
     "dev:client": "webpack --env development --watch",
     "build:server": "cross-env NODE_ENV=production npm-run-all copy-views tsc",
     "build:client": "cross-env NODE_ENV=production webpack --env production"

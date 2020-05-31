@@ -7,6 +7,7 @@ import hbs from "hbs";
 
 import indexRouter from "./routes/index";
 import authRouter from "./routes/auth";
+import { parseAuth } from "./middlewares/auth";
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "..", "public")));
+app.use("*", parseAuth);
 
 app.use("/", indexRouter);
 app.use("/", authRouter);
