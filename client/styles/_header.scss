@@ -56,10 +56,7 @@
 }
 
 #header-navbar {
-  @apply text-24 leading-28 font-bold;
-  @screen xl {
-    @apply text-20 leading-24;
-  }
+  @apply text-20 leading-24 font-bold;
   @screen lg {
     @apply text-14 leading-18;
   }
