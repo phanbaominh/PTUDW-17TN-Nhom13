@@ -30,7 +30,8 @@
   @apply border w-full px-4 pt-3 pb-2;
   @apply text-18 leading-20;
   &:focus {
-    @apply border-fit-orange shadow-fit-orange;
+    box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
+    @apply border-fit-orange;
     @apply outline-none;
   }
 }
