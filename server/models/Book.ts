@@ -1,12 +1,21 @@
 import _ from "lodash";
 
 interface Book {
-    title: string;
+    [title: string]: string;
     cover: string;
     author: string;
     language: string;
     tag: string;
     type: string;
+}
+
+interface Books {
+    books: Book[];
+    titles: string[];
+    languages: string[];
+    tags: string[];
+    types: string[];
+    authors: string[];
 }
 
 const titles = [
@@ -58,7 +67,14 @@ function createBookList(n: number){
     return books
 }
 
-const DUMMY_BOOKS: Book[] = createBookList(50); 
+const DUMMY_BOOKS: Books = {
+    books: createBookList(50),
+    authors,
+    titles,
+    languages,
+    tags,
+    types,
+}
 
 export default Book;
 export { DUMMY_BOOKS };
