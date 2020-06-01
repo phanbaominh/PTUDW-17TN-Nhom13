@@ -1,4 +1,7 @@
 import _ from "lodash";
+import hbs from "hbs";
+
+
 
 interface Book {
     [title: string]: string;
@@ -18,6 +21,8 @@ interface Books {
     authors: string[];
 }
 
+
+
 const titles = [
     "A book with a really long title, over five words long",
     "A book with a medium length title",
@@ -26,20 +31,20 @@ const titles = [
 
 const languages = [
     "English",
-    "Tieng Viet",
+    "Tiếng Việt",
 ];
 
 const tags = [
-    "Khoa hoc may tinh",
-    "Tri tue nhan tao",
-    "Do hoa may tinh",
-    "Ly thuyet tinh toan",
+    "Khoa học máy tính",
+    "Tri tuệ nhân tạo",
+    "Đồ họa máy tính",
+    "Lý thuyết tính toán",
 ];
 
 const types = [
-    "Sach",
-    "Bai bao khoa hoc",
-    "Tap chi khoa hoc",
+    "Sách",
+    "Bài báo khoa học",
+    "Tạp chí khoa học",
 ]
 
 const authors = [
@@ -75,6 +80,10 @@ const DUMMY_BOOKS: Books = {
     tags,
     types,
 }
+
+hbs.registerHelper('getBooksWith', function (prop: string, value) {
+    return DUMMY_BOOKS.books.filter((book: Book) => book[prop] === value);
+});
 
 export default Book;
 export { DUMMY_BOOKS };

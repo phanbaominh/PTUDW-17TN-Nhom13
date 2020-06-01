@@ -1,1 +1,5 @@
-{{> book.carousel custom='' }}
+<div class="p-12">
+    {{# each books.tags }}
+        {{> catalogue.book.carousel }}
+    {{/each }}
+</div>
