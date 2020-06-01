@@ -1,14 +1,16 @@
 import $ from "jquery";
 import 'slick-carousel'
 function setup(){
-    $('.book-carousel').slick({
+    let i = 0;
+    const carouselWrappers = $('.book-carousel-wrapper')
+    const slickObject = {
         infinite: true,
         slidesToShow: 8,
         slidesToScroll: 4,
-        appendArrows: `$(this).parent`,
+        appendArrows: carouselWrappers[0],
         prevArrow: `
         <div class="slick-button-wrapper">
-            <button type="button" class="slick-prev" tabindex="1">
+            <button type="button" class="slick-prev">
                 <svg width="18" height="36" viewBox="0 0 18 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 31.77L6.87449 18L18 4.23L14.5749 0L0 18L14.5749 36L18 31.77Z" fill="#F08804"/>
                 </svg>
@@ -16,7 +18,7 @@ function setup(){
         </div>`,
         nextArrow: `
         <div class="slick-button-wrapper">
-            <button type="button" class="slick-next" tabindex="2">
+            <button type="button" class="slick-next">
                 <svg width="18" height="36" viewBox="0 0 18 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 31.77L11.1255 18L0 4.23L3.4251 0L18 18L3.4251 36L0 31.77Z" fill="#F08804"/>
                 </svg>
@@ -31,7 +33,12 @@ function setup(){
                 }
             },
         ]
+    };
+    $('.book-carousel').on('init', function(event, slick) {
+        i+=1;
+        slickObject.appendArrows = carouselWrappers[i];
     });
+    $('.book-carousel').slick(slickObject);
 }
 
 export default { setup };

@@ -31,20 +31,20 @@ const titles = [
 
 const languages = [
     "English",
-    "Tieng Viet",
+    "Tiếng Việt",
 ];
 
 const tags = [
-    "Khoa hoc may tinh",
-    "Tri tue nhan tao",
-    "Do hoa may tinh",
-    "Ly thuyet tinh toan",
+    "Khoa học máy tính",
+    "Tri tuệ nhân tạo",
+    "Đồ họa máy tính",
+    "Lý thuyết tính toán",
 ];
 
 const types = [
-    "Sach",
-    "Bai bao khoa hoc",
-    "Tap chi khoa hoc",
+    "Sách",
+    "Bài báo khoa học",
+    "Tạp chí khoa học",
 ]
 
 const authors = [
@@ -81,10 +81,8 @@ const DUMMY_BOOKS: Books = {
     types,
 }
 
-hbs.registerHelper('getBooksWith', function (prop: string, value, books = DUMMY_BOOKS.books) {
-    console.log('cool');
-    // return books.filter((book: Book) => book[prop] === value);
-    return DUMMY_BOOKS.books;
+hbs.registerHelper('getBooksWith', function (prop: string, value) {
+    return DUMMY_BOOKS.books.filter((book: Book) => book[prop] === value);
 });
 
 export default Book;
