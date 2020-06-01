@@ -6,14 +6,42 @@
     @screen md{
         @apply text-18;
     }
+    @screen sm{
+        @apply text-14;
+    }
 }
 
 .book-container > div{
     @apply mb-8;
 }
 
-.book-main-container {
+.book-borrow-button {
+    @apply self-center h-24 w-8/12 rounded-5 border-fit-yellow border-solid border-2 text-24;
+    &:hover,
+    &:focus {
+        box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
+        @apply border-fit-orange;
+        @apply outline-none;
+    }
+
+    @screen lg {
+        @apply text-18 h-16;
+    }
+
+    @screen md {
+        @apply text-14 h-12;
+    }
+
+    @screen sm {
+        @apply text-base h-8 w-10/12;
+    }
 }
 .book-main-container > * {
-    @apply mr-2;
+}
+
+.book-line {
+    @apply border-fit-grey border-opacity-50 border-t border-r border-l border-b;
+    @screen md{
+        @apply border-opacity-25;
+    }
 }

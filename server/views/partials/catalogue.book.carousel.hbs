@@ -1,7 +1,11 @@
 <div class="mb-8">
     <div class="text-36 font-bold mb-4 lg:text-28 md:text-18">
         {{heading}}
-        <span><a href="#" class="font-bold text-14 text-fit-orange hover:underline">Xem tất cả >></a></span>
+        <span>
+            <a href="#" class="font-bold text-14 text-fit-orange hover:underline lg:text-lg sm:text-base">
+            Xem tất cả >>
+            </a>
+        </span>
     </div>
    
     {{> book.carousel custom='' books=(getBooksWith prop value)}}
