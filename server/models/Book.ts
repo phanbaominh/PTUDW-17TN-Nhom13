@@ -1,4 +1,7 @@
 import _ from "lodash";
+import hbs from "hbs";
+
+
 
 interface Book {
     [title: string]: string;
@@ -18,6 +21,11 @@ interface Books {
     authors: string[];
 }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> temp commit
 const titles = [
     "A book with a really long title, over five words long",
     "A book with a medium length title",
@@ -75,6 +83,15 @@ const DUMMY_BOOKS: Books = {
     tags,
     types,
 }
+<<<<<<< HEAD
+=======
+
+hbs.registerHelper('getBooksWith', function (prop: string, value, books = DUMMY_BOOKS.books) {
+    console.log('cool');
+    // return books.filter((book: Book) => book[prop] === value);
+    return DUMMY_BOOKS.books;
+});
+>>>>>>> temp commit
 
 export default Book;
 export { DUMMY_BOOKS };

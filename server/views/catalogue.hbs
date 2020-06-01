@@ -1,1 +1,3 @@
-{{> book.carousel custom='' }}
+{{# each books.tags }}
+    {{> catalogue.book.carousel }}
+{{/each }}

@@ -5,7 +5,7 @@ function setup(){
         infinite: true,
         slidesToShow: 8,
         slidesToScroll: 4,
-        appendArrows: `.book-carousel-wrapper`,
+        appendArrows: `$(this).parent`,
         prevArrow: `
         <div class="slick-button-wrapper">
             <button type="button" class="slick-prev" tabindex="1">
