@@ -10,17 +10,27 @@
 }
 
 .book-carousel-wrapper{
-    @apply flex flex-col;
+    @apply flex flex-row justify-center;
+    .slick-button-wrapper{
+        @apply flex;
+    }
+    button {
+        @apply self-center;
+        &:focus {
+            box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
+            @apply border-fit-orange;
+            @apply outline-none;
+        }
+    }
+    button svg {
+        @screen md{
+            width: 75%;
+            height: auto;
+        }
+    }
 }
 .book-carousel {
     width: 90%;
     @apply self-center;
-    button {
-        @apply absolute text-32 z-10;
-        top: 40%;
-        left: -3rem;
-    }
-    .slick-next {
-        left: calc(100% + 1rem);
-    }
+    
 }

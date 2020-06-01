@@ -2,9 +2,9 @@
     <div class="book-carousel">
         {{# each books }}
            <div>
-               <img src="{{cover}}" alt="book cover" class="h-auto inline-block">
-               <a class="text-16 text-blue-800 hover:underline xl:text-14 md:text-lg" href="#">{{title}}</a>
-               <div class="text-14 xl:text-lg md:text-base">by {{author}}</div>
+               <img src="{{cover}}" alt="book cover" class="h-auto">
+               <a class="text-16 text-blue-800 hover:underline xl:text-14 md:text-lg sm:text-base" href="#">{{title}}</a>
+               <div class="text-14 xl:text-lg md:text-base sm:text-sm">by {{author}}</div>
            </div>
         {{/each }}
     </div>
