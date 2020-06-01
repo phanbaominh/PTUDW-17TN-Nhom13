@@ -1,18 +1,22 @@
-<div class="book-container flex flex-col justify-between p-12">
+<div class="book-container flex flex-col justify-between p-20">
     {{# with book }}
     <div class="book-main-container flex justify-between">
         
-        <img src="{{cover}}" alt="book cover" class="h-auto max-w-xs">
-        <div>
+        <img src="{{cover}}" alt="book cover" class="h-auto max-w-sm">
+        <div class="book-main-desc w-8/12">
             <div class="text-36 font-bold"> {{title}}</div>
             <div class="text-18 font-bold">By {{author}}</div>
             <p class="text-24">
                 {{desc}}
             </p>
         </div>
-        <div>
-            <div>Hiện có: {{amount}} sách</div>
-            <button>Mượn</button>
+        <div class="book-main-borrow w-2/12">
+            <div class="text-24 text-center">Hiện có: <span class="text-fit-orange text-bold">{{amount}} sách</span></div>
+            <div class="flex flex-col  ">
+                <button class="self-center h-24 w-8/12 bg-fit-grey rounded-5 border-fit-yellow border-solid border-2 text-24">
+                    Mượn
+                </button>
+            </div>
         </div>
         
     </div>
@@ -23,6 +27,14 @@
 
     <div>
         <div class="book-heading">Chi tiết</div>
+        <div class="text-28">
+            Tag: {{tag}} <br>
+            Loại: {{type}} <br>
+            Tiếng: {{language}} <br>
+            Trang: 500 <br>
+            Ngày xuất bản: 25/11/2019 <br>
+            Nhà xuất bản: Kim Đồng <br>
+        </div>
     </div>
     <div>
         <div class="book-heading">Bình luận</div>

@@ -12,6 +12,8 @@
     @apply mb-8;
 }
 
-.book-main-container p{
-    max-width: 75%;
+.book-main-container {
+}
+.book-main-container > * {
+    @apply mr-2;
 }
