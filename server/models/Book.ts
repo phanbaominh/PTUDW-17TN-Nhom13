@@ -4,12 +4,14 @@ import hbs from "hbs";
 
 
 interface Book {
-    [title: string]: string;
+    [key: string]: number | string;
+    title: string;
     cover: string;
     author: string;
     language: string;
     tag: string;
     type: string;
+    readonly id: number;
 }
 
 interface Books {
@@ -53,14 +55,17 @@ const authors = [
     "Bright Treasure",
 ]
 const cover = "/images/lizard-boi-book.jpg";
+let currentId = 0;
 
 function random(things: any[]){
     return things[Math.floor(Math.random() * things.length)];
 }
+
 function createBookList(n: number){
     const books: Book[] = [];
     for (let i = 0; i < n; i++){
         books.push({
+            id: currentId++,
             title: random(titles),
             author: random(authors),
             cover,
@@ -81,9 +86,13 @@ const DUMMY_BOOKS: Books = {
     types,
 }
 
+function findBookById(id: number){
+    return DUMMY_BOOKS.books.find((book: Book) => book.id === id);
+}
+
 hbs.registerHelper('getBooksWith', function (prop: string, value) {
     return DUMMY_BOOKS.books.filter((book: Book) => book[prop] === value);
 });
 
 export default Book;
-export { DUMMY_BOOKS };
+export { DUMMY_BOOKS, findBookById };
