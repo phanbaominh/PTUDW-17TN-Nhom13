@@ -1,7 +1,8 @@
 import _ from "lodash";
 import hbs from "hbs";
+import Chance from "chance";
 
-
+const chance = new Chance();
 
 interface Book {
     [key: string]: number | string;
@@ -11,12 +12,13 @@ interface Book {
     language: string;
     tag: string;
     type: string;
+    desc: string;
     readonly id: number;
+    amount: number;
 }
 
 interface Books {
     books: Book[];
-    titles: string[];
     languages: string[];
     tags: string[];
     types: string[];
@@ -67,11 +69,13 @@ function createBookList(n: number){
         books.push({
             id: currentId++,
             title: random(titles),
+            desc: chance.paragraph(),
             author: random(authors),
             cover,
             language: random(languages),
             tag: random(tags),
             type: random(types),
+            amount: Math.floor(Math.random() * 10) + 1,
         });
     }
     return books
@@ -80,7 +84,6 @@ function createBookList(n: number){
 const DUMMY_BOOKS: Books = {
     books: createBookList(50),
     authors,
-    titles,
     languages,
     tags,
     types,

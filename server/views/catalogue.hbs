@@ -1,5 +1,5 @@
 <div class="p-12">
     {{# each books.tags }}
-        {{> catalogue.book.carousel }}
+        {{> catalogue.book.carousel heading=this prop='tag' value=this}}
     {{/each }}
 </div>

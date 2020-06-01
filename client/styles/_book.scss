@@ -1,0 +1,17 @@
+.book-heading {
+    @apply text-36 font-bold mb-4;
+    @screen lg{
+        @apply text-28;
+    }
+    @screen md{
+        @apply text-18;
+    }
+}
+
+.book-container > div{
+    @apply mb-8;
+}
+
+.book-main-container p{
+    max-width: 75%;
+}

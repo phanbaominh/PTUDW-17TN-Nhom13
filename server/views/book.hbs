@@ -1,6 +1,31 @@
-{{# with book }}
-    {{title}}
-    {{type}}
-    {{language}}
-    {{tag}}
-{{/with }}
+<div class="book-container flex flex-col justify-between p-12">
+    {{# with book }}
+    <div class="book-main-container flex justify-between">
+        
+        <img src="{{cover}}" alt="book cover" class="h-auto max-w-xs">
+        <div>
+            <div class="text-36 font-bold"> {{title}}</div>
+            <div class="text-18 font-bold">By {{author}}</div>
+            <p class="text-24">
+                {{desc}}
+            </p>
+        </div>
+        <div>
+            <div>Hiện có: {{amount}} sách</div>
+            <button>Mượn</button>
+        </div>
+        
+    </div>
+
+    <div>
+        {{> catalogue.book.carousel heading='Sách liên quan' prop='tag' value=tag }}
+    </div>
+
+    <div>
+        <div class="book-heading">Chi tiết</div>
+    </div>
+    <div>
+        <div class="book-heading">Bình luận</div>
+    </div>
+    {{/with }}
+</div>
