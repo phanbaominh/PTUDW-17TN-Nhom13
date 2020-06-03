@@ -5,7 +5,7 @@
   background-color: #f3f3f3;
   border-color: #cdcdcd;
   color: #555;
-  @apply py-6 pl-8 pr-16 border-r rounded-l-10 appearance-none;
+  @apply py-6 pl-8 pr-16 border-r rounded-l-10 appearance-none h-full;
   @screen xl {
     @apply py-4;
   }
@@ -35,7 +35,7 @@
 }
 
 #header-search-form {
-  @apply flex items-center flex-grow pl-40 pr-32 text-20 leading-24 font-medium;
+  @apply flex items-stretch flex-grow pl-40 pr-32 text-20 leading-24 font-medium;
   @screen 3xl {
     @apply pl-20 pr-24;
   }
@@ -101,10 +101,9 @@
   display: none;
   top: calc(100% + 0.5rem);
   width: 19rem;
-  @apply absolute right-0 border bg-white;
+  @apply absolute right-0 border bg-white z-50;
   li {
     @apply text-black font-medium text-18 leading-22 font-lato;
-    @apply px-8 py-4;
     &:focus,
     &:hover {
       @apply font-semibold;
@@ -115,7 +114,8 @@
     @apply border-t border-dashed;
   }
   a {
-    width: 100%;
+    display: block;
+    @apply px-8 py-4;
   }
 }
 
