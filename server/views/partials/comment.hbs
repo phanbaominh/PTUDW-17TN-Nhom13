@@ -1,15 +1,19 @@
-<div>
-    <div>
+<div class="mt-24">
+    <div class="flex">
         <img
             src="{{user.profilePicture}}"
             alt="your profile picture"
-            class="rounded-full h-24 w-24"
+            class="rounded-full h-32 w-32"
         >
-        {{ user.username }}
+        <div class="text-24 ml-16">
+            <div class="font-bold">{{ user.username }} <span class="text-18 font-normal ml-16 opacity-50">1 ngày trước</span></div>
+            <p class=" leading-28 mt-5">{{ content }}</p>
+        </div>
+
     </div>
     
-    <div>{{ content }}</div>
-    <div class="p-4">
+    
+    <div class="ml-48 mt-16">
         {{# each replies}}
             {{>comment}}
         {{/each}}

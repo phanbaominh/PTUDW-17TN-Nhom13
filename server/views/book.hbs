@@ -15,14 +15,10 @@
             <div class="text-24 text-center lg:text-20 md:text-14 sm:text-base">
                 Hiện có: <span class="text-fit-orange text-bold">{{amount}} sách</span>
             </div>
-            <div class="flex flex-col  ">
-                {{#if ../user }}
-                <button class="book-borrow-button bg-fit-yellow">Mượn</button>
-                {{else}}
-                <a href="/login" class="flex flex-col">
-                    <button class="book-borrow-button bg-fit-grey" > Mượn </button>
+            <div class="flex justify-center">
+                <a href="/book/{{id}}/borrow" class="book-borrow-button bg-fit-yellow flex items-center justify-center">
+                    Mượn
                 </a>
-                {{/if }}
             </div>
         </div>
         

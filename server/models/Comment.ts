@@ -14,7 +14,7 @@ function generate(n: number, depth: number): Comment[] {
     for (let i = 0; i < n; i++){
         comments.push({
             user: DUMMY_USER,
-            content: chance.sentence(),
+            content: chance.paragraph({sentences: 5}),
             replies: depth > 1 ? generate(n, depth - 1) : [],
         });
     };
@@ -22,6 +22,5 @@ function generate(n: number, depth: number): Comment[] {
 }
 
 const DUMMY_COMMENTS: Comment[] = generate(2,3);
-console.log(DUMMY_COMMENTS);
 export default Comment
 export { DUMMY_COMMENTS };
