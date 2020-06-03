@@ -21,6 +21,7 @@ function generate(n: number, depth: number): Comment[] {
     return comments;
 }
 
-const DUMMY_COMMENTS: Comment[] = generate(5,2);
+const DUMMY_COMMENTS: Comment[] = generate(2,3);
+console.log(DUMMY_COMMENTS);
 export default Comment
 export { DUMMY_COMMENTS };

@@ -42,9 +42,15 @@
             Nhà xuất bản: Kim Đồng <br>
         </div>
     </div>
+    {{/with}}
     <div class="book-line"></div>
     <div>
         <div class="book-heading">Bình luận</div>
+        <div>
+            {{# each comments}}
+                {{>comment}}
+            {{/each}}
+        </div>
     </div>
-    {{/with }}
+    
 </div>

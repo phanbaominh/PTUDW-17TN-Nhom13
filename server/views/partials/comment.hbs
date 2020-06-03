@@ -1,0 +1,17 @@
+<div>
+    <div>
+        <img
+            src="{{user.profilePicture}}"
+            alt="your profile picture"
+            class="rounded-full h-24 w-24"
+        >
+        {{ user.username }}
+    </div>
+    
+    <div>{{ content }}</div>
+    <div class="p-4">
+        {{# each replies}}
+            {{>comment}}
+        {{/each}}
+    </div>
+</div>
