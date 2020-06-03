@@ -7,7 +7,7 @@
         <div class="book-main-desc w-8/12">
             <div class="book-heading"> {{title}}</div>
             <div class="text-18 font-bold lg:text-14 md:text-lg sm:text-base">By {{author}}</div>
-            <p class="text-24 lg:text-20 md:text-14 sm:text-lg">
+            <p class="text-24 lg:text-20 md:text-14 sm:hidden">
                 {{desc}}
             </p>
         </div>
@@ -23,6 +23,9 @@
         </div>
         
     </div>
+    <p class="hidden text-lg mb-8 sm:block">
+        {{desc}}
+    </p>
     <div>
         {{> catalogue.book.carousel heading='Sách liên quan' prop='tag' value=tag }}
     </div>

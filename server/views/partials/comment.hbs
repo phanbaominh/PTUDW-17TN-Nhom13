@@ -1,19 +1,22 @@
-<div class="mt-24">
+<div class="mt-24 lg:mt-16 sm:mt-10">
     <div class="flex">
         <img
             src="{{user.profilePicture}}"
             alt="your profile picture"
-            class="rounded-full h-32 w-32"
+            class="rounded-full h-32 w-32 lg:h-24 lg:w-24 sm:h-16 sm:w-16"
         >
-        <div class="text-24 ml-16">
-            <div class="font-bold">{{ user.username }} <span class="text-18 font-normal ml-16 opacity-50">1 ngày trước</span></div>
-            <p class=" leading-28 mt-5">{{ content }}</p>
+        <div class="text-24 ml-16 lg:text-18 lg:ml-12 md:text-14 md:ml-8 md:self-center">
+            <div class="font-bold">
+                {{ user.username }} 
+                <span class="text-18 font-normal ml-16 opacity-50 lg:text-14 lg:ml-12 md:text-base md:ml-8">1 ngày trước</span>
+            </div>
+            <p class=" leading-28 mt-5 lg:leading-22 md:hidden">{{ content }}</p>
         </div>
-
+        
     </div>
+    <p class="hidden leading-8 text-14 mt-6 md:block">{{ content }}</p>
     
-    
-    <div class="ml-48 mt-16">
+    <div class="ml-48 mt-16 lg:ml-32 lg:mt-12 md:ml-12 md:mt-6">
         {{# each replies}}
             {{>comment}}
         {{/each}}
