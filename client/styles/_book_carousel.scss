@@ -1,5 +1,9 @@
 .slick-slide {
     @apply mx-2;
+    max-width: 10rem;
+    @screen lg{
+        max-width: 17rem;
+    }
 }
 
 .book-carousel-wrapper{
@@ -16,14 +20,28 @@
         }
     }
     button svg {
+        width: 75%;
+        height: auto;
         @screen md{
-            width: 75%;
-            height: auto;
+            width: 100%;
         }
     }
 }
 .book-carousel {
     width: 90%;
-    @apply self-center;
-    
+    @apply self-center;   
+}
+.book-carousel__desc{
+    @screen lg {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    }
+}
+.book-carousel__title {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }

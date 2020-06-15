@@ -1,7 +1,21 @@
-<div class="book-carousel-wrapper {{custom}}">
+<div class="book-carousel-wrapper mb-4 {{custom}} ">
+    <div class="slick-button-wrapper pr-2 lg:pr-10">
+        <button type="button" class="slick-prev">
+            <svg width="18" height="36" viewBox="0 0 18 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 31.77L6.87449 18L18 4.23L14.5749 0L0 18L14.5749 36L18 31.77Z" fill="#F08804"/>
+            </svg>
+        </button>
+    </div>
     <div class="book-carousel">
         {{# each books.books }}
            {{>book.carousel.item this}}
         {{/each }}
+    </div>
+    <div class="slick-button-wrapper pl-2 md:pl-6">
+        <button type="button" class="slick-next">
+            <svg width="18" height="36" viewBox="0 0 18 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 31.77L11.1255 18L0 4.23L3.4251 0L18 18L3.4251 36L0 31.77Z" fill="#F08804"/>
+            </svg>
+        </button>
     </div>
 </div> 
