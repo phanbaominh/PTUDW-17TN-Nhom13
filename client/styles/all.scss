@@ -1,13 +1,1 @@
 @import "./base";
-@import "./fonts";
-@import "./header";
-@import "./footer";
-@import "./auth";
-@import "./book_carousel";
-@import "./book";
-.title {
-  color: #ff0000;
-  &:hover {
-    color: #00ff00;
-  }
-}
