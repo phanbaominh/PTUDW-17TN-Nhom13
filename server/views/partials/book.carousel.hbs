@@ -1,0 +1,14 @@
+<div class="book-carousel-wrapper {{custom}}">
+    <div class="book-carousel">
+        {{# each books }}
+           <!--{{>book.carousel.item this}}-->
+           <div>
+               <img src="/images/default-category.jpg" alt="book cover" class="h-auto">
+               <a href="/books/a" title="a" class="book-carousel-title text-16 text-blue-800 hover:underline xl:text-14 md:text-lg sm:text-base">
+                   a
+                </a>
+               <div class="text-14 xl:text-lg md:text-base sm:text-sm">by a}</div>
+           </div>
+        {{/each }}
+    </div>
+</div> 
