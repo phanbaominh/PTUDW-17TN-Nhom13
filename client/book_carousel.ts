@@ -4,7 +4,7 @@ function setup(){
     const carouselWrappers = $('.book-carousel-wrapper')
     const slickObject = {
         infinite: true,
-        slidesToShow: 8,
+        slidesToShow: 4,
         slidesToScroll: 4,
         appendArrows: carouselWrappers[0],
         prevArrow: `
@@ -27,8 +27,8 @@ function setup(){
             {
                 breakpoint: 1279,
                 settings: {
-                    slidesToShow:5,
-                    slidesToScroll: 5,
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
                 }
             },
         ]

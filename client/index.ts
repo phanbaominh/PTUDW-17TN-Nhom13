@@ -1,5 +1,5 @@
 import $ from "jquery";
-
+import carousel from './book_carousel';
 function setupHeader() {
   $("#hamburger-button").click(function () {
     $("#header-menu").toggleClass("hidden");
@@ -24,4 +24,5 @@ function setupHeader() {
 
 $(document).ready(function () {
   setupHeader();
+  carousel.setup();
 });
