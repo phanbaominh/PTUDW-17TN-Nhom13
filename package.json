@@ -15,6 +15,7 @@
     "postinstall": "npm-run-all build:server build:client"
   },
   "dependencies": {
+    "chance": "^1.1.6",
     "concurrently": "^5.2.0",
     "cookie-parser": "^1.4.5",
     "cross-env": "^7.0.2",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.2.0",
+    "@types/chance": "^1.1.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.6",
     "@types/hbs": "^4.0.1",
