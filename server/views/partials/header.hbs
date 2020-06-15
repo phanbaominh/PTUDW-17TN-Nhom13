@@ -7,7 +7,8 @@
                 </div>
                 <div class="flex md:hidden">
                     <button type="button" aria-label="toggle menu"
-                        class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600">
+                        class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                        id="hamburger-button">
                         <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
                             <path fill-rule="evenodd"
                                 d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
@@ -16,7 +17,7 @@
                     </button>
                 </div>
             </div>
-            <div class="md:flex md:items-center md:justify-between flex-1 hidden">
+            <div id="header-menu" class="md:flex md:items-center md:justify-between flex-1 hidden">
                 <div class="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
                     <a href="/catalogue"
                         class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
@@ -26,7 +27,7 @@
                         class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
                         Tin tức
                     </a>
-                    <form action="/search" method="GET">
+                    <form action="/search" method="GET" class="hidden md:block">
                         <input type="text" placeholder="Search" aria-label="Search"
                             class="w-full px-4 py-3 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
                             name="q">
@@ -53,13 +54,20 @@
                     </button>
                 </div>
                 {{else}}
-                <div>
+                <div class="flex flex-col -mx-4 md:flex-row md:items-center">
                     <a href="/login"
                         class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
                         Đăng nhập
                     </a>
                 </div>
                 {{/if}}
+                <div class="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8 md:hidden">
+                    <form action="/search" method="GET">
+                        <input type="text" placeholder="Search" aria-label="Search"
+                            class="w-full px-4 py-3 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
+                            name="q">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
