@@ -1,16 +1,17 @@
 import _ from "lodash";
 import hbs from "hbs";
 import Chance from "chance";
+import Category, { DUMMY_CATEGORIES } from "./Category";
 
 const chance = new Chance();
 
 interface Book {
-    [key: string]: number | string;
+    [key: string]: any;
     title: string;
     cover: string;
     author: string;
     language: string;
-    tag: string;
+    category: Category;
     type: string;
     desc: string;
     readonly id: number;
@@ -73,7 +74,7 @@ function createBookList(n: number){
             author: random(authors),
             cover,
             language: random(languages),
-            tag: random(tags),
+            category: random(DUMMY_CATEGORIES),
             type: random(types),
             amount: Math.floor(Math.random() * 10) + 1,
         });
