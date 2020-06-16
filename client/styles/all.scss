@@ -1,1 +1,46 @@
 @import "./base";
+
+body {
+  background-color: #edf2f7;
+}
+
+.header__dropdown--wrapper {
+  @apply relative;
+}
+
+.header__dropdown {
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+  top: calc(100% + 0.5rem);
+  right: -0.5rem;
+  @apply absolute;
+}
+
+.header__dropdown--header {
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+}
+
+.notification-dropdown {
+  width: 350px;
+}
+
+.notification-dropdown .header__dropdown--content {
+  padding: 1rem;
+}
+
+.notification-dropdown .header__dropdown--content.empty {
+  text-align: center;
+}
+
+.user-dropdown {
+  width: 130px;
+}
+
+.user-dropdown a {
+  display: block;
+  padding: 0.4rem 1rem;
+}
