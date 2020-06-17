@@ -1,0 +1,16 @@
+<div class="flex flex-wrap w-full mt-4">
+    <div class="mr-8">
+        <img src="{{user.profilePicture}}"
+            alt="your profile picture" class="rounded-full h-10 w-10">
+    </div>
+
+    <div class="book__comment-form-container">
+        <form action="/books/{{bookId}}/comments/new" method="post" class="flex">
+            <textarea class="" name="content" placeholder="Phản hồi công khai..."></textarea>
+            <!--input class="" placeholder="Phản hồi công khai..." type="text"-->
+            <input type="hidden" name="userId" value="{{user.id}}">
+            <input type="submit" class="" value="Gửi">
+            <button class="book__comment-form__cancel-button">Hủy bỏ</button>
+        </form>
+    </div>
+</div>

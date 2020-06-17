@@ -12,17 +12,22 @@
             <p class="text-base md:flex">aaa</p>
             <div class="book__comment__buttons mt-1 text-gray-700 text-xs font-bold">
                 <span class="mr-8 hover:text-black">Like</span>
-                <span class="mr-8 hover:text-black">Trả lời</span>
+                <a {{#unless currentUser}} href="/login" {{/unless}} class="book__comment__reply-button mr-8 hover:text-black"
+                    data-id="{{bookId}}">
+                    Trả lời
+                </a>
                 {{#if replies.length}}
                     <span class="book__comment__more-button hover:text-black">Xem trả lời</span>
                 {{/if}}
             </div>
         </div>
         <div class="book__comment__replies hidden">
+            
             {{# each replies}}
                 {{>book.comment this}}
             {{/each}}
         </div>
+        <div></div>
     </div>
 
 </div>

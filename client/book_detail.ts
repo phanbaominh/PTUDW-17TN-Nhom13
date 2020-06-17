@@ -13,7 +13,7 @@ function setupBookDetail(): void {
   $(".book__detail-tabs a").first().addClass(highlightClass);
 }
 
-function setupComments(): void {
+function setupShowMoreButton(): void {
   $(".book__comment__more-button").on("click", (event) => {
     const showMoreButton = $(event.target);
     let buttonText = "Xem trả lời";
@@ -27,7 +27,32 @@ function setupComments(): void {
   });
 }
 
+function setupReplyButton(): void {
+  $(".book__comment__reply-button").on("click", (event) => {
+    if ($(event.target).attr('href')) return;
+    const formContainer = 
+      $(event.target)
+        .closest(".book__comment__content")
+        .children()
+        .last();
+    $.ajax({
+      url: `/books/${$(event.target).data("id")}/comments`,
+      method: 'POST',
+      success: (data) => {
+        
+        formContainer.html(data);
+        formContainer.find('.book__comment-form__cancel-button').on('click', () => {
+          formContainer.html('');
+        });
+      },
+      error: () => {
+        //TODO: handle comment form ajax error
+      },
+    });
+  });
+}
 export default function setup(): void {
   setupBookDetail();
-  setupComments();
+  setupShowMoreButton();
+  setupReplyButton();
 }

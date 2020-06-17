@@ -7,8 +7,8 @@
     </div>
 
     <div class="mt-24 lg:mt-16 sm:mt-10 body-font">
-        {{#each this}}
-            {{>book.comment this root=true}}
+        {{#each comments}}
+            {{>book.comment this root=true bookId=../book.id currentUser=../user}}
         {{/each}}
     </div>
 </div>

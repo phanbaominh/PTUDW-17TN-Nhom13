@@ -1,5 +1,7 @@
 
 .book__detail-content > * {
+    position: relative;
+    z-index: 0;
     transition: opacity 0.2s;
 }
 .book__detail-content--hidden {
@@ -7,10 +9,29 @@
     position: absolute;
     width: 100%;
     top: 0;
+    z-index: -1;
 }
 .book__comment__buttons > * {
     cursor: pointer;
 }
+
 .book__detail-tab--highlight {
     @apply text-indigo-500 border-b-2 border-indigo-500;
+}
+.book__comment-form-container {
+    input[type=submit], button {
+        @apply flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 rounded self-center ml-2;
+        @screen lg {
+            @apply mt-2;
+        }
+        @screen xl {
+            @apply mt-0;
+        }
+        &:hover {
+            @apply bg-indigo-600;
+        }
+        &:focus {
+            @apply outline-none;
+        }
+    }
 }
