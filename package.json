@@ -53,6 +53,7 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "shelljs": "^0.8.4",
+    "slick-carousel": "^1.8.1",
     "source-map-loader": "^0.2.4",
     "stylelint": "^13.5.0",
     "stylelint-config-recommended": "^3.0.0",

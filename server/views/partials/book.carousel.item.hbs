@@ -1,0 +1,19 @@
+<div class="p-2">
+    <div class="bg-gray-100 h-full p-2 lg:p-6">
+        <a href="/books/{{book.id}}" class="book-item__cover">
+            <img class="absolute h-full w-full object-center object-cover" src="{{book.coverImage}}"
+                alt="Cover image for {{book.title}}">
+        </a>
+        <div class="">
+            <h4 class="book-carousel__author hover:underline text-indigo-500 text-sm font-medium lg:tracking-loose">
+                <a href="#">{{book.author}}</a>
+            </h4>
+            <h3 class="book-carousel__title hover:underline text-gray-900 font-medium">
+                <a href="/books/{{book.id}}">{{book.title}}</a>
+            </h3>
+            <!-- <p class="book-carousel__desc">
+                {{book.desc}}
+            </p> -->
+        </div>
+    </div>
+</div>
