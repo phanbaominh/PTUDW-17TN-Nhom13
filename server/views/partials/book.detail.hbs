@@ -1,9 +1,9 @@
 <section class="text-gray-700 body-font">
     <div class="container px-5 py-24 mx-auto">
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
-            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 rounded"
-                src="{{cover}}" />
-            <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mb-6 lg:mb-0">
+            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded mb-6"
+                src="{{coverImage}}" />
+            <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 lg:mb-0">
                 <h2 class="text-sm title-font text-gray-500 tracking-widest">
                     {{author}}
                 </h2>
@@ -14,15 +14,15 @@
                     {{>book.detail.tab tabName='Description'}}
                     {{>book.detail.tab tabName='Details'}}
                 </div>
-                <div class="book__detail-content relative">
-                    <p class="book__desc leading-relaxed mb-4">
+                <div class="book__detail-content relative mb-4">
+                    <p class="book__desc leading-relaxed">
                         {{desc}}
                     </p>
                     {{>book.detail.list this}}
                 </div>
                 <div class="flex">
                     <span class="title-font font-medium text-2xl text-gray-900">
-                        Số lượng: {{amount}}
+                        Số lượng: {{remain}}
                     </span>
                     <button
                         class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">

@@ -1,0 +1,14 @@
+<div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap w-full mb-20">
+        <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Nhận xét của bạn đọc</h1>
+            <div class="h-1 w-40 bg-indigo-500 rounded"></div>
+        </div>
+    </div>
+
+    <div class="mt-24 lg:mt-16 sm:mt-10 body-font">
+        {{#each this}}
+            {{>book.comment this root=true}}
+        {{/each}}
+    </div>
+</div>

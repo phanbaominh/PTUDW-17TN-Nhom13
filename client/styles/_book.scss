@@ -8,6 +8,9 @@
     width: 100%;
     top: 0;
 }
+.book__comment__buttons > * {
+    cursor: pointer;
+}
 .book__detail-tab--highlight {
     @apply text-indigo-500 border-b-2 border-indigo-500;
 }
