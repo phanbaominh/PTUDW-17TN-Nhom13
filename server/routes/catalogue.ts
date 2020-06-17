@@ -1,14 +1,14 @@
 import express from "express";
-import { DUMMY_BOOKS } from "../models/Book";
-import { DUMMY_CATEGORIES } from "../models/Category";
+import { DUMMY_BOOK_LIST } from "../models/Book";
+import { DUMMY_CATEGORY_LIST } from "../models/Category";
 
 var router = express.Router();
 
 router.get("/catalogue", function (req, res, next) {
   res.render("catalogue", {
     title: "Catalogue",
-    books: DUMMY_BOOKS,
-    categories: DUMMY_CATEGORIES,
+    books: DUMMY_BOOK_LIST,
+    categories: DUMMY_CATEGORY_LIST
   });
 });
 

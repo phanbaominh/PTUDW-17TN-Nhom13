@@ -1,47 +1,67 @@
-.slick-slide {
-    @apply mx-2;
-    max-width: 10rem;
-    @screen lg{
-        max-width: 17rem;
+.book-carousel-wrapper {
+  @apply relative;
+  .slick-button-wrapper {
+    @apply flex;
+  }
+  .slick-prev,
+  .slick-next {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    margin-top: -18px;
+    @apply hidden;
+    @screen md {
+      @apply block;
     }
+    &:focus {
+      //   box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
+      @apply border-red-300;
+      @apply outline-none;
+    }
+  }
+  .slick-prev {
+    right: calc(100% + 0.5rem);
+  }
+  .slick-next {
+    left: calc(100% + 0.5rem);
+  }
 }
 
-.book-carousel-wrapper{
-    @apply flex flex-row justify-center;
-    .slick-button-wrapper{
-        @apply flex;
-    }
-    button {
-        @apply self-center;
-        &:focus {
-            box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
-            @apply border-red-300;
-            @apply outline-none;
-        }
-    }
-    button svg {
-        width: 75%;
-        height: auto;
-        @screen md{
-            width: 100%;
-        }
-    }
+.book-carousel__desc {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+
+  height: calc(0.875rem * 1.5 * 3);
+  @apply text-sm leading-normal;
+  @screen lg {
+    height: calc(1rem * 1.625 * 3);
+    @apply leading-relaxed text-base;
+  }
 }
-.book-carousel {
-    width: 90%;
-    @apply self-center;   
-}
-.book-carousel__desc{
-    @screen lg {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    }
-}
+
 .book-carousel__title {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  height: 2rem;
+  @apply leading-none text-base;
+  @screen lg {
+    height: calc(1.125rem * 1.5 * 2);
+    @apply leading-normal text-lg;
+  }
+}
+
+.book-item__cover {
+  padding-bottom: 130%;
+  @apply relative h-0 block;
+  @screen md {
+    @apply mb-2;
+  }
+  @screen lg {
+    @apply mb-6;
+  }
 }
