@@ -1,4 +1,13 @@
 
+.book__detail-content > * {
+    transition: opacity 0.2s;
+}
+.book__detail-content--hidden {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
 .book__detail-tab--highlight {
     @apply text-indigo-500 border-b-2 border-indigo-500;
 }
