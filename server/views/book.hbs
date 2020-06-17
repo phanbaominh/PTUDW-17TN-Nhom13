@@ -9,12 +9,11 @@
                 <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">
                     {{title}}
                 </h1>
-                <div class="flex mb-4">
+                <div class="flex mb-4 book__detail-tabs">
                     {{>book.detail.tab tabName='Description'}}
-                    {{>book.detail.tab tabName='Review'}}
                     {{>book.detail.tab tabName='Details'}}
                 </div>
-                <div>
+                <div class="book__detail-content">
                     <p class="book__desc leading-relaxed mb-4">
                         {{desc}}
                     </p>
