@@ -20,8 +20,25 @@ router.get("/login", function (req, res, next) {
  */
 router.post("/login", function (req: Request, res, next) {
   let { username, password }: { username: string; password: string } = req.body;
-  if (username !== "1712092" || password !== "123") {
-    res.status(401).redirect("/login");
+  if (username !== "1712092") {
+    res.status(401).render("login", {
+      title: "Login",
+      flash: {
+        type: "error",
+        content:
+          "Tài khoản không tồn tại. Bạn hãy liên hệ với thư viện để học lớp hướng dẫn sử dụng thư viện, sau đó sẽ được tạo tài khoản."
+      }
+    });
+    return;
+  }
+  if (password !== "123") {
+    res.status(401).render("login", {
+      title: "Login",
+      flash: {
+        type: "error",
+        content: "Sai mật khẩu"
+      }
+    });
     return;
   }
   res.cookie("authToken", JSON.stringify(DUMMY_USER));

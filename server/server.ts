@@ -20,6 +20,13 @@ hbs.registerPartials(path.join(__dirname, "views", "partials"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
+hbs.registerHelper("ifEquals", function (this: any, s1: string, s2: string, option: any) {
+  if (s1 === s2) {
+    return option.fn(this);
+  }
+  return option.inverse(this);
+});
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
