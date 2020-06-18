@@ -28,21 +28,28 @@ function setupShowMoreButton(): void {
 }
 
 function setupReplyButton(): void {
+  let replyContainer;
   $(".book__comment__reply-button").on("click", (event) => {
     if ($(event.target).attr('href')) return;
-    const formContainer = 
-      $(event.target)
-        .closest(".book__comment__content")
-        .children()
-        .last();
+    const container = $(event.target).closest(".book__comment__content")
+
     $.ajax({
       url: `/books/${$(event.target).data("id")}/comments`,
       method: 'POST',
       success: (data) => {
-        
-        formContainer.html(data);
-        formContainer.find('.book__comment-form__cancel-button').on('click', () => {
-          formContainer.html('');
+        if (replyContainer) {
+          replyContainer.html(data);
+          replyContainer.appendTo(container);
+        } else {
+          $(data).appendTo(container);
+          replyContainer = container
+            .children()
+            .last()
+        }
+
+        replyContainer.find('.book__comment-form__cancel-button').on('click', () => {
+          replyContainer.html('');
+          replyContainer = null;
         });
       },
       error: () => {

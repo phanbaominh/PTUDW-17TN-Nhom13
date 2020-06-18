@@ -24,7 +24,7 @@
         <div class="book__comment__replies hidden">
             
             {{# each replies}}
-                {{>book.comment this}}
+                {{>book.comment this bookId=../bookId currentUser=../currentUser}}
             {{/each}}
         </div>
         <div></div>
