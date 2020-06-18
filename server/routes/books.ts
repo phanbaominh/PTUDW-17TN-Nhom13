@@ -14,7 +14,7 @@ router.get("/books/:slug", function (req, res, next) {
   });
 });
 
-router.post("/books/:id/comments", function (req, res, next){
+router.post("/books/:id/comments/new", function (req, res, next){
   res.render("book-comment-form", {
     layout: false,
     bookId: req.params.id,

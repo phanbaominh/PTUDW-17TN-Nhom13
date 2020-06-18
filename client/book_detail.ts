@@ -31,10 +31,10 @@ function setupReplyButton(): void {
   let replyContainer;
   $(".book__comment__reply-button").on("click", (event) => {
     if ($(event.target).attr('href')) return;
-    const container = $(event.target).closest(".book__comment__content")
+    const container = $(event.target).closest(".book__comment__content");
 
     $.ajax({
-      url: `/books/${$(event.target).data("id")}/comments`,
+      url: `/books/${$(event.target).data("id")}/comments/new`,
       method: 'POST',
       success: (data) => {
         if (replyContainer) {
@@ -48,8 +48,7 @@ function setupReplyButton(): void {
         }
 
         replyContainer.find('.book__comment-form__cancel-button').on('click', () => {
-          replyContainer.html('');
-          replyContainer = null;
+          replyContainer.remove();
         });
       },
       error: () => {
