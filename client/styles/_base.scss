@@ -6,3 +6,10 @@ html,
 body {
   height: 100%;
 }
+
+body {
+  padding-top: 54px;
+  @screen md {
+    padding-top: 65px;
+  }
+}
