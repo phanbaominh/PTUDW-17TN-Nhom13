@@ -28,7 +28,7 @@ function setupShowMoreButton(): void {
 }
 
 function setupReplyButton(): void {
-  let replyContainer;
+  let replyContainer: JQuery<HTMLElement>;
   $(".book__comment__reply-button").on("click", (event) => {
     if ($(event.target).attr('href')) return;
     const container = $(event.target).closest(".book__comment__content");

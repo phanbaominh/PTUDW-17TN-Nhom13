@@ -19,7 +19,8 @@
     @apply text-indigo-500 border-b-2 border-indigo-500;
 }
 .book__comment-form-container {
-    input[type=submit], button {
+    button {
+        cursor: pointer;
         @apply flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 rounded self-center ml-2;
         @screen lg {
             @apply mt-2;
@@ -29,9 +30,6 @@
         }
         &:hover {
             @apply bg-indigo-600;
-        }
-        &:focus {
-            @apply outline-none;
         }
     }
 }

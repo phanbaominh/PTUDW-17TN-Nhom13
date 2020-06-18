@@ -6,10 +6,10 @@
 
     <div class="book__comment-form-container">
         <form action="/books/{{bookId}}/comments/create" method="post" class="flex">
-            <textarea class="" name="content" placeholder="Phản hồi công khai..."></textarea>
+            <textarea class="resize" name="content" placeholder="Phản hồi công khai..."></textarea>
             <!--input class="" placeholder="Phản hồi công khai..." type="text"-->
             <input type="hidden" name="userId" value="{{user.id}}">
-            <input type="submit" class="" value="Gửi">
+            <button type="submit" class="" value="Gửi">Gửi</button>
             <button class="book__comment-form__cancel-button">Hủy bỏ</button>
         </form>
     </div>
