@@ -1,0 +1,25 @@
+.notification-popup--wrapper {
+  width: 400px;
+  max-width: 100%;
+  position: fixed;
+  right: 0;
+  top: 60px;
+  z-index: 60;
+  @screen md {
+    top: 75px;
+    right: 10px;
+  }
+}
+
+.notification-popup {
+  @apply flex bg-white shadow-md rounded-lg overflow-hidden text-left w-full;
+  transition: opacity linear 0.25s;
+}
+
+.notification-popup.fade {
+  @apply opacity-0;
+}
+
+.notification-popup.hidden {
+  @apply hidden;
+}
