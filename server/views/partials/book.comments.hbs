@@ -1,0 +1,29 @@
+<div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap w-full">
+        <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Nhận xét của bạn đọc</h1>
+            <div class="h-1 w-40 bg-indigo-500 rounded"></div>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap w-full mt-4 mb-20">
+        <div class="mr-8">
+            <img src="{{user.profilePicture}}"
+                alt="your profile picture" class="rounded-full h-10 w-10">
+        </div>
+
+        <div class="book__comment-form-container">
+            <form action="/books/{{book.id}}/comments/create" method="post" class="flex">
+                <textarea class="" name="content" placeholder="Để lại đánh giá..."></textarea>
+                <input type="hidden" name="userId" value="{{user.id}}">
+                <button type="submit" class="" value="Gửi">Gửi</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-24 lg:mt-16 sm:mt-10 body-font">
+        {{#each comments}}
+            {{>book.comment this root=true bookId=../book.id currentUser=../user}}
+        {{/each}}
+    </div>
+</div>

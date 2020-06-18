@@ -56,7 +56,7 @@ function findBookById(id: number) {
 }
 
 hbs.registerHelper("getBooksWith", function (prop: keyof Book, value) {
-  return dummyBookList.filter((book: Book) => book[prop] === value);
+  return dummyBookList.filter((book: Book) => _.isEqual(book[prop], value));
 });
 
 export default Book;

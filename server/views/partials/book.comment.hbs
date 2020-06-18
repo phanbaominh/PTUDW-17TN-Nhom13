@@ -1,0 +1,33 @@
+<div class="book__comment flex flex-wrap w-full mt-4 {{#if root}} mt-6 {{/if}}">
+    <div class="mr-8">
+        <img src="{{user.profilePicture}}" alt="your profile picture" class="rounded-full h-12 w-12">
+    </div>
+
+    <div class="book__comment__content">
+        <div class="text-sm md:self-center">
+            <div class="font-bold">
+                {{user.username}}
+                <span class="text-gray-500 text-xs ml-4">1 ngày trước</span>
+            </div>
+            <p class="text-base md:flex">aaa</p>
+            <div class="book__comment__buttons mt-1 text-gray-700 text-xs font-bold">
+                <span class="mr-8 hover:text-black">Like</span>
+                <a {{#unless currentUser}} href="/login" {{/unless}} class="book__comment__reply-button mr-8 hover:text-black"
+                    data-id="{{bookId}}">
+                    Trả lời
+                </a>
+                {{#if replies.length}}
+                    <span class="book__comment__more-button hover:text-black">Xem trả lời</span>
+                {{/if}}
+            </div>
+        </div>
+        <div class="book__comment__replies hidden">
+            
+            {{# each replies}}
+                {{>book.comment this bookId=../bookId currentUser=../currentUser}}
+            {{/each}}
+        </div>
+        <div></div>
+    </div>
+
+</div>
