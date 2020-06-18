@@ -28,13 +28,9 @@ function setupShowMoreButton(): void {
 }
 
 function setupTextArea (): void {
-  var autoExpand = function (field) {
-    // Reset field height
+  var autoExpand = function (field: HTMLElement) {
     field.style.height = 'inherit';
-    // Get the computed styles for the element
     var computed = window.getComputedStyle(field);
-  
-    // Calculate the height
     var height = parseInt(computed.getPropertyValue('border-top-width'), 10)
                  + parseInt(computed.getPropertyValue('padding-top'), 10)
                  + field.scrollHeight

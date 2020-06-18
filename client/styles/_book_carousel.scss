@@ -3,27 +3,31 @@
   .slick-button-wrapper {
     @apply flex;
   }
-  .slick-prev,
-  .slick-next {
-    position: absolute;
-    top: 50%;
+
+  button {
     z-index: 10;
+    top: 50%;
     margin-top: -18px;
-    @apply hidden;
+    @apply absolute bg-white rounded-full shadow-md h-10 w-10 text-2xl text-indigo-600 self-center;
     @screen md {
-      @apply block;
+      @apply h-12 w-12
     }
     &:focus {
-      //   box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
-      @apply border-red-300;
-      @apply outline-none;
+      @apply text-indigo-400 outline-none shadow-outline;
+    }
+    &:hover {
+      @apply text-indigo-400
     }
   }
-  .slick-prev {
-    right: calc(100% + 0.5rem);
-  }
+
   .slick-next {
-    left: calc(100% + 0.5rem);
+    @apply right-0 -mr-6;
+  }
+  .slick-prev {
+    @apply left-0 -ml-4;
+    @screen sm{
+      @apply -ml-6;
+    }
   }
 }
 
