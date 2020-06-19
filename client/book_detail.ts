@@ -3,7 +3,10 @@ import $ from "jquery";
 function setupBookDetail(): void {
   const highlightClass = "book__detail-tab--highlight";
   const contentHiddenClass = "book__detail-content--hidden";
+  let lastTab: HTMLElement;
   $(".book__detail-tabs a").on("click", (event) => {
+    if (lastTab === event.target) return
+    lastTab = event.target;
     $(".book__detail-tabs a").removeClass(highlightClass);
     $(event.target).addClass(highlightClass);
 
