@@ -1,0 +1,44 @@
+.profile__book-carousel--wrapper {
+  @apply relative;
+}
+
+.profile__book-carousel__slick-arrow {
+  @apply text-2xl absolute h-12 w-12 -mt-6 bg-white z-20 rounded-full;
+  top: 50%;
+
+  @apply shadow-md;
+  &:focus {
+    @apply outline-none shadow-outline;
+    @apply text-indigo-400;
+  }
+
+  @apply text-indigo-600;
+  &:hover {
+    @apply text-indigo-400;
+  }
+}
+
+.profile__book-carousel__slick-arrow.prev {
+  @apply left-0 -ml-6;
+  transform: scaleX(-1);
+}
+
+.profile__book-carousel__slick-arrow.next {
+  @apply right-0 -mr-6;
+}
+
+.profile__book {
+  @apply bg-gray-100 p-4 pr-6 pb-2;
+  @screen sm {
+    @apply grid grid-cols-5 gap-5;
+  }
+}
+
+.profile__book__cover-image {
+  @apply col-span-2 relative h-0;
+  padding-bottom: 130%;
+}
+
+.profile__book__detail {
+  @apply col-span-3 relative;
+}

@@ -1,6 +1,7 @@
 import express, { Request } from "express";
 import { requireAuth } from "../middlewares/auth";
 import { DUMMY_USER } from "../models/User";
+import { DUMMY_BOOK_LIST } from "../models/Book";
 var router = express.Router();
 
 router.get("/login", function (req, res, next) {
@@ -51,7 +52,11 @@ router.get("/logout", function (req, res, next) {
 });
 
 router.get("/profile", requireAuth, function (req, res, next) {
-  res.send("Hello there");
+  res.render("profile", {
+    title: "Profile",
+    user: res.locals.user,
+    bookList: DUMMY_BOOK_LIST
+  });
 });
 
 router.get("/forgot-password", function (req, res, next) {
