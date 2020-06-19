@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 html,
@@ -11,5 +12,26 @@ body {
   padding-top: 54px;
   @screen md {
     padding-top: 65px;
+  }
+}
+
+@responsive {
+  .clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  .clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
 }
