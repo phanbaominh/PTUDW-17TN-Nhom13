@@ -10,5 +10,5 @@
   {{>category.preview}}
 </div>
 {{#each categories }}
-  {{>book.carousel.with.heading title=name desc=desc books=(getBooksWith 'category' this) }}
+{{>book.carousel.with.heading title=name desc=desc books=(getBooksWith 'category' this) }}
 {{/each}}
