@@ -14,22 +14,23 @@
 .book__comment__buttons > * {
     cursor: pointer;
 }
-
+.book__comment-form-container textarea {
+    max-height: 50vh;
+    width: 100%;
+}
 .book__detail-tab--highlight {
     @apply text-indigo-500 border-b-2 border-indigo-500;
 }
 .book__comment-form-container {
     button {
         cursor: pointer;
-        @apply flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 rounded self-center ml-2;
+        @apply flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 text-sm rounded self-center mr-1 mt-2;
         @screen lg {
-            @apply mt-2;
-        }
-        @screen xl {
-            @apply mt-0;
+            @apply px-6 mr-2;
         }
         &:hover {
             @apply bg-indigo-600;
         }
     }
 }
+
