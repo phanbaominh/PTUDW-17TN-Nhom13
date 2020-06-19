@@ -2,8 +2,9 @@
   @apply flex-grow items-center relative;
   &::after {
     content: "";
+    height: 2px;
     bottom: -4px;
-    transition: opacity linear 0.1s;
+    transition: opacity linear 0.15s;
     @apply absolute left-0 bg-indigo-500 w-full opacity-0;
   }
   @screen md {
@@ -17,7 +18,7 @@
 }
 
 .settings__input input {
-  @apply w-full;
+  @apply w-full bg-transparent;
   @screen md {
     @apply w-5/6;
   }
