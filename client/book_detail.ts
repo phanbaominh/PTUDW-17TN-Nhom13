@@ -27,6 +27,24 @@ function setupShowMoreButton(): void {
   });
 }
 
+function setupTextArea (): void {
+  var autoExpand = function (field: HTMLElement) {
+    field.style.height = 'inherit';
+    var computed = window.getComputedStyle(field);
+    var height = parseInt(computed.getPropertyValue('border-top-width'), 10)
+                 + parseInt(computed.getPropertyValue('padding-top'), 10)
+                 + field.scrollHeight
+                 + parseInt(computed.getPropertyValue('padding-bottom'), 10)
+                 + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+  
+    field.style.height = height + 'px';
+  };
+  
+  $('.book__comment-form-container textarea').on('input', (event) => {
+    autoExpand(event.target);
+  });
+}
+
 function setupReplyButton(): void {
   let replyContainer: JQuery<HTMLElement>;
   $(".book__comment__reply-button").on("click", (event) => {
@@ -46,7 +64,8 @@ function setupReplyButton(): void {
             .children()
             .last()
         }
-
+        
+        setupTextArea()
         replyContainer.find('.book__comment-form__cancel-button').on('click', () => {
           replyContainer.remove();
         });
@@ -57,8 +76,10 @@ function setupReplyButton(): void {
     });
   });
 }
+
 export default function setup(): void {
   setupBookDetail();
   setupShowMoreButton();
   setupReplyButton();
+  setupTextArea();
 }
