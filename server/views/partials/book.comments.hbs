@@ -6,6 +6,7 @@
         </div>
     </div>
 
+    {{#if user }}
     <div class="flex flex-wrap w-full md:w-8/12 lg:w-6/12 mt-4 mb-20">
         <div class="mr-8">
             <img src="{{user.profilePicture}}" alt="your profile picture" class="rounded-full h-12 w-12 mb-2 md:mb-0">
@@ -20,7 +21,7 @@
             </form>
         </div>
     </div>
-
+    {{/if}}
     <div class="mt-24 lg:mt-16 sm:mt-10 body-font">
         {{#each comments}}
             {{>book.comment this root=true bookId=../book.id currentUser=../user}}
