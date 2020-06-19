@@ -1,5 +1,4 @@
 module.exports = {
-  purge: false,
   theme: {
     extend: {
       fontSize: {
@@ -11,7 +10,5 @@ module.exports = {
         "12": "3rem"
       }
     }
-  },
-  variants: {},
-  plugins: []
+  }
 };
