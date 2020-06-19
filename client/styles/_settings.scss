@@ -26,3 +26,9 @@
     outline: none;
   }
 }
+
+#settings__file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
