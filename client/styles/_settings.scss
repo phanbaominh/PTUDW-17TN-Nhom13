@@ -1,0 +1,27 @@
+.settings__input {
+  @apply flex-grow items-center relative;
+  &::after {
+    content: "";
+    bottom: -4px;
+    transition: opacity linear 0.1s;
+    @apply absolute left-0 bg-indigo-500 w-full opacity-0;
+  }
+  @screen md {
+    &::after {
+      @apply w-5/6;
+    }
+  }
+  &:focus-within::after {
+    @apply opacity-100;
+  }
+}
+
+.settings__input input {
+  @apply w-full;
+  @screen md {
+    @apply w-5/6;
+  }
+  &:focus {
+    outline: none;
+  }
+}

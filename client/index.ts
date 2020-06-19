@@ -2,6 +2,7 @@ import $ from "jquery";
 import setupBookDetail from "./book_detail";
 import carousel from "./book_carousel";
 import profile from "./profile";
+import settings from "./styles/settings";
 
 function setupHeader() {
   $("#hamburger-button").click(function () {
@@ -30,4 +31,5 @@ $(document).ready(function () {
   setupBookDetail();
   carousel.setup();
   profile.setup();
+  settings.setup();
 });
