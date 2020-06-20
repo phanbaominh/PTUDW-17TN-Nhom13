@@ -3,14 +3,14 @@ import $ from "jquery";
 function setupBookDetail(): void {
   const highlightClass = "book__detail-tab--highlight";
   const contentHiddenClass = "book__detail-content--hidden";
-  let lastTab: HTMLElement;
+  let lastTab = $(".book__detail-tabs a").first();
   $(".book__detail-tabs a").on("click", (event) => {
-    if (lastTab === event.target) return
-    lastTab = event.target;
-    $(".book__detail-tabs a").removeClass(highlightClass);
-    $(event.target).addClass(highlightClass);
+    const target = $(event.target);
+    if (lastTab.is(target)) return
+    lastTab = target;
 
-    const tabName = event.target.dataset.name;
+    $(".book__detail-tabs a").removeClass(highlightClass);
+    target.addClass(highlightClass);
     $(".book__detail-content > *").toggleClass(contentHiddenClass);
   });
   $(".book__detail-tabs a").first().addClass(highlightClass);
