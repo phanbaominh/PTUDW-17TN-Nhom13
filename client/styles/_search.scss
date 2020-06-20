@@ -1,0 +1,26 @@
+.search__filter {
+  position: fixed;
+  left: 0;
+  height: 500px;
+  bottom: -500px;
+  transition: bottom linear 0.15s;
+  width: 100%;
+  @apply px-6 py-8 bg-white z-40;
+  &.active {
+    bottom: 0;
+  }
+  @screen md {
+    @apply bg-transparent px-0 py-0;
+    width: unset;
+    position: static;
+  }
+}
+
+.search__filter-underlay {
+  @apply fixed inset-0 hidden z-30;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.search__filter.active + .search__filter-underlay {
+  @apply block;
+}
