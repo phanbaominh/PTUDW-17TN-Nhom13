@@ -2,6 +2,7 @@ import $ from "jquery";
 import setupBookDetail from "./book_detail";
 import carousel from "./book_carousel";
 import profile from "./profile";
+import settings from "./styles/settings";
 import responsiveSelect from "./responsive-width-select";
 import search from "./search";
 
@@ -32,6 +33,7 @@ $(document).ready(function () {
   setupBookDetail();
   carousel.setup();
   profile.setup();
+  settings.setup();
   responsiveSelect.setup();
   search.setup();
 });

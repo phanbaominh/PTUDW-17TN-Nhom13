@@ -1,5 +1,4 @@
 module.exports = {
-  purge: false,
   theme: {
     extend: {
       screens: {
@@ -17,7 +16,5 @@ module.exports = {
         "12": "3rem"
       }
     }
-  },
-  variants: {},
-  plugins: []
+  }
 };
