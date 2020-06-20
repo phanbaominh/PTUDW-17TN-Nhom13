@@ -26,7 +26,15 @@ const dummyTitleList = [
 const dummyLanguageList = ["English", "Tiếng Việt"];
 const dummyTypeList = ["Sách", "Bài báo khoa học", "Tạp chí khoa học"];
 const dummyAuthorList = ["Remember Forest", "Handsome Sea", "Bright Treasure"];
-const dummyCoverImage = "/images/lizard-boi-book.jpg";
+const dummyCoverImageList = [
+  "lizard.jpg",
+  "cong-nghe-phan-mem.jpg",
+  "cong-nghe-tri-thuc.jpg",
+  "mang-may-tinh.jpg",
+  "he-thong-thong-tin.jpg",
+  "khoa-hoc-may-tinh.png",
+  "thi-giac-may-tinh.jpg",
+].map(path => `/images/book__${path}`);
 const dummyTagList = ["Ubuntu 18.04", "Flask"];
 
 function randomChoice(things: any[]) {
@@ -42,7 +50,7 @@ function createBookList(n: number) {
       title: randomChoice(dummyTitleList),
       desc: chance.paragraph(),
       author: randomChoice(dummyAuthorList),
-      coverImage: dummyCoverImage,
+      coverImage: randomChoice(dummyCoverImageList),
       language: randomChoice(dummyLanguageList),
       category: randomChoice(DUMMY_CATEGORY_LIST),
       type: randomChoice(dummyTypeList),
@@ -62,5 +70,8 @@ hbs.registerHelper("getBooksWith", function (prop: keyof Book, value) {
   return dummyBookList.filter((book: Book) => _.isEqual(book[prop], value));
 });
 
+hbs.registerHelper("isEven", function (n: number): boolean {
+  return n % 2 === 0;
+});
 export default Book;
 export { dummyBookList as DUMMY_BOOK_LIST, findBookById };
