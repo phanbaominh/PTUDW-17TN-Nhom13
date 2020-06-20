@@ -15,6 +15,7 @@ interface Book {
   language: string;
   category: Category;
   remain: number;
+  tagList: Array<string>;
 }
 
 const dummyTitleList = [
@@ -26,6 +27,7 @@ const dummyLanguageList = ["English", "Tiếng Việt"];
 const dummyTypeList = ["Sách", "Bài báo khoa học", "Tạp chí khoa học"];
 const dummyAuthorList = ["Remember Forest", "Handsome Sea", "Bright Treasure"];
 const dummyCoverImage = "/images/lizard-boi-book.jpg";
+const dummyTagList = ["Ubuntu 18.04", "Flask"];
 
 function randomChoice(things: any[]) {
   return things[Math.floor(Math.random() * things.length)];
@@ -44,7 +46,8 @@ function createBookList(n: number) {
       language: randomChoice(dummyLanguageList),
       category: randomChoice(DUMMY_CATEGORY_LIST),
       type: randomChoice(dummyTypeList),
-      remain: Math.floor(Math.random() * 10) + 1
+      remain: Math.floor(Math.random() * 10) + 1,
+      tagList: dummyTagList
     });
   }
   return books;
