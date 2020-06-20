@@ -1,0 +1,15 @@
+.pagination a {
+  @apply flex items-center px-3 py-2 bg-gray-300 text-gray-700 rounded-lg font-bold;
+  &.active {
+    @apply bg-gray-700 text-gray-200;
+  }
+  &.disabled {
+    @apply cursor-not-allowed;
+    @apply bg-gray-300 text-gray-500;
+  }
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-gray-700 text-gray-200;
+    }
+  }
+}
