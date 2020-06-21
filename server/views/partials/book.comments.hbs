@@ -1,4 +1,4 @@
-<div class="container px-6 py-24 mx-auto">
+<div class="container px-5 py-12 mx-auto">
     <div class="flex flex-wrap w-full">
         <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Nhận xét của bạn đọc</h1>
@@ -14,7 +14,7 @@
 
         <div class="book__comment-form-container flex-grow">
             <form action="/books/{{bookId}}/comments/create" method="post" class="flex flex-wrap">
-                <textarea class="w-full mb-2 lg:mb-0 resize-none" name="content"
+                <textarea class="w-full border px-4 py-2 rounded hover:shadow" name="content"
                     placeholder="Phản hồi công khai..."></textarea>
                 <input type="hidden" name="userId" value="{{user.id}}">
                 <button type="submit" class="" value="Gửi">Gửi</button>

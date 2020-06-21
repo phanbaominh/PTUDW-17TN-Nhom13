@@ -1,6 +1,10 @@
 {{>book.detail book}}
-{{>book.testimonial}}
+<div class="bg-gray-300">
+    {{>book.testimonial}}
+</div>
 {{#with book.category}}
     {{>book.carousel.with.heading title=name desc=desc books=(getBooksWith 'category' this) }}
 {{/with}}
-{{>book.comments}}
+<div class="bg-gray-300">
+    {{>book.comments}}
+</div>

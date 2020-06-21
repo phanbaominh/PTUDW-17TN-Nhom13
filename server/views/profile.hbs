@@ -2,7 +2,7 @@
     <div class="container px-6 py-12 mx-auto flex flex-wrap">
         <div class="flex flex-wrap my-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
             <div class="w-full py-4 mb-6">
-                <h1 class="title-font font-medium text-xl mb-2 text-gray-900">Chào {{user.fullname}}</h1>
+                <h1 class="title-font font-medium text-2xl mb-2 text-gray-900">Chào {{user.fullname}}</h1>
                 <p class="leading-relaxed">
                     Đây là thống kê của thư viện về hoạt động của bạn trong quãng thời gian đại
                     học của mình.
@@ -33,7 +33,7 @@
 </section>
 
 <section class="text-gray-700 body-font">
-    <div class="container px-6 py-12 mx-auto">
+    <div class="container px-6 pt-12 pb-24 mx-auto">
         <div class="flex flex-wrap w-full mb-20">
             <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Sách yêu cầu mượn</h1>
@@ -54,7 +54,7 @@
             <div class="profile__book-carousel -mx-4">
                 {{#each bookList}}
                 <div class="px-4">
-                    <div class="profile__book">
+                    <div class="profile__book rounded shadow">
                         <div class="profile__book__cover-image">
                             <img class="absolute h-full w-full object-cover object-center" src="{{this.coverImage}}"
                                 alt="Cover image for {{this.title}}">
@@ -80,8 +80,8 @@
     </div>
 </section>
 
-<section class="text-gray-700 body-font">
-    <div class="container px-6 py-12 mx-auto">
+<section class="text-gray-700 body-font bg-gray-300">
+    <div class="container px-6 pt-12 pb-24 mx-auto">
         <div class="flex flex-wrap w-full mb-20">
             <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Sách đang mượn</h1>
@@ -102,7 +102,7 @@
             <div class="profile__book-carousel -mx-4">
                 {{#each bookList}}
                 <div class="px-4">
-                    <div class="profile__book">
+                    <div class="profile__book rounded shadow">
                         <div class="profile__book__cover-image">
                             <img class="absolute h-full w-full object-cover object-center" src="{{this.coverImage}}"
                                 alt="Cover image for {{this.title}}">
@@ -129,7 +129,7 @@
 </section>
 
 <section class="text-gray-700 body-font">
-    <div class="container px-6 py-12 mx-auto">
+    <div class="container px-6 pt-12 pb-24 mx-auto">
         <div class="flex flex-wrap w-full mb-20">
             <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
@@ -146,8 +146,8 @@
     </div>
 </section>
 
-<section class="text-gray-700 body-font">
-    <div class="container px-6 py-12 mx-auto">
+<section class="text-gray-700 body-font bg-gray-300">
+    <div class="container px-6 pt-12 pb-24 mx-auto">
         <div class="flex flex-wrap w-full mb-20">
             <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
