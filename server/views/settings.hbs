@@ -1,0 +1,130 @@
+<section class="text-gray-700 body-font">
+    <div class="container my-8 px-6 mx-auto">
+        <div class="mb-8 mt-8">
+            <h1 class="text-3xl text-center text-black title-font">Thông tin cá nhân </h1>
+            <h3 class="text-base text-center text-gray-700">Thông tin cơ bản như tên và ảnh của bạn mà bạn đăng ký tại
+                trường.
+            </h3>
+        </div>
+        <div class="flex items-stretch flex-wrap">
+            <div class="px-0 lg:pr-4 py-4 lg:w-1/2 w-full">
+                <div class="h-full bg-white rounded shadow-lg pb-4">
+                    <div class="text-center md:text-left px-4 md:px-8 pt-4 md:pt-8 pb-4">
+                        <p class="text-2xl text-gray-900 title-font">Thông tin tài khoản</p>
+                        <p>Hãy cập nhật để cá nhân hóa tài khoản của bạn.</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-center border-t-2 border-gray-200 pt-2 pb-4">
+                            <p class="">Cập nhật ảnh đại diện</p>
+                        </div>
+                        <div class="flex justify-center">
+                            <div class="h-24 w-24 overflow-hidden rounded-full border-2 border-gray-400">
+                                <img id="settings__tmp-pfp"
+                                    src="https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g"
+                                    alt="avatar" class="h-full w-full object-cover">
+                            </div>
+                        </div>
+                        <div class="flex justify-center py-4">
+                            <label class="relative cursor-pointer px-6 grid"
+                                style="grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);">
+                                <input type="file" class="opacity-0 absolute w-0" style="z-index: -1;"
+                                    id="settings__pfp-changer">
+                                <span
+                                    class="text-white text-center bg-indigo-500 py-1 px-5 focus:outline-none hover:bg-indigo-600 rounded">
+                                    Chọn ảnh
+                                </span>
+                                <span id="settings__file-name" class="ml-2 py-1">No file chosen</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <form>
+                        <div class="hover:bg-blue-100">
+                            <div class="flex flex-wrap border-t-2 border-gray-200 relative mx-4 md:mx-8 py-4">
+                                <p class="hidden md:block w-40">Mật khẩu hiện tại</p>
+                                <div class="settings__input">
+                                    <input type="password" placeholder="Nhập mật khẩu hiện tại">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hover:bg-blue-100">
+                            <div class="flex flex-wrap border-t-2 border-gray-200 relative mx-4 md:mx-8 py-4">
+                                <p class="hidden md:block w-40">Mật khẩu mới</p>
+                                <div class="settings__input">
+                                    <input type="password" placeholder="Nhập mật khẩu mới">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hover:bg-blue-100">
+                            <div class="flex flex-wrap border-t-2 border-gray-200 relative mx-4 md:mx-8 py-4">
+                                <p class="hidden md:block w-40">Mật khẩu mới</p>
+                                <div class="settings__input">
+                                    <input type="password" placeholder="Nhập lại mật khẩu mới">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-center flex-basis">
+                            <button type="submit"
+                                class="mt-2 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-1 px-5 focus:outline-none hover:bg-indigo-600 focus:bg-indigo-600 rounded">
+                                Cập nhật mật khẩu
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="px-0 lg:pl-4 py-4 lg:w-1/2 w-full">
+                <div class="h-full bg-white rounded shadow-lg pb-4">
+                    <div class="text-center md:text-left p-4 md:p-8">
+                        <p class="text-2xl text-gray-900 title-font">Thông tin liên hệ </p>
+                        <p class="pb-1">Một vài thông tin của bạn có thể hiển thị cho người dùng khác đang sử dụng dịch
+                            vụ của thư
+                            viện.</p>
+                    </div>
+
+                    <div class="hover:bg-blue-100">
+                        <div class="block md:flex flex-wrap relative mx-4 md:mx-8 py-4">
+                            <p class="w-40 mb-2 md:mb-0">Tên</p>
+                            <p class="items-center">Hồ Nguyễn Hải Tuấn</p>
+                        </div>
+                    </div>
+
+                    <div class="hover:bg-blue-100">
+                        <div class="block md:flex flex-wrap border-t-2 border-gray-200 relative mx-4 md:mx-8 py-4">
+                            <p class="w-40 mb-2 md:mb-0">Ngày sinh</p>
+                            <p class="items-center">08/11/1999</p>
+                        </div>
+                    </div>
+
+                    <div class="hover:bg-blue-100">
+                        <div class="block md:flex flex-wrap border-t-2 border-gray-200 relative mx-4 md:mx-8 py-4">
+                            <p class="w-40 mb-2 md:mb-0">Giới tính</p>
+                            <p class="items-center">Nam</p>
+                        </div>
+                    </div>
+
+                    <div class="hover:bg-blue-100">
+                        <div class="block md:flex flex-wrap border-t-2 border-gray-200 relative mx-4 md:mx-8 py-4">
+                            <p class="w-40 mb-2 md:mb-0">Email</p>
+                            <p class="w-1/2 items-center">1712247@student.hcmus.edu.vn</p>
+                        </div>
+                    </div>
+
+                    <div class="hover:bg-blue-100">
+                        <div class="block md:flex flex-wrap border-t-2 border-gray-200 relative mx-4 md:mx-8 py-4">
+                            <p class="w-40 mb-2 md:mb-0">Điện thoại</p>
+                            <p class="items-center">0762616777</p>
+                        </div>
+                    </div>
+
+                    <div class="hover:bg-blue-100">
+                        <div class="block md:flex flex-wrap border-t-2 border-gray-200 relative mx-4 md:mx-8 py-4">
+                            <p class="w-40 mb-2 md:mb-0">Địa chỉ</p>
+                            <p class="items-center">134 Chu Văn An, Ba Đình, Hà Nội</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

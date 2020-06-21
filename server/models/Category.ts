@@ -22,7 +22,7 @@ let DUMMY_CATEGORY_LIST: Array<Category> = [
   {
     id: 1,
     name: "Công nghệ Phần mềm",
-    desc: "Lĩnh vực nghiên cứu: Các phương pháp cao cấp trong thiết kế phần mềm, Lập trình Hướng Đối tượng với UML, GIS, Phần mềm hỗ trợ giảng dạy, Mã hóa và ứng dụng.",
+    desc: "Công nghệ phần mềm là sự áp dụng một cách tiếp cận có hệ thống, có kỷ luật, và định lượng được cho việc phát triển, sử dụng và bảo trì phần mềm",
     image: "/images/category__cong-nghe-phan-mem.jpg"
   },
   {

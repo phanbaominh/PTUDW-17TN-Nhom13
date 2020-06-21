@@ -1,7 +1,8 @@
 {{#if books.length}}
-<section class="text-gray-700 body-font">
-    <div class="container px-5 py-12 mx-auto">
-        <div class="flex flex-wrap w-full mb-12">
+<section class="{{#if @index}} {{#unless (isEven @index) }} bg-gray-300 {{/unless}} {{/if}} 
+                text-gray-700 body-font">
+    <div class="container px-6 py-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20">
             <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
                     {{title}}

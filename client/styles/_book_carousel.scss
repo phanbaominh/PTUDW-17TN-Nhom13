@@ -24,10 +24,7 @@
     @apply right-0 -mr-6;
   }
   .slick-prev {
-    @apply left-0 -ml-4;
-    @screen sm{
-      @apply -ml-6;
-    }
+    @apply left-0 -ml-6;
   }
 }
 
