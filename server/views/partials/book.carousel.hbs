@@ -1,10 +1,8 @@
 <div class="book-carousel-wrapper mb-4 {{custom}}">
-    <div>
-        <button type="button" class="slick-prev">
-            <span class="block" style="transform: scale(-1);">&#x279c;</span>
-        </button>
-    </div>
-    <div class="book-carousel">
+    <button type="button" class="slick-prev">
+        <span class="block" style="transform: scale(-1);">&#x279c;</span>
+    </button>
+    <div class="book-carousel -m-5">
         {{#each books}}
         {{> book.carousel.item book=this}}
         {{/each }}
