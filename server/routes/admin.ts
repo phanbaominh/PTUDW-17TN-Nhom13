@@ -2,11 +2,15 @@ import { Router } from "express";
 import path from "path";
 let router = Router();
 
-// router.get("/login", function (req, res) {
-//   res.render("");
-// });
-
 router.get("/", function (_, res) {
+  res.redirect("/admin/login");
+});
+
+router.get("/login", function (req, res) {
+  res.sendFile(path.join(__dirname, "..", "..", "public", "admin-login.html"));
+});
+
+router.post("/login", function (req, res) {
   res.redirect("/admin/borrow");
 });
 
