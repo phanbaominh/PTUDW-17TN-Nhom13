@@ -6,14 +6,14 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap w-full md:w-8/12 lg:w-6/12 mt-12">
+    <div class="flex flex-wrap w-full mt-12">
         <div class="mr-8">
             <img src="{{user.profilePicture}}" alt="your profile picture" class="rounded-full h-12 w-12 mb-2 md:mb-0">
         </div>
 
         <div class="book__comment-form-container flex-grow">
             <form action="/books/{{bookId}}/comments/create" method="post" class="flex flex-wrap">
-                <textarea class="w-full resize-none" name="content"
+                <textarea class="w-full border px-4 py-2 rounded hover:shadow" name="content"
                     placeholder="Phản hồi công khai..."></textarea>
                 <input type="hidden" name="userId" value="{{user.id}}">
                 <button type="submit" class="" value="Gửi">Gửi</button>
