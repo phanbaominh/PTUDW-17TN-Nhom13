@@ -13,3 +13,12 @@
 body {
   background-color: #edf2f7;
 }
+
+#news {
+  padding-top: 54px;
+  margin-top: -54px;
+  @screen md {
+    padding-top: 65px;
+    margin-top: -65px;
+  }
+}
