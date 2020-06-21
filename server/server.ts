@@ -12,6 +12,7 @@ import booksRouter from "./routes/books";
 import newsRouter from "./routes/news";
 import settingsRouter from "./routes/settings";
 import searchRouter from "./routes/search";
+import adminRouter from "./routes/admin";
 
 import { parseAuth } from "./middlewares/auth";
 
@@ -44,6 +45,7 @@ app.use("/", booksRouter);
 app.use("/news", newsRouter);
 app.use("/settings", settingsRouter);
 app.use("/search", searchRouter);
+app.use("/admin", adminRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
