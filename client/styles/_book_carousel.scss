@@ -8,23 +8,30 @@
     z-index: 10;
     top: 50%;
     margin-top: -18px;
-    @apply absolute bg-white rounded-full shadow-md h-10 w-10 text-2xl text-indigo-600 self-center;
+    @apply absolute bg-white rounded-full shadow-md text-2xl text-indigo-600 self-center;
+    @apply h-10 w-10;
     @screen md {
-      @apply h-12 w-12
+      @apply h-12 w-12;
     }
     &:focus {
       @apply text-indigo-400 outline-none shadow-outline;
     }
     &:hover {
-      @apply text-indigo-400
+      @apply text-indigo-400;
     }
   }
 
   .slick-next {
-    @apply right-0 -mr-6;
+    @apply right-0 -mr-5;
+    @screen md {
+      @apply -mr-6;
+    }
   }
   .slick-prev {
-    @apply left-0 -ml-6;
+    @apply left-0 -ml-5;
+    @screen md {
+      @apply -ml-6;
+    }
   }
 }
 

@@ -3,10 +3,13 @@
 }
 
 .profile__book-carousel__slick-arrow {
-  @apply text-2xl absolute h-12 w-12 -mt-6 bg-white z-20 rounded-full;
   top: 50%;
+  @apply text-2xl absolute -mt-6 bg-white z-20 rounded-full shadow-md;
+  @apply h-10 w-10;
+  @screen md {
+    @apply h-12 w-12;
+  }
 
-  @apply shadow-md;
   &:focus {
     @apply outline-none shadow-outline;
     @apply text-indigo-400;
@@ -19,12 +22,18 @@
 }
 
 .profile__book-carousel__slick-arrow.prev {
-  @apply left-0 -ml-6;
   transform: scaleX(-1);
+  @apply left-0 -ml-5;
+  @screen md {
+    @apply -ml-6;
+  }
 }
 
 .profile__book-carousel__slick-arrow.next {
-  @apply right-0 -mr-6;
+  @apply right-0 -mr-5;
+  @screen md {
+    @apply -mr-6;
+  }
 }
 
 .profile__book {
