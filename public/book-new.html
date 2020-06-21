@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thư viện HCMUS - Quản lý sách</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href="/css/plugins/dataTables/datatables.min.css" rel="stylesheet" />
+  <link href="/css/animate.css" rel="stylesheet" />
+  <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+  <link href="/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet" />
+  <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+  <style>
+    .img-container,
+    .img-preview {
+      overflow: hidden;
+      text-align: center;
+      width: 100%;
+    }
+
+    .img-preview-sm {
+      height: 130px;
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+      <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+          <li class="nav-header">
+            <div class="dropdown profile-element">
+              <span>
+                <img alt="image" class="img-circle" src="/img/pepe.jpg" style="width: 48px; height: 48px;" />
+              </span>
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <span class="clear">
+                  <span class="block m-t-xs">
+                    <strong class="font-bold">Librarian</strong>
+                  </span>
+                  <span class="text-muted text-xs block">Librarian <b class="caret"></b></span>
+                </span>
+              </a>
+            </div>
+            <div class="logo-element">
+              IN+
+            </div>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa fa-th-large"></i>
+              <span class="nav-label">Quản lý mượn trả sách</span>
+              <span class="fa arrow"></span>
+            </a>
+            <ul class="nav nav-second-level collapse">
+              <li><a href="/admin/borrow">Nhận sách</a></li>
+              <li><a href="/admin/return">Trả sách</a></li>
+            </ul>
+          </li>
+          <li class="active">
+            <a href="#">
+              <i class="fa fa-bar-chart-o"></i>
+              <span class="nav-label">Quản lý sách</span>
+              <span class="fa arrow"></span>
+            </a>
+            <ul class="nav nav-second-level collapse">
+              <li><a href="/admin/book">Xem danh sách</a></li>
+              <li class="active"><a href="/book/new">Thêm sách</a></li>
+              <li><a href="/admin/book/update">Chỉnh sửa thông tin sách</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="/admin/reader">
+              <i class="fa fa-bar-chart-o"></i>
+              <span class="nav-label">Import sinh viên</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+      <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+          <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+            </a>
+          </div>
+          <ul class="nav navbar-top-links navbar-right">
+            <li>
+              <a href=/admin/login> <i class="fa fa-sign-out"></i> Log out </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+          <h2>Quản lý sách</h2>
+          <ol class="breadcrumb">
+            <li>
+              <a href="/admin">Home</a>
+            </li>
+            <li>
+              <a href="/admin/book">Quản lý sách</a>
+            </li>
+            <li class="active">
+              <strong>Thêm sách</strong>
+            </li>
+          </ol>
+        </div>
+        <div class="col-lg-2"></div>
+      </div>
+      <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ibox ">
+              <div class="ibox-title">
+                <h5>Thêm sách mới</h5>
+                <div class="ibox-tools">
+                  <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                  </a>
+                  <a class="close-link">
+                    <i class="fa fa-times"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="ibox-content">
+                <form id="staff-form">
+                  <div class="form-group row" id="staff-id-div">
+                    <label class="col-sm-2 col-form-label">Tên sách</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" required>
+                      <span class="form-text m-b-none" id="id-err" style="color: red" hidden></span>
+                    </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Tác giả</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="HT" required>
+                    </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Ngôn ngữ</label>
+                    <div class="col-sm-10">
+                      <select class="form-control m-b" name="MSPB" id="dept-list">
+                        <option>Tiếng Việt</option>
+                        <option>Tiếng Anh</option>
+                        <option>Tiếng Đức</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Nhà xuất bản</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="HT" required>
+                    </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Ngày xuất bản</label>
+                    <div class="col-sm-10">
+                      <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text"
+                          class="form-control" value="27/04/2020">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Số lượng</label>
+                    <div class="col-sm-10">
+                      <input type="number" class="form-control" name="HT" required value="1">
+                    </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Mô tả sách</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" required rows="20"></textarea>
+                    </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Hình ảnh minh họa</label>
+                    <div class="col-sm-10">
+                      <div class="col-md-6">
+                        <div class="image-crop">
+                          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <h4>Preview image</h4>
+                        <div class="img-preview img-preview-sm"></div>
+                        <div>
+                          <label title="Upload image file" for="inputImage" class="btn btn-primary">
+                            <input type="file" accept="image/*" name="file" id="inputImage" style="display:none">
+                            Upload image
+                          </label>
+                        </div>
+                        <br>
+                        <h4>Modify image</h4>
+                        <div class="btn-group">
+                          <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>
+                          <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>
+                          <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>
+                          <button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button>
+                          <button class="btn btn-warning" id="setDrag" type="button">New crop</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group row">
+                    <div class="col-sm-4 col-sm-offset-2">
+                      <button class="btn btn-white btn-sm" id="cancel-btn">Cancel</button>
+                      <button class="btn btn-primary btn-sm" type="submit">Create</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div><strong>Copyright</strong> Team 13 &copy; 2020-2021</div>
+      </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script src="/js/plugins/dataTables/datatables.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/js/inspinia.js"></script>
+    <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="/js/plugins/pace/pace.min.js"></script>
+    <script src="/js/plugins/cropper/cropper.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="/js/plugins/toastr/toastr.min.js"></script>
+
+    <!-- Page-Level Scripts -->
+    <script>
+      $(document).ready(() => {
+        $('.input-group.date').datepicker({
+          todayBtn: "linked",
+          keyboardNavigation: false,
+          forceParse: false,
+          calendarWeeks: true,
+          autoclose: true
+        });
+        var $image = $(".image-crop > img");
+        var $cropped = $($image).cropper({
+          aspectRatio: 1.618,
+          preview: ".img-preview",
+          done: function(data) {
+            // Output the result data for cropping image.
+          }
+        });
+
+        var $inputImage = $("#inputImage");
+        if (window.FileReader) {
+          $inputImage.change(function() {
+            var fileReader = new FileReader(),
+              files = this.files,
+              file;
+
+            if (!files.length) {
+              return;
+            }
+
+            file = files[0];
+
+            if (/^image\/\w+$/.test(file.type)) {
+              fileReader.readAsDataURL(file);
+              fileReader.onload = function() {
+                $inputImage.val("");
+                $image.cropper("reset", true).cropper("replace", this.result);
+              };
+            } else {
+              showMessage("Please choose an image file.");
+            }
+          });
+        } else {
+          $inputImage.addClass("hide");
+        }
+
+        $("#zoomIn").click(function() {
+          $image.cropper("zoom", 0.1);
+        });
+
+        $("#zoomOut").click(function() {
+          $image.cropper("zoom", -0.1);
+        });
+
+        $("#rotateLeft").click(function() {
+          $image.cropper("rotate", 45);
+        });
+
+        $("#rotateRight").click(function() {
+          $image.cropper("rotate", -45);
+        });
+
+        $("#setDrag").click(function() {
+          $image.cropper("setDragMode", "crop");
+        });
+      });
+    </script>
+</body>
+
+</html>
