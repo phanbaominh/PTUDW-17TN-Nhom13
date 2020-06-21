@@ -43,7 +43,7 @@ router.post("/login", function (req: Request, res, next) {
     return;
   }
   res.cookie("authToken", JSON.stringify(DUMMY_USER));
-  res.redirect("/");
+  res.redirect("/profile");
 });
 
 router.get("/logout", function (req, res, next) {
