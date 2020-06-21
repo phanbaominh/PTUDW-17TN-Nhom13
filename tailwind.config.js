@@ -2,6 +2,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
+        "2xs": "355px",
         xs: "515px"
       },
       fontSize: {
