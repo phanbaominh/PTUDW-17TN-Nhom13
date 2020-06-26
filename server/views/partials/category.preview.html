@@ -1,0 +1,22 @@
+{% macro categoryPreviewItem(category) %}
+<div class="flex relative h-full group">
+    <div class="absolute inset-0 w-full h-full flex items-center justify-center">
+        <h3 class="title-font text-2xl font-semibold text-white text-center px-6 uppercase z-10">{{ category.name }}</h3>
+        <img alt="{{ category.name }}" class="absolute inset-0 w-full h-full object-cover object-center z-0" src="{{ category.image }}">
+    </div>
+    <a href="/search?q={{ category.name }}"
+        class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+        <h3 class="title-font text-lg font-medium text-gray-900 mb-3">{{ category.name }}</h3>
+        <p class="category-preview__desc leading-relaxed">{{ category.desc }}</p>
+    </a>
+</div>
+{% endmacro %}
+
+{% macro categoryPreview(categoryList) %}
+<div class="grid grid-cols-1 gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-4 grid-row-auto"
+    style="grid-auto-rows: 1fr;">
+    {% for category in categoryList %}
+    {{ categoryPreviewItem(category) }}
+    {% endfor %}
+</div>
+{% endmacro %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/stylesheets/tailwind.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+
+<body class="flex flex-col">
+    <div class="notification-popup--wrapper">
+
+    </div>
+    {% include "partials/header.html" %}
+    {% block body %}
+    {% endblock %}
+    {% include "partials/footer.html" %}
+    <script src="/javascripts/index.js"></script>
+    {% if flash %}
+    <script>
+        {% if flash.type === "success" %}
+        var bgColour = "bg-green-500";
+        var textColour = "text-green-500";
+        {% elif flash.type === "error" %}
+        var bgColour = "bg-red-500";
+        var textColour = "text-red-500";
+        {% endif %}
+        var template = `
+        <div class="notification-popup">
+            <div class="flex justify-center items-center min-w-12 ${bgColour}">
+                <svg class="h-6 w-6 fill-current text-white" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z" />
+                </svg>
+            </div>
+            <div class="-mx-3 py-2 px-4">
+                <div class="mx-3">
+                    <span class="${textColour} font-semibold capitalize">{{flash.type}}</span>
+                    <p class="text-gray-600 text-sm">{{flash.content}}</p>
+                </div>
+            </div>
+        </div>`;
+        document.querySelector(".notification-popup--wrapper").innerHTML += template;
+        setTimeout(function() {
+            document.querySelector(".notification-popup").classList.add("fade");
+            setTimeout(function() {
+                document.querySelector(".notification-popup").classList.add("hidden");
+            }, 200);
+        }, 3500);
+    </script>
+    {% endif %}
+</body>
+
+</html>

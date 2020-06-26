@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% from "partials/category.preview.html" import categoryPreview %}
+{% from "partials/book.carousel.html" import bookCarouselWithHeading %}
+
+{% block body %}
+<div class="bg-gray-300">
+    <div class="container px-6 py-12 mx-auto">
+        <div class="flex flex-col text-center w-full mb-12">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Phân loại sách của thư viện</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base text-gray-700">
+            Các đầu sách được phân theo mức nhập môn và các chuyên ngành của Khoa Công Nghệ Thông Tin.
+            </p>
+        </div>
+        {{ categoryPreview(categories) }}
+    </div>
+</div>
+
+{% for category in categories %}
+<div class="{{ "bg-gray-300" if loop.index0 % 2 === 1 else "" }}" >
+    {{ bookCarouselWithHeading(books, category.name, category.desc) }}
+</div>
+{% endfor %}
+{% endblock %}

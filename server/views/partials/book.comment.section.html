@@ -1,0 +1,24 @@
+{% from "partials/book.comment.html" import bookComment %}
+
+<div class="container px-6 py-12 mx-auto">
+    <div class="flex flex-wrap w-full">
+        <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Nhận xét của bạn đọc</h1>
+            <div class="h-1 w-40 bg-indigo-500 rounded"></div>
+        </div>
+    </div>
+
+    {% include "partials/book-comment-form.html" %}
+
+    <div class="mt-8 body-font">
+        {% for comment in comments %}
+        <div class="h-6"></div>
+        {{ bookComment(comment) }}
+        {% endfor %}
+    </div>
+</div>
+
+<template id="comment-form-tpl">
+<div class="h-4 md:h-0"></div>
+{% include "partials/book-comment-form.html" %}
+</template>

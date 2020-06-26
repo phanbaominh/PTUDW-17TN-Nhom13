@@ -1,0 +1,36 @@
+{% macro bookComment(comment) %}
+<div class="h-4"></div>
+<div class="book__comment flex flex-wrap md:flex-no-wrap w-full">
+    <div class="mr-8 flex-shrink-0 flex items-center md:items-start mb-4 md:mb-0">
+        <img src="{{ comment.user.profilePicture }}" alt="Commenter's profile picture" class="rounded-full h-12 w-12">
+        <div class="md:hidden font-bold ml-4">
+            {{ comment.user.username }}
+            <span class="text-gray-500 text-xs ml-4">1 ngày trước</span>
+        </div>
+    </div>
+    <div class="book__comment__content">
+        <div class="text-sm md:self-center">
+            <div class="hidden md:block font-bold">
+                {{ comment.user.username }}
+                <span class="text-gray-500 text-xs ml-4">1 ngày trước</span>
+            </div>
+            <p class="text-base md:flex break-words">{{ comment.content }}</p>
+            <div class="book__comment__buttons mt-1 text-gray-700 text-xs font-bold">
+                <button type="button" class="mr-8 hover:text-black">Like</button>
+                <button type="button" class="book__comment__reply-button mr-8 hover:text-black">
+                    Trả lời
+                </button>
+                {% if comment.replies.length > 0 %}
+                <button type="button" class="book__comment__more-button hover:text-black">Xem trả lời</button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="book__comment__replies hidden">
+            {% for reply in comment.replies %}
+            {{ bookComment(reply) }}
+            {% endfor %}
+        </div>
+        <div class="book__comment-form--wrapper"></div>
+    </div>
+</div>
+{% endmacro %}

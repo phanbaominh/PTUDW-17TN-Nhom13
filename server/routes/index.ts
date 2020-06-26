@@ -6,7 +6,6 @@ var router = express.Router();
 router.get("/", function (req, res, next) {
   res.render("index", {
     title: "Homepage",
-    user: res.locals.user,
     books: DUMMY_BOOK_LIST,
     categories: DUMMY_CATEGORY_LIST
   });

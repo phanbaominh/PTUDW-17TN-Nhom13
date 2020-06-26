@@ -1,5 +1,5 @@
 const purgecss = require("@fullhuman/postcss-purgecss")({
-  content: ["./server/**/*.hbs"],
+  content: ["./server/**/*.html"],
   defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
   whitelist: ["html", "body", "book__detail-tab--highlight"]
 });

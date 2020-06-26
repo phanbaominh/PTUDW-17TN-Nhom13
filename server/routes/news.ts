@@ -7,8 +7,7 @@ router.get("/:slug", function (req, res, next) {
   // TODO: fetch news with given slug
 
   res.render("news-detail", {
-    title: "Thông báo lịch phỏng vấn xét tuyển đào tạo bậc thạc sĩ năm 2020 đợt 1",
-    user: res.locals.user
+    title: "Thông báo lịch phỏng vấn xét tuyển đào tạo bậc thạc sĩ năm 2020 đợt 1"
   });
 });
 
