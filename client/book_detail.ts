@@ -1,4 +1,5 @@
 import $ from "jquery";
+import "./global";
 
 function setupBookDetail() {
   const highlightClass = "book__detail-tab--highlight";
@@ -44,6 +45,10 @@ function setupTextArea(textarea: JQuery<HTMLTextAreaElement>) {
 
 function setupReplyButton() {
   $(".book__comment__reply-button").click(function (event) {
+    if (!window.__USER__) {
+      location.href = "/login";
+      return;
+    }
     let container = $(event.target)
       .closest(".book__comment__content")
       .find("> .book__comment-form--wrapper");

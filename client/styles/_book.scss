@@ -36,7 +36,7 @@
 }
 
 .book__comment__content {
-  @apply w-full;
+  @apply w-full flex-grow;
   @screen md {
     @apply w-auto;
   }

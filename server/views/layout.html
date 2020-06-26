@@ -18,6 +18,13 @@
     {% block body %}
     {% endblock %}
     {% include "partials/footer.html" %}
+    <script>
+        {% if user %}
+        window.__USER__ = {{ user | dump | safe}};
+        {% else %}
+        window.__USER__ = null;
+        {% endif %}
+    </script>
     <script src="/javascripts/index.js"></script>
     {% if flash %}
     <script>
