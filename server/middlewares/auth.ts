@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import User from "../models/User";
-import morgan from "morgan";
+import { Environment } from "nunjucks";
 
 function parseUserFromCookie(cookie: string): User | null {
   try {
@@ -14,6 +14,13 @@ function parseUserFromCookie(cookie: string): User | null {
 function parseAuth(req: Request, res: Response, next: NextFunction) {
   var user = parseUserFromCookie(req.cookies.authToken);
   res.locals.user = user;
+
+  let engine: Environment = res.app.get("engine");
+  if (engine) {
+    engine.addGlobal("request", req);
+    engine.addGlobal("user", user);
+  }
+
   next();
 }
 

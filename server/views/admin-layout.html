@@ -14,19 +14,8 @@
   <link href="/css/style.css" rel="stylesheet" />
   <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
   <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-  <style>
-    .img-container,
-    .img-preview {
-      overflow: hidden;
-      text-align: center;
-      width: 100%;
-    }
-
-    .img-preview-sm {
-      height: 130px;
-      width: 200px;
-    }
-  </style>
+  {% block style %}
+  {% endblock %}
 </head>
 
 <body>
@@ -52,30 +41,40 @@
               IN+
             </div>
           </li>
-          <li>
+          <li class="{{ ['/borrow', '/return'] | activeRoute }}">
             <a href="#">
               <i class="fa fa-th-large"></i>
               <span class="nav-label">Quản lý mượn trả sách</span>
               <span class="fa arrow"></span>
             </a>
             <ul class="nav nav-second-level collapse">
-              <li><a href="/admin/borrow">Nhận sách</a></li>
-              <li><a href="/admin/return">Trả sách</a></li>
+              <li class="{{ ['/borrow'] | activeRoute }}">
+                <a href="/admin/borrow">Nhận sách</a>
+              </li>
+              <li class="{{ ['/return'] | activeRoute }}">
+                <a href="/admin/return">Trả sách</a>
+              </li>
             </ul>
           </li>
-          <li class="active">
+          <li class="{{ ['/book', '/book/new', '/book/update'] | activeRoute }}">
             <a href="#">
               <i class="fa fa-bar-chart-o"></i>
               <span class="nav-label">Quản lý sách</span>
               <span class="fa arrow"></span>
             </a>
             <ul class="nav nav-second-level collapse">
-              <li><a href="/admin/book">Xem danh sách</a></li>
-              <li class="active"><a href="/book/new">Thêm sách</a></li>
-              <li><a href="/admin/book/update">Chỉnh sửa thông tin sách</a></li>
+              <li class="{{ ['/book'] | activeRoute }}">
+                <a href="/admin/book">Xem danh sách</a>
+              </li>
+              <li class="{{ ['/book/new'] | activeRoute }}">
+                <a href="/admin/book/new">Thêm sách</a>
+              </li>
+              <li class="{{ ['/book/update'] | activeRoute }}">
+                <a href="/admin/book/update">Chỉnh sửa thông tin sách</a>
+              </li>
             </ul>
           </li>
-          <li>
+          <li class="{{ ['/reader'] | activeRoute }}">
             <a href="/admin/reader">
               <i class="fa fa-bar-chart-o"></i>
               <span class="nav-label">Import sinh viên</span>
@@ -100,24 +99,13 @@
         </nav>
       </div>
       <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-10">
-          <h2>Quản lý sách</h2>
-          <ol class="breadcrumb">
-            <li>
-              <a href="/admin">Home</a>
-            </li>
-            <li>
-              <a href="/admin/book">Quản lý sách</a>
-            </li>
-            <li class="active">
-              <strong>Thêm sách</strong>
-            </li>
-          </ol>
-        </div>
+        {% block breadcrumb %}
+        {% endblock %}
         <div class="col-lg-2"></div>
       </div>
       <div class="wrapper wrapper-content animated fadeInRight">
-        
+        {% block body %}
+        {% endblock %}
       </div>
       <div class="footer">
         <div><strong>Copyright</strong> Team 13 &copy; 2020-2021</div>
@@ -142,72 +130,8 @@
     <script src="/js/plugins/toastr/toastr.min.js"></script>
 
     <!-- Page-Level Scripts -->
-    <script>
-      $(document).ready(() => {
-        $('.input-group.date').datepicker({
-          todayBtn: "linked",
-          keyboardNavigation: false,
-          forceParse: false,
-          calendarWeeks: true,
-          autoclose: true
-        });
-        var $image = $(".image-crop > img");
-        var $cropped = $($image).cropper({
-          aspectRatio: 1.618,
-          preview: ".img-preview",
-          done: function(data) {
-            // Output the result data for cropping image.
-          }
-        });
-
-        var $inputImage = $("#inputImage");
-        if (window.FileReader) {
-          $inputImage.change(function() {
-            var fileReader = new FileReader(),
-              files = this.files,
-              file;
-
-            if (!files.length) {
-              return;
-            }
-
-            file = files[0];
-
-            if (/^image\/\w+$/.test(file.type)) {
-              fileReader.readAsDataURL(file);
-              fileReader.onload = function() {
-                $inputImage.val("");
-                $image.cropper("reset", true).cropper("replace", this.result);
-              };
-            } else {
-              showMessage("Please choose an image file.");
-            }
-          });
-        } else {
-          $inputImage.addClass("hide");
-        }
-
-        $("#zoomIn").click(function() {
-          $image.cropper("zoom", 0.1);
-        });
-
-        $("#zoomOut").click(function() {
-          $image.cropper("zoom", -0.1);
-        });
-
-        $("#rotateLeft").click(function() {
-          $image.cropper("rotate", 45);
-        });
-
-        $("#rotateRight").click(function() {
-          $image.cropper("rotate", -45);
-        });
-
-        $("#setDrag").click(function() {
-          $image.cropper("setDragMode", "crop");
-        });
-      });
-    </script>
+    {% block scripts %}
+    {% endblock %}
 </body>
 
 </html>

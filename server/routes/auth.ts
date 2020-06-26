@@ -10,8 +10,7 @@ router.get("/login", function (req, res, next) {
     return;
   }
   res.render("login", {
-    title: "Login",
-    user: res.locals.user
+    title: "Login"
   });
 });
 
@@ -54,15 +53,13 @@ router.get("/logout", function (req, res, next) {
 router.get("/profile", requireAuth, function (req, res, next) {
   res.render("profile", {
     title: "Profile",
-    user: res.locals.user,
     bookList: DUMMY_BOOK_LIST
   });
 });
 
 router.get("/forgot-password", function (req, res, next) {
   res.render("forgot-password", {
-    title: "Forgot password",
-    user: res.locals.user
+    title: "Forgot password"
   });
 });
 

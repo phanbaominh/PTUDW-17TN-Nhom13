@@ -1,0 +1,17 @@
+{% macro detailListItem(key, value) %}
+<div class="flex py-2 {{ "border-t border-gray-300" if loop.first else "" }}">
+    <span class="text-gray-500">{{key}}</span>
+    <span class="ml-auto text-gray-900">{{value}}</span>
+</div>
+{% endmacro %}
+
+{% macro bookDetailList(book) %}
+<div class="book__detail-list book__detail-content--hidden">
+    {{ detailListItem('Ngôn ngữ', book.language) }}
+    {{ detailListItem('Kiểu sách', book.type) }}
+    {{ detailListItem('Thể loại', book.category.name) }}
+    {{ detailListItem('Nhà xuất bản', "Kim đồng") }}
+    {{ detailListItem('Số trang', 100) }}
+    {{ detailListItem('Ngày xuất bản', "25/11/1999") }}
+</div>
+{% endmacro %}

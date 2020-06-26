@@ -1,24 +1,15 @@
 import express from "express";
-import { findBookById } from "../models/Book";
+import { findBookById, DUMMY_BOOK_LIST } from "../models/Book";
 import { DUMMY_COMMENTS } from "../models/Comment";
 
 var router = express.Router();
 
-router.get("/books/:slug", function (req, res, next) {
-  console.log(res.locals.user);
+router.get("/books/:id", function (req, res, next) {
   res.render("book", {
     title: "Homepage",
-    user: res.locals.user,
-    book: findBookById(Number(req.params.slug)),
+    book: findBookById(Number(req.params.id)),
     comments: DUMMY_COMMENTS,
-  });
-});
-
-router.post("/books/:id/comments/new", function (req, res, next){
-  res.render("book-comment-form", {
-    layout: false,
-    bookId: req.params.id,
-    user: res.locals.user,
+    relatedBooks: DUMMY_BOOK_LIST
   });
 });
 

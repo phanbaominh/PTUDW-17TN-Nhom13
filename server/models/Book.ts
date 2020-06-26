@@ -1,5 +1,4 @@
 import _ from "lodash";
-import hbs from "hbs";
 import Chance from "chance";
 import Category, { DUMMY_CATEGORY_LIST } from "./Category";
 
@@ -33,8 +32,8 @@ const dummyCoverImageList = [
   "mang-may-tinh.jpg",
   "he-thong-thong-tin.jpg",
   "khoa-hoc-may-tinh.png",
-  "thi-giac-may-tinh.jpg",
-].map(path => `/images/book__${path}`);
+  "thi-giac-may-tinh.jpg"
+].map((path) => `/images/book__${path}`);
 const dummyTagList = ["Ubuntu 18.04", "Flask"];
 
 function randomChoice(things: any[]) {
@@ -66,12 +65,5 @@ function findBookById(id: number) {
   return dummyBookList.find((book: Book) => book.id === id);
 }
 
-hbs.registerHelper("getBooksWith", function (prop: keyof Book, value) {
-  return dummyBookList.filter((book: Book) => _.isEqual(book[prop], value));
-});
-
-hbs.registerHelper("isEven", function (n: number): boolean {
-  return n % 2 === 0;
-});
 export default Book;
 export { dummyBookList as DUMMY_BOOK_LIST, findBookById };

@@ -1,12 +1,13 @@
 import $ from "jquery";
+import "./global";
 
-function setupBookDetail(): void {
+function setupBookDetail() {
   const highlightClass = "book__detail-tab--highlight";
   const contentHiddenClass = "book__detail-content--hidden";
   let lastTab = $(".book__detail-tabs a").first();
   $(".book__detail-tabs a").on("click", (event) => {
     const target = $(event.target);
-    if (lastTab.is(target)) return
+    if (lastTab.is(target)) return;
     lastTab = target;
 
     $(".book__detail-tabs a").removeClass(highlightClass);
@@ -30,52 +31,33 @@ function setupShowMoreButton(): void {
   });
 }
 
-function setupTextArea (): void {
-  var autoExpand = function (field: HTMLElement) {
-    field.style.height = 'inherit';
-    var computed = window.getComputedStyle(field);
-    var height = parseInt(computed.getPropertyValue('border-top-width'), 10)
-                 + parseInt(computed.getPropertyValue('padding-top'), 10)
-                 + field.scrollHeight
-                 + parseInt(computed.getPropertyValue('padding-bottom'), 10)
-                 + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
-  
-    field.style.height = height + 'px';
-  };
-  
-  $('.book__comment-form-container textarea').on('input', (event) => {
+function autoExpand(field: HTMLElement) {
+  field.style.height = "inherit";
+  var height = field.scrollHeight;
+  $(field).innerHeight(height + "px");
+}
+
+function setupTextArea(textarea: JQuery<HTMLTextAreaElement>) {
+  textarea.on("input", (event) => {
     autoExpand(event.target);
   });
 }
 
-function setupReplyButton(): void {
-  let replyContainer: JQuery<HTMLElement>;
-  $(".book__comment__reply-button").on("click", (event) => {
-    if ($(event.target).attr('href')) return;
-    const container = $(event.target).closest(".book__comment__content");
+function setupReplyButton() {
+  $(".book__comment__reply-button").click(function (event) {
+    if (!window.__USER__) {
+      location.href = "/login";
+      return;
+    }
+    let container = $(event.target)
+      .closest(".book__comment__content")
+      .find("> .book__comment-form--wrapper");
+    let commentFormHTML = $("#comment-form-tpl").html();
+    container.html(commentFormHTML);
 
-    $.ajax({
-      url: `/books/${$(event.target).data("id")}/comments/new`,
-      method: 'POST',
-      success: (data) => {
-        if (replyContainer) {
-          replyContainer.html(data);
-          replyContainer.appendTo(container);
-        } else {
-          $(data).appendTo(container);
-          replyContainer = container
-            .children()
-            .last()
-        }
-        
-        setupTextArea()
-        replyContainer.find('.book__comment-form__cancel-button').on('click', () => {
-          replyContainer.remove();
-        });
-      },
-      error: () => {
-        //TODO: handle comment form ajax error
-      },
+    setupTextArea($(container).find("textarea"));
+    container.find("button[type='reset']").click(function () {
+      container.html("");
     });
   });
 }
@@ -84,5 +66,7 @@ export default function setup(): void {
   setupBookDetail();
   setupShowMoreButton();
   setupReplyButton();
-  setupTextArea();
+
+  // Initialise root comment form
+  setupTextArea($(".book__comment-form-container textarea"));
 }

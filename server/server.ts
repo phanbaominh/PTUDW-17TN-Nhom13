@@ -3,7 +3,7 @@ import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import hbs from "hbs";
+import nunjucks from "nunjucks";
 
 import indexRouter from "./routes/index";
 import authRouter from "./routes/auth";
@@ -18,18 +18,15 @@ import { parseAuth } from "./middlewares/auth";
 
 var app = express();
 
-// view engine setup
-hbs.registerPartials(path.join(__dirname, "views", "partials"));
+var env = nunjucks.configure(path.join(__dirname, "views"), {
+  autoescape: true,
+  express: app
+});
+
+app.set("engine", env);
 
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "hbs");
-
-hbs.registerHelper("ifEquals", function (this: any, s1: string, s2: string, option: any) {
-  if (s1 === s2) {
-    return option.fn(this);
-  }
-  return option.inverse(this);
-});
+app.set("view engine", "html");
 
 app.use(logger("dev"));
 app.use(express.json());

@@ -14,19 +14,8 @@
   <link href="/css/style.css" rel="stylesheet" />
   <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
   <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-  <style>
-    .img-container,
-    .img-preview {
-      overflow: hidden;
-      text-align: center;
-      width: 100%;
-    }
-
-    .img-preview-sm {
-      height: 130px;
-      width: 200px;
-    }
-  </style>
+  {% block style %}
+  {% endblock %}
 </head>
 
 <body>
