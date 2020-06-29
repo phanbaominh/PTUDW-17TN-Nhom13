@@ -4,6 +4,7 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nunjucks from "nunjucks";
+import { createHttpTerminator } from "http-terminator";
 
 import indexRouter from "./routes/index";
 import authRouter from "./routes/auth";
@@ -15,6 +16,8 @@ import searchRouter from "./routes/search";
 import adminRouter from "./routes/admin";
 
 import { parseAuth } from "./middlewares/auth";
+import db from "./db";
+import { Connection } from "typeorm";
 
 var app = express();
 
@@ -33,33 +36,53 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "..", "public")));
-app.use("*", parseAuth);
 
-app.use("/", indexRouter);
-app.use("/", authRouter);
-app.use("/", catalogueRouter);
-app.use("/", booksRouter);
-app.use("/news", newsRouter);
-app.use("/settings", settingsRouter);
-app.use("/search", searchRouter);
-app.use("/admin", adminRouter);
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
+(async function () {
+  var connection: Connection = null;
+  try {
+    connection = await db.initialise();
+  } catch (e) {
+    console.log(e);
+    return;
+  }
+  app.use("*", parseAuth);
 
-// error handler
-app.use(function (err: any, req: any, res: any, next: any) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  app.use("/", indexRouter);
+  app.use("/", authRouter);
+  app.use("/", catalogueRouter);
+  app.use("/", booksRouter);
+  app.use("/news", newsRouter);
+  app.use("/settings", settingsRouter);
+  app.use("/search", searchRouter);
+  app.use("/admin", adminRouter);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
+  // catch 404 and forward to error handler
+  app.use(function (req, res, next) {
+    next(createError(404));
+  });
 
-var port = process.env.PORT || 3000;
-app.listen(port, function () {
-  console.log("Server running port " + port);
-});
+  // error handler
+  app.use(function (err: any, req: any, res: any, next: any) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
+  });
+
+  var port = process.env.PORT || 3000;
+  var server = app.listen(port, function () {
+    console.log("Server running port " + port);
+  });
+
+  var terminator = createHttpTerminator({ server });
+  function shutdown() {
+    terminator.terminate();
+    connection.close();
+  }
+
+  process.on("SIGTERM", shutdown);
+  process.on("SIGINT", shutdown);
+})();
