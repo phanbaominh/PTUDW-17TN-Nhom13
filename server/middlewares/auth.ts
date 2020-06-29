@@ -1,8 +1,7 @@
 import { NextFunction, Response, Request } from "express";
-import User from "../models/User";
 import { Environment } from "nunjucks";
 
-function parseUserFromCookie(cookie: string): User | null {
+function parseUserFromCookie(cookie: string): any {
   try {
     let user = JSON.parse(cookie);
     return user;

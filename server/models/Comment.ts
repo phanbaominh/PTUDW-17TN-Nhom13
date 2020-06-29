@@ -1,4 +1,4 @@
-import User, { DUMMY_USERS } from "./User";
+import { User, DUMMY_USERS } from "../entities/User";
 
 interface Comment {
   user: User;
