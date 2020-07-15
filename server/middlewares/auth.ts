@@ -1,23 +1,13 @@
 import { NextFunction, Response, Request } from "express";
 import { Environment } from "nunjucks";
 
-function parseUserFromCookie(cookie: string): any {
-  try {
-    let user = JSON.parse(cookie);
-    return user;
-  } catch (e) {
-    return null;
-  }
-}
-
 function parseAuth(req: Request, res: Response, next: NextFunction) {
-  var user = parseUserFromCookie(req.cookies.authToken);
-  res.locals.user = user;
+  res.locals.user = req.user;
 
   let engine: Environment = res.app.get("engine");
   if (engine) {
     engine.addGlobal("request", req);
-    engine.addGlobal("user", user);
+    engine.addGlobal("user", req.user);
   }
 
   next();

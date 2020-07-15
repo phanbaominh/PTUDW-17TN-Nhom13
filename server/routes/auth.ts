@@ -1,10 +1,10 @@
 import express, { Request } from "express";
 import { requireAuth } from "../middlewares/auth";
 import { DUMMY_BOOK_LIST } from "../models/Book";
-import { User } from "../entities/User";
+import passport from "passport";
 var router = express.Router();
 
-router.get("/login", function (req, res, next) {
+router.get("/login", function (_, res) {
   if (res.locals.user) {
     res.redirect("/");
     return;
@@ -14,48 +14,49 @@ router.get("/login", function (req, res, next) {
   });
 });
 
-/**
- * This route is just a placeholder for the actual login route (which will be implemented later)
- * The only account allowed to login is (1712092, 123)
- */
 router.post("/login", async function (req: Request, res, next) {
   let { username, password }: { username: string; password: string } = req.body;
-
   try {
     if (typeof username !== "string" || typeof password !== "string") {
       throw "Don't do that";
     }
 
-    let user = await User.findOneOrFail({ username }).catch(function () {
-      throw "Tài khoản không tồn tại. Bạn hãy liên hệ với thư viện để học lớp hướng dẫn sử dụng thư viện, sau đó sẽ được tạo tài khoản.";
+    await new Promise(function (resolve, reject) {
+      passport.authenticate("local", function (err, user, info) {
+        if (err) {
+          reject(
+            "Tài khoản không tồn tại. Bạn hãy liên hệ với thư viện để học lớp hướng dẫn sử dụng thư viện, sau đó sẽ được tạo tài khoản."
+          );
+          return;
+        }
+        if (!user) {
+          reject("Sai mật khẩu");
+        }
+
+        req.logIn(user, function (err) {
+          if (err) {
+            reject("Some kind of error happened when logging in");
+            return;
+          }
+          resolve();
+        });
+      })(req, res, next);
     });
-    user.strip();
-    if (!user.checkPassword(password)) {
-      throw "Sai mật khẩu";
-    }
-    res.cookie(
-      "authToken",
-      JSON.stringify({
-        username: user.username,
-        fullname: user.fullname,
-        profilePicture: user.profilePicture
-      })
-    );
-    res.redirect("/profile");
-  } catch (e) {
+
+    return res.redirect("/profile");
+  } catch (err) {
     res.status(400).render("login", {
       title: "Login",
       flash: {
         type: "error",
-        content: e
+        content: err
       }
     });
-    return;
   }
 });
 
 router.get("/logout", function (req, res, next) {
-  res.clearCookie("authToken");
+  req.logout();
   res.redirect("/");
 });
 
