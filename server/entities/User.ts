@@ -1,5 +1,7 @@
-import { Entity, PrimaryColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate } from "typeorm";
+import bcrypt from "bcrypt";
 
+const saltRounds = 10;
 @Entity({ name: "users" })
 export class User extends BaseEntity {
   @PrimaryColumn()
@@ -15,13 +17,18 @@ export class User extends BaseEntity {
   profilePicture: string;
 
   checkPassword(passwordToCheck: string) {
-    console.log("checking", passwordToCheck);
     return this.password === passwordToCheck;
   }
 
   strip() {
     this.username = this.username.trim();
     this.password = this.password.trim();
+  }
+
+  @BeforeUpdate()
+  @BeforeInsert()
+  async encryptPassword() {
+    this.password = await bcrypt.hash(this.password, saltRounds);
   }
 }
 

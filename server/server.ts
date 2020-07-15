@@ -4,7 +4,10 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nunjucks from "nunjucks";
+import session from "express-session";
+import passport from "passport";
 import { createHttpTerminator } from "http-terminator";
+import dotenv from "dotenv";
 
 import indexRouter from "./routes/index";
 import authRouter from "./routes/auth";
@@ -18,8 +21,12 @@ import adminRouter from "./routes/admin";
 import { parseAuth } from "./middlewares/auth";
 import db from "./db";
 import { Connection } from "typeorm";
+import { initPassport } from "./init_auth";
 
 var app = express();
+dotenv.config({
+  path: path.join(__dirname, "..", ".env")
+});
 
 var env = nunjucks.configure(path.join(__dirname, "views"), {
   autoescape: true,
@@ -36,6 +43,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 (async function () {
   var connection: Connection = null;
@@ -45,6 +59,11 @@ app.use(express.static(path.join(__dirname, "..", "public")));
     console.log(e);
     return;
   }
+
+  initPassport();
+
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use("*", parseAuth);
 
   app.use("/", indexRouter);

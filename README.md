@@ -18,15 +18,44 @@ Pull/clone the repo, navigate to it, run `yarn install` to install all neccessar
 
 Do this only once, please.
 
-### For development purpose:
+### Setup environment variables
+
+- Create a file named `.env` that contains:
+
+```
+SESSION_SECRET=<insert a secret string used to sign session cookie here>
+```
+
+### Setup database connection
+
+This web application uses PostgreSQL. From this point forward, we assume that you already have PostgreSQL installed on your machine.
+
+- Clone `ormconfig.json.example` into a file named `ormconfig.json`.
+- Fill in your database connection info.
+
+### Migrations / Seeding
+
+- Run `yarn migration:run` to run all migrations / seedings.
+
+_FYI, migration means a change to the database's structures (tables, columns, etc) and seeding means creating data in those tables and columns._
+
+### Transpile TypeScript
+
+#### For development purpose:
 
 - `yarn dev:server` to start building server-side code. This script watches for changes in `./server` and re-compiles to JavaScript accordingly.
 - `yarn dev:client` to start building client-side code. This script watches for changes in `./client` and re-bundles accordingly.
 
-### For production purpose:
+#### For production purpose:
 
 - `yarn build:server` to compile server-side code.
 - `yarn build:client` to bundle client-side code.
+
+### Start
+
+- `yarn start`
+
+After this, the web app is host on `localhost:3000`.
 
 ## License
 
