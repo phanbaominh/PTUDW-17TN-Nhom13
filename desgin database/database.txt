@@ -1,0 +1,121 @@
+Enum nam_nu {
+  Nam
+  Nu
+}
+
+Table Users {
+  username string [pk]
+  password string
+  full_name string
+  profile_picture string
+  
+  birthday datetime
+  gender nam_nu
+  email string
+  mobile_phone string
+  address string
+}
+
+Table Types {
+  id number [pk]
+  name string 
+}
+
+Table Languages {
+  id number [pk]
+  name string
+}
+
+Table Books {
+  id number [pk, increment]
+  title string 
+  desc string
+  coverImage string
+  author string
+  paperback number
+  publisher string
+  testimonial json
+  type_id number [ref: > Types.id]
+  language_id number [ref: > Languages.id]
+  category_id number [ref: > Categories.id]
+  publishing_year datetime
+  date_added datetime
+  book_count number
+}
+
+Table Likes {
+  username string [pk, ref: > Users.username]
+  book_id number [pk, ref: > Books.id]
+}
+
+
+Table Book_Tag{
+  Book_id number [pk, ref: > Books.id]
+  tag_id number [ref: > Tags.id]
+}
+
+Table Tags {
+  id number [pk]
+  name string
+}
+
+Table Categories {
+  id number [pk]
+  name string
+  desc string
+  image string
+}
+
+Enum tinh_trang_muon {
+  huy
+  yeu_cau_muon
+  dang_muon
+  da_muon
+  theo_doi
+}
+
+Table Borrow_cards {
+  id number [pk]
+  username string [ref: > Users.username]
+  book_id number [ref: > Books.id]
+  status tinh_trang_muon
+  date datetime
+}
+
+Table Comments {
+  id number [pk, increment]
+  book_id number [ref: > Books.id]
+  username string [ref: > Users.username]
+  content string
+  reply number [ref: > Comments.id]
+  date datetime
+}
+
+Enum loai_thong_bao {
+  "Thông báo chung"
+  "Thông báo thư viện"
+  "Thông báo cao đẳng"
+  "Thông báo chính quy"
+  "Thông báo sau đại học"
+}
+
+Table News {
+  id number [pk]
+  title string
+  type loai_thong_bao
+  content string
+  date datetime
+}
+
+Enum noti_type {
+    due 
+    availble
+}
+
+Table Notifications {
+  id number [pk]
+  username string [ref: > Users.username]
+  book_id number [ref: > Books.id]
+  content string
+  type noti_type
+}
