@@ -33,12 +33,6 @@ This web application uses PostgreSQL. From this point forward, we assume that yo
 - Clone `ormconfig.json.example` into a file named `ormconfig.json`.
 - Fill in your database connection info.
 
-### Migrations / Seeding
-
-- Run `yarn migration:run` to run all migrations / seedings.
-
-_FYI, migration means a change to the database's structures (tables, columns, etc) and seeding means creating data in those tables and columns._
-
 ### Transpile TypeScript
 
 #### For development purpose:
@@ -50,6 +44,12 @@ _FYI, migration means a change to the database's structures (tables, columns, et
 
 - `yarn build:server` to compile server-side code.
 - `yarn build:client` to bundle client-side code.
+
+### Migrations / Seeding
+
+- Run `yarn migration:run` to run all migrations / seedings.
+
+_FYI, migration means a change to the database's structures (tables, columns, etc) and seeding means creating data in those tables and columns._
 
 ### Start
 

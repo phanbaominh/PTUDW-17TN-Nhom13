@@ -16,9 +16,20 @@ export class User extends BaseEntity {
   @Column({ name: "profile_picture" })
   profilePicture: string;
 
-  checkPassword(passwordToCheck: string) {
-    return this.password === passwordToCheck;
-  }
+  @Column()
+  birthdate: Date;
+
+  @Column()
+  gender: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  phone: string;
+
+  @Column()
+  address: string;
 
   strip() {
     this.username = this.username.trim();
@@ -38,6 +49,11 @@ function parseUser(raw: any): User {
   user.password = raw.password;
   user.fullname = raw.fullname;
   user.profilePicture = raw.profilePicture;
+  user.birthdate = raw.birthdate;
+  user.gender = raw.gender;
+  user.email = raw.email;
+  user.phone = raw.phone;
+  user.address = raw.address;
   return user;
 }
 
@@ -46,22 +62,37 @@ const DUMMY_USER1 = parseUser({
   password: "123",
   fullname: "Phan Bảo Minh",
   profilePicture:
-    "https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g"
+    "https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g",
+  birthdate: new Date("1999-11-25"),
+  gender: "Nam",
+  email: "1712092@student.hcmus.edu.vn",
+  phone: "0121712092",
+  address: "17120/92 NVC"
 });
 
 const DUMMY_USER2 = parseUser({
   username: "1712247",
   password: "123",
   fullname: "Hồ Nguyễn Hải Tuấn",
-  profilePicture: "/images/user__avatar1.jpg"
+  profilePicture: "/images/user__avatar1.jpg",
+  birthdate: new Date("1999-11-08"),
+  gender: "Nam",
+  email: "1712247@student.hcmus.edu.vn",
+  phone: "0121712247",
+  address: "17122/47 NVC"
 });
 
 const DUMMY_USER3 = parseUser({
   username: "1712932",
   password: "123",
   fullname: "Nguyễn Hy Hoài Lâm",
-  profilePicture: "/images/user__avatar2.jpg"
+  profilePicture: "/images/user__avatar2.jpg",
+  birthdate: new Date("1999-06-01"),
+  gender: "Nam",
+  email: "1712932@student.hcmus.edu.vn",
+  phone: "0121712932",
+  address: "17129/32 NVC"
 });
 
 const DUMMY_USERS = [DUMMY_USER1, DUMMY_USER2, DUMMY_USER3];
-export { DUMMY_USERS };
+export { DUMMY_USERS, parseUser };

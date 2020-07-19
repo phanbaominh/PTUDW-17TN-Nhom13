@@ -1,65 +1,60 @@
-Enum nam_nu {
-  Nam
-  Nu
-}
-
-Table Users {
+Table users {
   username string [pk]
   password string
-  full_name string
+  fullname string
   profile_picture string
   
-  birthday datetime
-  gender nam_nu
+  birthdate datetime
+  gender string
   email string
-  mobile_phone string
+  phone string
   address string
 }
 
-Table Types {
-  id number [pk]
-  name string 
-}
-
-Table Languages {
+Table book_types {
   id number [pk]
   name string
 }
 
-Table Books {
+Table book_languages {
+  id number [pk]
+  name string
+}
+
+Table books {
   id number [pk, increment]
   title string 
   desc string
-  coverImage string
+  cover_image string
   author string
-  paperback number
-  publisher string
+  page_count number
   testimonial json
   type_id number [ref: > Types.id]
   language_id number [ref: > Languages.id]
   category_id number [ref: > Categories.id]
+  publisher string
   publishing_year datetime
   date_added datetime
   book_count number
 }
 
-Table Likes {
+Table likes {
   username string [pk, ref: > Users.username]
   book_id number [pk, ref: > Books.id]
 }
 
 
-Table Book_Tag{
+Table book_tag {
   Book_id number [pk, ref: > Books.id]
   tag_id number [ref: > Tags.id]
 }
 
-Table Tags {
+Table tags {
   id number [pk]
   name string
 }
 
-Table Categories {
+Table categories {
   id number [pk]
   name string
   desc string
@@ -74,7 +69,7 @@ Enum tinh_trang_muon {
   theo_doi
 }
 
-Table Borrow_cards {
+Table borrow_cards {
   id number [pk]
   username string [ref: > Users.username]
   book_id number [ref: > Books.id]
@@ -82,7 +77,7 @@ Table Borrow_cards {
   date datetime
 }
 
-Table Comments {
+Table comments {
   id number [pk, increment]
   book_id number [ref: > Books.id]
   username string [ref: > Users.username]
@@ -99,7 +94,7 @@ Enum loai_thong_bao {
   "Thông báo sau đại học"
 }
 
-Table News {
+Table news {
   id number [pk]
   title string
   type loai_thong_bao
@@ -108,11 +103,11 @@ Table News {
 }
 
 Enum noti_type {
-    due 
-    availble
+  due 
+  availble
 }
 
-Table Notifications {
+Table notifications {
   id number [pk]
   username string [ref: > Users.username]
   book_id number [ref: > Books.id]

@@ -24,6 +24,28 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
           {
             name: "profile_picture",
             type: "text"
+          },
+          {
+            name: "birthdate",
+            type: "date"
+          },
+          {
+            name: "gender",
+            type: "char",
+            length: "20"
+          },
+          {
+            name: "email",
+            type: "text"
+          },
+          {
+            name: "phone",
+            type: "char",
+            length: "10"
+          },
+          {
+            name: "address",
+            type: "text"
           }
         ]
       }),
