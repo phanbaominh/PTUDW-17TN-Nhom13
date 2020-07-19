@@ -35,19 +35,11 @@
           </a>
         </div>
       </div>
-      <form class="ibox-content">
+      <form class="ibox-content" method="POST" enctype="multipart/form-data">
         <div>
           <p>Upload file .csv chứa danh sách các sinh viên.</p>
-          <p>File ví dụ mẫu như sau:</p>
-          <pre>
-1712092, Phan Bảo Minh
-1712247, Hồ Nguyễn Hải Tuấn
-1712932, Nguyễn Hy Hoài Lâm</pre>
-          <div action="#" class="dropzone" id="dropzoneForm">
-            <div class="fallback">
-              <input name="file" type="file" accept="*.csv" />
-            </div>
-          </div>
+          <p>File ví dụ mẫu như sau: <a href="/sample-users.csv">sample-users.csv</a></p>
+          <input type="file" name="file" accept="*.csv" />
         </div>
         <br>
         <div>
@@ -61,12 +53,4 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="/js/plugins/dropzone/dropzone.js"></script>
-<script>
-  $(document).ready(() => {
-    Dropzone.options.dropzoneForm = {
-      acceptedFiles: ".csv"
-    }
-  });
-</script>
 {% endblock %}

@@ -19,7 +19,7 @@ Loại sách:
 	- lấy từ book_type
 	
 Sắp xếp: 
-	- Mức độ liên quan: Đéo biết
+	- Mức độ liên quan
 	- Lượt mượn, năm xuất bản trong Book
 	
 /Tin tức

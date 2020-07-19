@@ -132,6 +132,33 @@
     <!-- Page-Level Scripts -->
     {% block scripts %}
     {% endblock %}
+    <script>
+      $(document).ready(function() {
+        {% if successMessage %}
+        setTimeout(function() {
+          toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            showMethod: 'slideDown',
+            timeOut: 2000
+          };
+          toastr.success("{{ successMessage }}", "System");
+        }, 300);
+        {% endif %}
+
+        {% if errorMessage %}
+        setTimeout(function() {
+          toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            showMethod: 'slideDown',
+            timeOut: 2000
+          };
+          toastr.error("{{ errorMessage }}", "System");
+        }, 300);
+        {% endif %}
+      });
+    </script>
 </body>
 
 </html>
