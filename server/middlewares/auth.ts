@@ -1,13 +1,20 @@
 import { NextFunction, Response, Request } from "express";
 import { Environment } from "nunjucks";
+import { User } from "../entities/User";
 
 function parseAuth(req: Request, res: Response, next: NextFunction) {
-  res.locals.user = req.user;
-
   let engine: Environment = res.app.get("engine");
-  if (engine) {
-    engine.addGlobal("request", req);
-    engine.addGlobal("user", req.user);
+
+  engine?.addGlobal("request", req);
+  if (req.user) {
+    let user = req.user as User;
+    if (!user.isAdmin) {
+      res.locals.user = user;
+      engine?.addGlobal("user", user);
+    } else {
+      res.locals.admin = user;
+      engine?.addGlobal("admin", user);
+    }
   }
 
   next();
@@ -21,4 +28,12 @@ function requireAuth(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-export { parseAuth, requireAuth };
+function requireAdmin(req: Request, res: Response, next: NextFunction) {
+  if (!res.locals.admin) {
+    res.status(401).redirect("/admin/login");
+    return;
+  }
+  next();
+}
+
+export { parseAuth, requireAuth, requireAdmin };

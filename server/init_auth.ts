@@ -12,6 +12,7 @@ function initPassport() {
         if (!compareResult) {
           return cb(null, false);
         }
+        user.strip();
         cb(null, user);
       } catch (err) {
         cb(err);
@@ -26,6 +27,7 @@ function initPassport() {
   passport.deserializeUser(async function (username: string, cb) {
     try {
       const user = await User.findOneOrFail({ username: username });
+      user.strip();
       cb(null, user);
     } catch (err) {
       cb(err);

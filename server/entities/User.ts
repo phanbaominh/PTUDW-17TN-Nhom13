@@ -31,6 +31,9 @@ export class User extends BaseEntity {
   @Column()
   address: string;
 
+  @Column({ name: "is_admin" })
+  isAdmin: boolean;
+
   strip() {
     this.username = this.username.trim();
     this.password = this.password.trim();
