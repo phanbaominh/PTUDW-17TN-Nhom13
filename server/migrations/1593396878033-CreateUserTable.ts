@@ -46,6 +46,11 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
           {
             name: "address",
             type: "text"
+          },
+          {
+            name: "is_admin",
+            type: "bool",
+            default: false
           }
         ]
       }),
