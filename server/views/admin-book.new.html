@@ -49,11 +49,11 @@
         </div>
       </div>
       <div class="ibox-content">
-        <form id="staff-form">
+        <form id="staff-form" method="POST" enctype="multipart/form-data">
           <div class="form-group row" id="staff-id-div">
             <label class="col-sm-2 col-form-label">Tên sách</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" required>
+              <input type="text" class="form-control" name="title" required>
               <span class="form-text m-b-none" id="id-err" style="color: red" hidden></span>
             </div>
           </div>
@@ -61,14 +61,14 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Tác giả</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="HT" required>
+              <input type="text" class="form-control" name="author" required>
             </div>
           </div>
           <div class="hr-line-dashed"></div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Ngôn ngữ</label>
             <div class="col-sm-10">
-              <select class="form-control m-b" name="MSPB" id="dept-list">
+              <select class="form-control m-b" name="language" id="dept-list">
                 <option>Tiếng Việt</option>
                 <option>Tiếng Anh</option>
                 <option>Tiếng Đức</option>
@@ -79,7 +79,7 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nhà xuất bản</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="HT" required>
+              <input type="text" class="form-control" name="publisher" required>
             </div>
           </div>
           <div class="hr-line-dashed"></div>
@@ -88,7 +88,7 @@
             <div class="col-sm-10">
               <div class="input-group date">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text"
-                  class="form-control" value="27/04/2020">
+                  class="form-control" value="27/04/2020" name="publishingYear">
               </div>
             </div>
           </div>
@@ -96,14 +96,21 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Số lượng</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" name="HT" required value="1">
+              <input type="number" class="form-control" name="bookCount" required value="1">
+            </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Số trang</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" name="pageCount">
             </div>
           </div>
           <div class="hr-line-dashed"></div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Mô tả sách</label>
             <div class="col-sm-10">
-              <textarea class="form-control" required rows="20"></textarea>
+              <textarea class="form-control" required name="desc" rows="20"></textarea>
             </div>
           </div>
           <div class="hr-line-dashed"></div>
@@ -176,15 +183,17 @@
           files = this.files,
           file;
 
+        console.log(files);
         if (!files.length) {
           return;
         }
 
         file = files[0];
-
+        console.log(file);
         if (/^image\/\w+$/.test(file.type)) {
           fileReader.readAsDataURL(file);
           fileReader.onload = function() {
+            console.log($inputImage.val());
             $inputImage.val("");
             $image.cropper("reset", true).cropper("replace", this.result);
           };

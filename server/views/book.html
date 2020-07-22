@@ -36,7 +36,7 @@
                 </div>
                 <div class="flex">
                     <span class="title-font font-medium text-xl xs:text-2xl text-gray-900">
-                        Số lượng: {{ book.remain }}
+                        Số lượng: {{ book.bookCount }}
                     </span>
                     <button
                         type="button"
@@ -60,7 +60,7 @@
     </div>
 </section>
 <div class="bg-gray-300">
-    {{ bookTestimonial() }}
+    {{ bookTestimonial(book.testimonial) }}
 </div>
 {{ bookCarouselWithHeading(relatedBookList, book.category.name, book.category.desc) }}
 <div class="bg-gray-300">

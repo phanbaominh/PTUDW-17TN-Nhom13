@@ -22,6 +22,7 @@ import { parseAuth } from "./middlewares/auth";
 import db from "./db";
 import { Connection } from "typeorm";
 import { initPassport } from "./init_auth";
+import { testDB } from "./test_db";
 
 var app = express();
 dotenv.config({
@@ -60,6 +61,7 @@ app.use(
     return;
   }
 
+  // await testDB();
   initPassport();
 
   app.use(passport.initialize());
@@ -96,7 +98,7 @@ app.use(
     console.log("Server running port " + port);
   });
 
-  var terminator = createHttpTerminator({ server });
+  const terminator = createHttpTerminator({server});
   function shutdown() {
     terminator.terminate();
     connection.close();

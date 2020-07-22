@@ -25,11 +25,13 @@ router.post("/", function (req, res) {
     }
     let { file } = files;
     let rawUserList = [];
+    console.log(file);
     fs.createReadStream(file.path)
       .pipe(csv())
       .on("error", next)
       .on("data", function (rawUser) {
         // Default password = phone
+        console.log('user:',rawUser);
         rawUserList.push({
           ...rawUser,
           password: rawUser.phone,

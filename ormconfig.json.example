@@ -8,6 +8,8 @@
   "logging": true,
   "entities": ["build/entities/*.js"],
   "migrations": ["build/migrations/*.js"],
+  "seeds": ["build/seeds/**/*{.ts,.js}"],
+  "factories": ["build/factories/**/*{.ts,.js}"],
   "cli": {
     "migrationsDir": "server/migrations"
   }
