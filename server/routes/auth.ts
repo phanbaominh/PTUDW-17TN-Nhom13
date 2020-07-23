@@ -2,6 +2,7 @@ import express, { Request } from "express";
 import { requireAuth } from "../middlewares/auth";
 import { DUMMY_BOOK_LIST } from "../models/Book";
 import passport from "passport";
+import { User } from "../entities/User";
 var router = express.Router();
 
 router.get("/login", function (_, res) {
@@ -22,8 +23,8 @@ router.post("/login", async function (req: Request, res, next) {
     }
 
     await new Promise(function (resolve, reject) {
-      passport.authenticate("local", function (err, user, info) {
-        if (err) {
+      passport.authenticate("local", function (err, user: User | null) {
+        if (err || (user && user.isAdmin)) {
           reject(
             "Tài khoản không tồn tại. Bạn hãy liên hệ với thư viện để học lớp hướng dẫn sử dụng thư viện, sau đó sẽ được tạo tài khoản."
           );

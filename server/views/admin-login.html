@@ -12,6 +12,7 @@
 
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 </head>
 
@@ -26,10 +27,10 @@
             <p>---Hãy đăng nhập---</p>
             <form class="m-t" role="form" action="/admin/login" method="POST">
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Email" required autofocus>
+                    <input type="text" name="username" placeholder="Username" class="form-control" required autofocus>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" required>
+                    <input type="password" name="password" placeholder="Password" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Đăng nhập</button>
             </form>
@@ -40,7 +41,35 @@
     <script src="/js/jquery-3.1.1.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
+    <script src="/js/plugins/toastr/toastr.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            {% if successMessage %}
+            setTimeout(function() {
+                toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeOut: 2000
+                };
+                toastr.success("{{ successMessage }}", "System");
+            }, 300);
+            {% endif %}
+    
+            {% if errorMessage %}
+            setTimeout(function() {
+                toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeOut: 2000
+                };
+                toastr.error("{{ errorMessage }}", "System");
+            }, 300);
+            {% endif %}
+        });
+      </script>
 </body>
 
 </html>
