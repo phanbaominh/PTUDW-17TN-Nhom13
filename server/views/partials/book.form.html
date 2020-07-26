@@ -1,0 +1,137 @@
+{% macro dashedDivider() %}
+  <div class="hr-line-dashed"></div>
+{% endmacro %}
+
+{% macro required(isRequired) %}
+  {{"required" if isRequired else ""}}
+{% endmacro %}
+
+{% macro textInput(name, label, defaultValue="", isRequired=true) %}
+  <div class="form-group row" id="staff-id-div">
+    <label class="col-sm-2 col-form-label">{{label}}</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" 
+             name="{{name}}" {{required(isRequired)}}
+             value="{{defaultValue}}">
+      <span class="form-text m-b-none" id="id-err" style="color: red" hidden></span>
+    </div>
+  </div>
+  {{ dashedDivider() }}
+{% endmacro %}
+
+{% macro selectInput(options, name, label, default="", valueKey = "id" , labelKey = "name") %}
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">{{label}}</label>
+    <div class="col-sm-10">
+      <select class="form-control m-b" name="{{name}}">
+        {% for option in options %}
+          <option value="{{option[valueKey]}}" {{"selected" if option[valueKey] === default else ""}}> 
+            {{option[labelKey]}} 
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  {{ dashedDivider() }}
+{% endmacro %}
+
+{% macro numberInput(name, label, defaultValue="1", isRequired=true) %}
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">{{label}}</label>
+    <div class="col-sm-10">
+      <input type="number" class="form-control" name="{{name}}" {{required(isRequired)}} 
+             value="{{defaultValue}}">
+    </div>
+  </div>
+  {{ dashedDivider() }}
+{% endmacro %}
+
+{% macro tagInput(name, label, defaultValue="") %}
+  <div class="form-group row text-xl" id="staff-id-div">
+    <label class="col-sm-2 col-form-label">{{label}}</label>
+    <div id="tags_input" class="col-sm-10">
+      <input type="text" name="{{name}}" data-role="tagsinput" style="display: none;" value="{{defaultValue}}">
+      </input>
+    </div>
+  </div>
+  {{ dashedDivider() }}
+{% endmacro %}
+
+{{ textInput("title","Tên sách", book.title) }}
+{{ textInput("author", "Tác giả", book.author) }}
+{{ selectInput(languages, "language", "Ngôn ngữ", book.language.name) }}
+{{ selectInput(categories, "category", "Lĩnh vực", book.category.name) }}
+{{ selectInput(types, "type", "Loại Sách", book.type.name) }}
+{{ textInput("publisher", "Nhà xuất bản", book.publisher) }}
+<!-- <div class="form-group row">
+  <label class="col-sm-2 col-form-label">Ngày xuất bản</label>
+  <div class="col-sm-10">
+    <div class="input-group date">
+      <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text"
+        class="form-control" value="27/04/2020" name="publishingYear">
+    </div>
+  </div>
+</div> -->
+{{ numberInput("publishingYear", "Năm xuất bản", book.publishingYear)}}
+{{ numberInput("bookCount", "Số lượng", book.bookCount) }}
+{{ numberInput("pageCount", "Số trang", book.pageCount) }}
+{{ tagInput("tags", "Chọn Tag:", book.tagString() if book.tagString else '')}}
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Mô tả sách</label>
+  <div class="col-sm-10">
+    <textarea class="form-control" required name="desc" rows="20">{{book.desc}}</textarea>
+  </div>
+</div>
+{{ dashedDivider() }}
+
+{% if book.testimonial %}
+<input type="text" value="{{book.testimonial | dump}}" hidden name="testimonial">
+{% endif %}
+
+{% if book.coverImage %}
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Ảnh bìa hiện tại</label>
+  <div class="col-sm-10">
+    <img src="{{book.coverImage}}">
+    <input type="text" value="{{book.coverImage}}" name="coverImage" hidden>
+  </div>
+</div>
+{{ dashedDivider() }}
+{% endif %}
+
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Ảnh bìa</label>
+  <div class="col-sm-10">
+    <div class="col-md-6">
+      <div class="image-crop">
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Preview image</h4>
+      <div class="img-preview img-preview-sm"></div>
+      <div>
+        <label title="Upload image file" for="inputImage" class="btn btn-primary">
+          <input type="file" accept="image/*" name="file" id="inputImage" style="display:none">
+          Upload image
+        </label>
+      </div>
+      <br>
+      <h4>Modify image</h4>
+      <div class="btn-group">
+        <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>
+        <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>
+        <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>
+        <button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button>
+        <button class="btn btn-warning" id="setDrag" type="button">New crop</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hr-line-dashed"></div>
+<div class="form-group row">
+  <div class="col-sm-4 col-sm-offset-2">
+    <button class="btn btn-white btn-sm" id="cancel-btn">Cancel</button>
+    <button id="submit-btn" class="btn btn-primary btn-sm" type="submit">Create</button>
+  </div>
+</div>

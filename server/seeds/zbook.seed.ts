@@ -18,7 +18,6 @@ class CreateBooks implements Seeder {
         book.type = (await getRand<BookType>(BookType))[0];
         book.category = (await getRand<Category>(Category))[0];
         book.tags = await getRand(Tag, 3);
-        console.log(book);
         return book;
       })
       .createMany(30);

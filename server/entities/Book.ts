@@ -3,6 +3,7 @@ import { BookLanguage } from "./BookLanguage";
 import { BookType } from "./BookType";
 import { Category } from "./Category";
 import { Tag } from "./Tag";
+import EntityHelpers from "./helpers";
 
 @Entity({name: "books"})
 export class Book extends BaseEntity {
@@ -29,7 +30,7 @@ export class Book extends BaseEntity {
     publisher: string;
 
     @Column({name: 'publishing_year'})
-    publishingYear: Date;
+    publishingYear: number;
 
     @Column({name: 'date_added'})
     dateAdded: Date;
@@ -60,6 +61,10 @@ export class Book extends BaseEntity {
     })
     tags: Tag[];
 
+    tagString(): string {
+        return this.tags ? this.tags.map(tag => tag.name).join(', ') : '';
+    }
+
     static getMany(limit: number): Promise<Book[]>{
         if (limit){
             return Book.createQueryBuilder().limit(limit).getMany();
@@ -67,7 +72,39 @@ export class Book extends BaseEntity {
         return Book.createQueryBuilder().getMany();
     }
 
+    static getAllWithRelations(): Promise<Book[]>{
+        return Book
+            .createQueryBuilder("book")
+            .leftJoinAndSelect("book.category", "cat")
+            .leftJoinAndSelect("book.type", "type")
+            .leftJoinAndSelect("book.language", "language")
+            .leftJoinAndSelect("book.tags", "tags")
+            .getMany();
+    }
     static getRelatedBooks(book: Book): Promise<Book[]>{
         return Promise.resolve([]);
+    }
+
+    static async findOneWithRelations(id: number): Promise<Book> {
+        const book = await Book.findOneOrFail(id, {relations: ["category", "type", "language", "tags"]});
+        return book;
+    };
+    static async parseBook(raw: any, oldBook: Book = null): Promise<Book>{
+        const book = oldBook ? oldBook : new Book();
+        book.title = raw.title;
+        book.publisher = raw.publisher;
+        book.pageCount = raw.pageCount;
+        book.publishingYear = raw.publishingYear;
+        book.desc = raw.desc;
+        book.dateAdded = new Date();
+        book.bookCount = raw.bookCount;
+        book.author = raw.author;
+        book.testimonial = raw.testimonial || '[]';
+        book.coverImage = raw.coverImage;
+        book.type = await BookType.findOneOrFail(raw.type);
+        book.language = await BookLanguage.findOneOrFail(raw.language);
+        book.category = await Category.findOneOrFail(raw.category);
+        book.tags = await EntityHelpers.findOrCreate(Tag, 'name', raw.tags.split(','));
+        return book;
     }
 }

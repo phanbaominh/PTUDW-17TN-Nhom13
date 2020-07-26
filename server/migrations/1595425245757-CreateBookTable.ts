@@ -42,7 +42,7 @@ export class CreateBookTable1595425245757 implements MigrationInterface {
                     },
                     {
                         name: 'publishing_year',
-                        type: 'date',
+                        type: 'int',
                         isNullable: true,
                     },
                     {
@@ -57,7 +57,6 @@ export class CreateBookTable1595425245757 implements MigrationInterface {
                     {
                         name: 'testimonial',
                         type: 'json',
-                        default: '[]',
                     },
                     {
                         name: 'language_id',

@@ -11,8 +11,9 @@
             {{ testimonial.quote }}
         </p>
         <a class="inline-flex items-center">
-            <img alt="testimonial" src="https://dummyimage.com/106x106"
-                class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center">
+            <img alt="testimonial" 
+                 src="{{testimonial.avatar if testimonial.avatar else 'https://dummyimage.com/106x106'}}"
+                 class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center">
             <span class="flex-grow flex flex-col pl-4">
                 <span class="title-font font-medium text-gray-900">
                     {{ testimonial.reviewer }}

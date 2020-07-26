@@ -13,6 +13,7 @@
   <link href="/css/plugins/cropper/cropper.min.css" rel="stylesheet">
   <link href="/css/style.css" rel="stylesheet" />
   <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
   <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
   {% block style %}
   {% endblock %}
@@ -77,7 +78,7 @@
               </li>
             </ul>
           </li>
-          <li class="{{ ['/book', '/book/new', '/book/update'] | activeRoute }}">
+          <li class="{{ ['/book', '/book/new', '/book/import'] | activeRoute }}">
             <a href="#">
               <i class="fa fa-bar-chart-o"></i>
               <span class="nav-label">Quản lý sách</span>
@@ -90,8 +91,8 @@
               <li class="{{ ['/book/new'] | activeRoute }}">
                 <a href="/admin/book/new">Thêm sách</a>
               </li>
-              <li class="{{ ['/book/update'] | activeRoute }}">
-                <a href="/admin/book/update">Chỉnh sửa thông tin sách</a>
+              <li class="{{ ['/book/import'] | activeRoute }}">
+                <a href="/admin/book/import">Import sách</a>
               </li>
             </ul>
           </li>
@@ -144,6 +145,7 @@
     <!-- Custom and plugin javascript -->
     <script src="/js/inspinia.js"></script>
     <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="/js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
     <script src="/js/plugins/pace/pace.min.js"></script>
     <script src="/js/plugins/cropper/cropper.min.js"></script>
 

@@ -24,6 +24,8 @@ Do this only once, please.
 
 ```
 SESSION_SECRET=<insert a secret string used to sign session cookie here>
+IMGUR_CLIENT_ID=<get one by registering at https://api.imgur.com/>
+IMGUR_CLIENT_SECRET=<same as above>
 ```
 
 ### Setup database connection
@@ -47,7 +49,10 @@ This web application uses PostgreSQL. From this point forward, we assume that yo
 
 ### Migrations / Seeding
 
-- Run `yarn migration:run` to run all migrations / seedings.
+- Run `yarn migration:run` to run all migrations.
+- Run `yarn seed:run` to run all seeders.
+- Run `yarn schema:drop` to drop all tables (destroy the db basically, should only be used in development)
+- Run `yarn db:rebuild` to run in order `schema:drop`, `migration:run`, `seed:run`
 
 _FYI, migration means a change to the database's structures (tables, columns, etc) and seeding means creating data in those tables and columns._
 

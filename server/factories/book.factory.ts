@@ -16,22 +16,25 @@ function generateTestimonials(faker: typeof Faker): string{
       reviewer: generateName(faker),
       quote: faker.lorem.sentences(3),
       title: faker.name.jobTitle(),
+      avatar: faker.internet.avatar(),
     },
     {
       reviewer: generateName(faker),
       quote: faker.lorem.sentences(3),
       title: faker.name.jobTitle(),
+      avatar: faker.internet.avatar(),
     }
   ]
   return JSON.stringify(testimonials);
 }
+
 define(Book, (faker: typeof Faker) => {
   const book = new Book();
   book.author = generateName(faker);
   book.bookCount = faker.random.number({min: 1, max: 10});
   book.pageCount = faker.random.number({min: 50, max: 500});
   book.publisher = faker.company.companyName();
-  book.publishingYear = faker.date.between('1999-01-01','2020-01-01');
+  book.publishingYear = faker.random.number({min: 1999, max: 2020});
   book.desc = faker.lorem.paragraphs(faker.random.number({min:1, max: 3}));
   book.coverImage = `${faker.image.technics()}?random=${Date.now()}`;
   book.dateAdded = faker.date.between('2020-01-01', '2020-07-01');

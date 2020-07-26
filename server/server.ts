@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nunjucks from "nunjucks";
 import session from "express-session";
+import methodOverride from "method-override";
 import passport from "passport";
 import { createHttpTerminator } from "http-terminator";
 import dotenv from "dotenv";
@@ -39,6 +40,7 @@ app.set("engine", env);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "html");
 
+app.use(methodOverride('_method'));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

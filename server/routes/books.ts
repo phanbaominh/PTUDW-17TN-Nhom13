@@ -6,7 +6,7 @@ var router = express.Router();
 
 router.get("/books/:id", async function (req, res, next) {
   try {
-    const book = await Book.findOne(Number(req.params.id), {relations: ["category", "type", "language"]});
+    const book = await Book.findOneWithRelations(Number(req.params.id));
     const relatedBooks: Book[] = await Book.getRelatedBooks(book);
     res.render("book", {
       title: "Homepage",

@@ -56,15 +56,8 @@ const DUMMY_USERS: Array<QueryDeepPartialEntity<User>> = [DUMMY_USER1, DUMMY_USE
 
 class CreateUsers implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
-    // await connection
-    //   .createQueryBuilder()
-    //   .insert()
-    //   .into(User)
-    //   .values(DUMMY_USERS)
-    //   .execute()
-    // await factory(User)().createMany(10)
     // To trigger entity hooks
-    await DUMMY_USERS.forEach(async (user) => await User.parseUser(user).save())
+    await Promise.allSettled(DUMMY_USERS.map((user) => User.parseUser(user).save()));
   }
 }
 module.exports = {
