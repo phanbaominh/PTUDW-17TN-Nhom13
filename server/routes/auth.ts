@@ -1,8 +1,8 @@
 import express, { Request } from "express";
 import { requireAuth } from "../middlewares/auth";
-import { DUMMY_BOOK_LIST } from "../models/Book";
 import passport from "passport";
 import { User } from "../entities/User";
+import { Book } from "../entities/Book";
 var router = express.Router();
 
 router.get("/login", function (_, res) {
@@ -61,10 +61,11 @@ router.get("/logout", function (req, res, next) {
   res.redirect("/");
 });
 
-router.get("/profile", requireAuth, function (req, res, next) {
+router.get("/profile", requireAuth, async function (req, res, next) {
+  const bookList = await Book.getMany(10);
   res.render("profile", {
     title: "Profile",
-    bookList: DUMMY_BOOK_LIST
+    bookList: bookList,
   });
 });
 

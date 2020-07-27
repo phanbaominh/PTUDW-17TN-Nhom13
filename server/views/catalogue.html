@@ -18,7 +18,7 @@
 
 {% for category in categories %}
 <div class="{{ "bg-gray-300" if loop.index0 % 2 === 1 else "" }}" >
-    {{ bookCarouselWithHeading(books, category.name, category.desc) }}
+    {{ bookCarouselWithHeading(category.books, category.name, category.desc) }}
 </div>
 {% endfor %}
 {% endblock %}

@@ -1,15 +1,18 @@
 import express from "express";
-import { DUMMY_BOOK_LIST } from "../models/Book";
-import { DUMMY_CATEGORY_LIST } from "../models/Category";
+import { Category } from "../entities/Category";
 
 var router = express.Router();
 
-router.get("/catalogue", function (req, res, next) {
-  res.render("catalogue", {
-    title: "Catalogue",
-    books: DUMMY_BOOK_LIST,
-    categories: DUMMY_CATEGORY_LIST
-  });
+router.get("/catalogue", async function (req, res, next) {
+  try {
+    const categories: Category[] = await Category.getAllWithBooks();
+    res.render("catalogue", {
+      title: "Catalogue",
+      categories,
+    });
+  } catch(err){
+    next(err);
+  }
 });
 
 export default router;

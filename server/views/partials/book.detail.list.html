@@ -7,11 +7,11 @@
 
 {% macro bookDetailList(book) %}
 <div class="book__detail-list book__detail-content--hidden">
-    {{ detailListItem('Ngôn ngữ', book.language) }}
-    {{ detailListItem('Kiểu sách', book.type) }}
+    {{ detailListItem('Ngôn ngữ', book.language.name) }}
+    {{ detailListItem('Kiểu sách', book.type.name) }}
     {{ detailListItem('Thể loại', book.category.name) }}
-    {{ detailListItem('Nhà xuất bản', "Kim đồng") }}
-    {{ detailListItem('Số trang', 100) }}
-    {{ detailListItem('Ngày xuất bản', "25/11/1999") }}
+    {{ detailListItem('Nhà xuất bản', book.publisher) }}
+    {{ detailListItem('Số trang', book.pageCount) }}
+    {{ detailListItem('Năm xuất bản', book.publishingYear) }}
 </div>
 {% endmacro %}

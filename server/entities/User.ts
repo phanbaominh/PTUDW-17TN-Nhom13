@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate } from "typeorm";
 import bcrypt from "bcrypt";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
-const saltRounds = 10;
 @Entity({ name: "users" })
 export class User extends BaseEntity {
   @PrimaryColumn()
@@ -42,7 +42,23 @@ export class User extends BaseEntity {
   @BeforeUpdate()
   @BeforeInsert()
   async encryptPassword() {
-    this.password = await bcrypt.hash(this.password, saltRounds);
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+
+  static parseUser(raw: QueryDeepPartialEntity<User>): User {
+    var user = new User();
+    user.username = raw.username as string;
+    user.password = raw.password as string;
+    user.fullname = raw.fullname as string;
+    user.profilePicture = raw.profilePicture as string;
+    user.birthdate = raw.birthdate as Date;
+    user.gender = raw.gender as string;
+    user.email = raw.email as string;
+    user.phone = raw.phone as string;
+    user.address = raw.address as string;
+    user.isAdmin = raw.isAdmin as boolean; 
+    return user;
   }
 }
 
@@ -57,6 +73,7 @@ function parseUser(raw: any): User {
   user.email = raw.email;
   user.phone = raw.phone;
   user.address = raw.address;
+  
   return user;
 }
 

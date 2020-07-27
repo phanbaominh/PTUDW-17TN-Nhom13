@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nunjucks from "nunjucks";
 import session from "express-session";
+import methodOverride from "method-override";
 import passport from "passport";
 import { createHttpTerminator } from "http-terminator";
 import dotenv from "dotenv";
@@ -22,6 +23,7 @@ import { parseAuth } from "./middlewares/auth";
 import db from "./db";
 import { Connection } from "typeorm";
 import { initPassport } from "./init_auth";
+import { testDB } from "./test_db";
 
 var app = express();
 dotenv.config({
@@ -38,6 +40,7 @@ app.set("engine", env);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "html");
 
+app.use(methodOverride('_method'));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -60,6 +63,7 @@ app.use(
     return;
   }
 
+  // await testDB();
   initPassport();
 
   app.use(passport.initialize());
@@ -96,7 +100,7 @@ app.use(
     console.log("Server running port " + port);
   });
 
-  var terminator = createHttpTerminator({ server });
+  const terminator = createHttpTerminator({server});
   function shutdown() {
     terminator.terminate();
     connection.close();

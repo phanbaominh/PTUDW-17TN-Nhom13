@@ -18,7 +18,7 @@
                     {{ book.author }}
                 </h2>
                 <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">
-                    {{ book.title }}
+                    {{ book.title | capitalize }}
                 </h1>
                 <div class="flex mb-4 book__detail-tabs">
                     <a class="book__detail-tab flex-grow border-b-2 border-gray-300 py-2 text-lg px-1 cursor-pointer w-1/2">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="flex">
                     <span class="title-font font-medium text-xl xs:text-2xl text-gray-900">
-                        Số lượng: {{ book.remain }}
+                        Số lượng: {{ book.bookCount }}
                     </span>
                     <button
                         type="button"
@@ -59,9 +59,12 @@
         </div>
     </div>
 </section>
-<div class="bg-gray-300">
-    {{ bookTestimonial() }}
-</div>
+{% if book.testimonial.length > 0 %}
+    <div class="bg-gray-300">
+        {{ bookTestimonial(book.testimonial) }}
+    </div>    
+{% endif %}
+
 {{ bookCarouselWithHeading(relatedBookList, book.category.name, book.category.desc) }}
 <div class="bg-gray-300">
     {% include "partials/book.comment.section.html" %}
