@@ -1,4 +1,4 @@
-<div class="container px-6 py-12 mx-auto">
+<div id="book__comment-wrapper" class="container px-6 py-12 mx-auto">
     <div class="flex flex-wrap w-full">
         <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Nhận xét của bạn đọc</h1>
@@ -8,8 +8,9 @@
 
     {% include "partials/book-comment-form.html" %}
 
-    <div class="mt-8 body-font">
+    <div class="mt-8 body-font" id="book__comment-section">
         {% set isTopLevel = true %}
+        {% set bookId = book.id %}
         {% include "partials/book.comments.html" %}
     </div>
 </div>

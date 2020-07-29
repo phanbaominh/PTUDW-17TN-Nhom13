@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity, CreateDateColumn, ManyToMany, JoinTable, JoinColumn, AfterLoad, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity, CreateDateColumn, ManyToMany, JoinTable, JoinColumn, AfterLoad, OneToMany, BeforeUpdate, BeforeInsert } from "typeorm";
 import { BookLanguage } from "./BookLanguage";
 import { BookType } from "./BookType";
 import { Category } from "./Category";
@@ -79,6 +79,13 @@ export class Book extends BaseEntity {
             .getMany();
     }
 
+    @BeforeUpdate()
+    @BeforeInsert()
+    stringifyTestimonial(){
+        if (typeof this.testimonial !== "string"){
+            this.testimonial = JSON.stringify(this.testimonial);
+        }
+    }
     static getMany(limit: number): Promise<Book[]>{
         if (limit){
             return Book.createQueryBuilder().limit(limit).getMany();

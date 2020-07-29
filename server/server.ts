@@ -75,7 +75,7 @@ app.use(
   app.use("/", authRouter);
   app.use("/", catalogueRouter);
   app.use("/", booksRouter);
-  app.use("/", commentsRouter);
+  app.use("/books", commentsRouter);
   app.use("/news", newsRouter);
   app.use("/settings", settingsRouter);
   app.use("/search", searchRouter);
