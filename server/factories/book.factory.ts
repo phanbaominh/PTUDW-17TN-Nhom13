@@ -37,7 +37,7 @@ define(Book, (faker: typeof Faker) => {
   book.publishingYear = faker.random.number({min: 1999, max: 2020});
   book.desc = faker.lorem.paragraphs(faker.random.number({min:1, max: 3}));
   book.coverImage = `${faker.image.technics()}?random=${Date.now()}`;
-  book.dateAdded = faker.date.between('2020-01-01', '2020-07-01');
+  book.createdAt = faker.date.between('2020-01-01', '2020-07-01');
   book.title = faker.lorem.words(faker.random.number({min:1, max: 10}));
   book.testimonial = generateTestimonials(faker);
   return book;

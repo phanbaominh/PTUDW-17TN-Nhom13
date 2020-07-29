@@ -1,3 +1,12 @@
+{% macro bookComments(comments, isTopLevel) %}
+    {% for comment in comments %}
+        {% if isTopLevel %}
+        <div class="h-6"></div>
+        {% endif %}
+        {{ bookComment(comment) }}
+    {% endfor %}
+{% endmacro %}
+
 {% macro bookComment(comment) %}
 <div class="h-4"></div>
 <div class="book__comment flex flex-wrap md:flex-no-wrap w-full">
@@ -20,17 +29,22 @@
                 <button type="button" class="book__comment__reply-button mr-8 hover:text-black">
                     Trả lời
                 </button>
-                {% if comment.replies.length > 0 %}
-                <button type="button" class="book__comment__more-button hover:text-black">Xem trả lời</button>
+                {% if comment.repliesCount > 0 %}
+                <button type="button" data-id="{{comment.id}}" 
+                        class="book__comment__more-button hover:text-black">
+                    Xem trả lời
+                </button>
                 {% endif %}
             </div>
         </div>
         <div class="book__comment__replies hidden">
-            {% for reply in comment.replies %}
+            <!-- {% for reply in comment.replies %}
             {{ bookComment(reply) }}
-            {% endfor %}
+            {% endfor %} -->
         </div>
         <div class="book__comment-form--wrapper"></div>
     </div>
 </div>
 {% endmacro %}
+
+{{ bookComments(comments, isTopLevel) }}

@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity, CreateDateColumn, ManyToMany, JoinTable, JoinColumn, AfterLoad } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity, CreateDateColumn, ManyToMany, JoinTable, JoinColumn, AfterLoad, OneToMany } from "typeorm";
 import { BookLanguage } from "./BookLanguage";
 import { BookType } from "./BookType";
 import { Category } from "./Category";
 import { Tag } from "./Tag";
 import EntityHelpers from "./helpers";
+import { Comment } from "./Comment";
 
 @Entity({name: "books"})
 export class Book extends BaseEntity {
@@ -32,14 +33,17 @@ export class Book extends BaseEntity {
     @Column({name: 'publishing_year'})
     publishingYear: number;
 
-    @Column({name: 'date_added'})
-    dateAdded: Date;
+    @Column({name: 'created_at'})
+    createdAt: Date;
 
     @Column({name: 'book_count'})
     bookCount: number;
 
     @Column()
     testimonial: string;
+
+    @OneToMany(type => Comment, comment => comment.book)
+    comments: Comment[];
 
     @ManyToOne(type => BookLanguage, language => language.books)
     @JoinColumn({name: 'language_id'})
@@ -63,6 +67,16 @@ export class Book extends BaseEntity {
 
     tagString(): string {
         return this.tags ? this.tags.map(tag => tag.name).join(', ') : '';
+    }
+
+    toplevelComments(): Promise<Comment[]>{
+        return Comment
+            .createQueryBuilder("comment")
+            .leftJoin("comment.book", "book")
+            .leftJoinAndSelect("comment.user", "user")
+            .where("comment.book_id = :id", {id: this.id})
+            .andWhere("comment.parent_id IS NULL")
+            .getMany();
     }
 
     static getMany(limit: number): Promise<Book[]>{
@@ -96,7 +110,7 @@ export class Book extends BaseEntity {
         book.pageCount = raw.pageCount;
         book.publishingYear = raw.publishingYear;
         book.desc = raw.desc;
-        book.dateAdded = new Date();
+        book.createdAt = new Date();
         book.bookCount = raw.bookCount;
         book.author = raw.author;
         book.testimonial = raw.testimonial || '[]';

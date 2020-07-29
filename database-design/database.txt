@@ -34,7 +34,7 @@ Table books {
   category_id number [ref: > Categories.id]
   publisher string
   publishing_year datetime
-  date_added datetime
+  created_at datetime
   book_count number
 }
 

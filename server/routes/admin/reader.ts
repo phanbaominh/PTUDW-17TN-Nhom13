@@ -2,7 +2,7 @@ import { Router } from "express";
 import formidable from "formidable";
 import fs from "fs";
 import csv from "csv-parser";
-import { parseUser } from "../../entities/User";
+import { User } from "../../entities/User";
 
 let router = Router();
 
@@ -38,7 +38,7 @@ router.post("/", function (req, res) {
       })
       .on("end", async function () {
         try {
-          await Promise.allSettled(rawUserList.map((user) => parseUser(user).save()));
+          await Promise.allSettled(rawUserList.map((user) => User.parseUser(user).save()));
           res.render("admin-reader.html", {
             successMessage: "Đã import thành công"
           });

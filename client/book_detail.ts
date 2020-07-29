@@ -20,14 +20,27 @@ function setupBookDetail() {
 function setupShowMoreButton(): void {
   $(".book__comment__more-button").on("click", (event) => {
     const showMoreButton = $(event.target);
+    const commentId = showMoreButton.data('id');
+    //const bookId = showMoreButton.data('book-id');
     let buttonText = "Xem trả lời";
     const replySection = showMoreButton
       .closest(".book__comment")
       .children(".book__comment__content")
       .children(".book__comment__replies");
     replySection.toggleClass("hidden");
-    if (!replySection.hasClass("hidden")) buttonText = "Ẩn trả lời";
-    showMoreButton.text(buttonText);
+    if (!replySection.hasClass("hidden")) {
+      buttonText = "Ẩn trả lời";
+      $.get(`/comments/${commentId}/replies`, (data) => {
+        replySection.html(data);
+        showMoreButton.text(buttonText);
+      })
+    } else {
+      showMoreButton.text(buttonText);
+    }
+    
+    // replySection.toggleClass("hidden");
+    // if (!replySection.hasClass("hidden")) buttonText = "Ẩn trả lời";
+    // showMoreButton.text(buttonText);
   });
 }
 
