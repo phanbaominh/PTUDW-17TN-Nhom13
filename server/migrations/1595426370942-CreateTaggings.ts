@@ -20,15 +20,15 @@ export class CreateTaggings1595426370942 implements MigrationInterface {
             true,
         )
         const createFK = async (columnName, tableName) => {
-            await queryRunner.createForeignKey("books", new TableForeignKey({
+            await queryRunner.createForeignKey("taggings", new TableForeignKey({
                 columnNames: [`${columnName}_id`],
                 referencedColumnNames: ["id"],
                 referencedTableName: `${tableName}`,
                 onDelete: "SET NULL"
             }));
         }
-        createFK('book', 'books');
-        createFK('tag', 'tags');
+        await createFK('book', 'books');
+        await createFK('tag', 'tags');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
