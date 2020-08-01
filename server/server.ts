@@ -8,7 +8,7 @@ import session from "express-session";
 import methodOverride from "method-override";
 import passport from "passport";
 import { createHttpTerminator } from "http-terminator";
-import dotenv from "dotenv";
+import { Connection } from "typeorm";
 
 import indexRouter from "./routes/index";
 import authRouter from "./routes/auth";
@@ -20,18 +20,14 @@ import searchRouter from "./routes/search";
 import adminRouter from "./routes/admin";
 import commentsRouter from "./routes/comments";
 
+import "./configs";
+import db from "./configs/database";
+import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
-import db from "./db";
-import { Connection } from "typeorm";
-import { initPassport } from "./init_auth";
-import { testDB } from "./test_db";
 
-var app = express();
-dotenv.config({
-  path: path.join(__dirname, "..", ".env")
-});
+let app = express();
 
-var env = nunjucks.configure(path.join(__dirname, "views"), {
+let env = nunjucks.configure(path.join(__dirname, "views"), {
   autoescape: true,
   express: app
 });
@@ -41,7 +37,7 @@ app.set("engine", env);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "html");
 
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -56,7 +52,7 @@ app.use(
 );
 
 (async function () {
-  var connection: Connection = null;
+  let connection: Connection = null;
   try {
     connection = await db.initialise();
   } catch (e) {
@@ -97,12 +93,12 @@ app.use(
     res.render("error");
   });
 
-  var port = process.env.PORT || 3000;
-  var server = app.listen(port, function () {
+  let port = process.env.PORT || 3000;
+  let server = app.listen(port, function () {
     console.log("Server running port " + port);
   });
 
-  const terminator = createHttpTerminator({server});
+  const terminator = createHttpTerminator({ server });
   function shutdown() {
     terminator.terminate();
     connection.close();

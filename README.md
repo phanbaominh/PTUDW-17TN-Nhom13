@@ -2,7 +2,7 @@
 
 ## Project Description
 
-A website our university (HCMUS)'s library.
+A website for our university (HCMUS)'s library.
 
 ## Team Members
 
@@ -12,6 +12,17 @@ A website our university (HCMUS)'s library.
 
 ## Usage
 
+We deployed our website to Heroku [here](https://ptudw-17tn-nhom13.herokuapp.com).
+
+Our website's workflow is:
+
+- Students cannot register. All students have to take the library how-to-use class, after that they will be given an account by the school.
+- Route `/admin/` contains the administration part of the website, where admins and librarians operate the library. More specifically:
+  - Admin: there is one admin only (`admin/admin`). This user can create other librarians's accounts.
+  - Librarians: these accounts are the one truly in charge of operating. They can import student's info (given by the school) into the database, manage books, etc. They, however, cannot create librarian accounts like the admin.
+
+The following section contains instructions for running the website _**locally**_.
+
 _Note: I recommend you use yarn instead of npm._
 
 Pull/clone the repo, navigate to it, run `yarn install` to install all neccessary packages.
@@ -20,13 +31,7 @@ Do this only once, please.
 
 ### Setup environment variables
 
-- Create a file named `.env` that contains:
-
-```
-SESSION_SECRET=<insert a secret string used to sign session cookie here>
-IMGUR_CLIENT_ID=<get one by registering at https://api.imgur.com/>
-IMGUR_CLIENT_SECRET=<same as above>
-```
+- Clone `.env.` from `.env.example` and fill in the `<input>` placeholders. Notice that `IMGUR_CLIENT_ID` and `IMGUR_CLIENT_SECRET` are API keys that can be obtained by registering at [https://api.imgur.com](https://api.imgur.com).
 
 ### Setup database connection
 

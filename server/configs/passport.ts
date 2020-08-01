@@ -1,7 +1,7 @@
 import passport from "passport";
 import bcrypt from "bcrypt";
 import { Strategy } from "passport-local";
-import { User } from "./entities/User";
+import { User } from "../entities/User";
 
 function initPassport() {
   passport.use(

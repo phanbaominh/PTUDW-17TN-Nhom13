@@ -5,21 +5,22 @@
   "author": "Team 13",
   "license": "MIT",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "export TYPEORM_URL=$DATABASE_URL && node build/server.js",
     "copy-views": "node copy-view.js",
     "tsc": "tsc",
     "dev:server": "concurrently \"nodemon --watch server --ext html,ts --exec 'npm-run-all copy-views start'\" \"tsc --watch\"",
     "dev:client": "webpack --env development --watch",
     "build:server": "cross-env NODE_ENV=production npm-run-all copy-views tsc",
     "build:client": "cross-env NODE_ENV=production webpack --env production",
-    "postinstall": "npm-run-all build:server build:client",
+    "build": "npm-run-all build:server build:client",
+    "heroku-postbuild": "yarn build && yarn db:rebuild",
     "migration:create": "typeorm migration:create -n",
     "migration:run": "typeorm migration:run -t=false",
     "migration:revert": "typeorm migration:revert",
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
     "schema:drop": "typeorm schema:drop",
-    "db:rebuild": "yarn schema:drop && yarn migration:run && yarn seed:run"
+    "db:rebuild": "export TYPEORM_URL=$DATABASE_URL && yarn schema:drop && yarn migration:run && yarn seed:run"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
