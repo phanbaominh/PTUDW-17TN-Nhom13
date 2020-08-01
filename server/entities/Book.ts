@@ -17,6 +17,8 @@ import { Category } from "./Category";
 import { Tag } from "./Tag";
 import EntityHelpers from "./helpers";
 import { Comment } from "./Comment";
+import { BorrowCard } from "./BorrowCard";
+import UserNotification from "./UserNotification";
 
 @Entity({ name: "books" })
 export class Book extends BaseEntity {
@@ -60,9 +62,15 @@ export class Book extends BaseEntity {
   @JoinColumn({ name: "language_id" })
   language: BookLanguage;
 
-  @ManyToOne((type) => BookType, (type) => type.books)
-  @JoinColumn({ name: "type_id" })
-  type: BookType;
+  @OneToMany(type => BorrowCard, card => card.book)
+  borrowCards: BorrowCard[];
+  
+  @OneToMany(type => UserNotification, noti => noti.book)
+  notifications: Notification[];
+
+  @ManyToOne(type => BookLanguage, language => language.books)
+  @JoinColumn({name: 'language_id'})
+  language: BookLanguage;
 
   @ManyToOne((type) => Category, (category) => category.books)
   @JoinColumn({ name: "category_id" })

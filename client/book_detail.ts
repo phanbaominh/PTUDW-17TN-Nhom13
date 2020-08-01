@@ -128,11 +128,34 @@ function setupCommentSubmitButton(){
   });
 }
 
+function setupBorrowButton(){
+  $(".book__borrow-button-wrapper").on("submit", "form", function(event){
+    const form = $(this);
+    const buttonWrapper = form.parent();
+    const bookCountDiv = buttonWrapper.parent().find("#book__book-count");
+    console.log("cool");
+    $.post({
+      url: form.attr("action"),
+      dataType: "json",
+      method: "post",
+      success: (data) => {
+        buttonWrapper.html(data.template);
+        bookCountDiv.text(`Số lượng: ${data.bookCount}`);
+      },
+      error: (xhr) => {
+        const response = JSON.parse(xhr.responseText);
+        buttonWrapper.append(response.template);
+      },
+    });
+    event.preventDefault();
+  })
+}
 export default function setup(): void {
   setupBookDetail();
   setupShowMoreButton();
   setupReplyButton();
   setupCommentSubmitButton();
+  setupBorrowButton();
   // Initialise root comment form
   setupTextArea($(".book__comment-form-container textarea"));
 }

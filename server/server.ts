@@ -19,17 +19,24 @@ import settingsRouter from "./routes/settings";
 import searchRouter from "./routes/search";
 import adminRouter from "./routes/admin";
 import commentsRouter from "./routes/comments";
+import borrowsRouter from "./routes/borrows";
 
 import "./configs";
 import db from "./configs/database";
 import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
+import renderTemplate from "./utils/renderTemplate";
+import { BorrowStatus, BorrowCard } from "./entities/BorrowCard";
 
 let app = express();
 
 let env = nunjucks.configure(path.join(__dirname, "views"), {
   autoescape: true,
   express: app
+});
+
+env.addFilter("getBorrowForm", (status: BorrowStatus, bookId: number, bookCount: number) => {
+  return BorrowCard.getBorrowForm(status, bookId, bookCount);
 });
 
 app.set("engine", env);
@@ -72,11 +79,12 @@ app.use(
   app.use("/", catalogueRouter);
   app.use("/", booksRouter);
   app.use("/books", commentsRouter);
+  app.use("/books", borrowsRouter);
   app.use("/news", newsRouter);
   app.use("/settings", settingsRouter);
   app.use("/search", searchRouter);
   app.use("/admin", adminRouter);
-
+  
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
     next(createError(404));

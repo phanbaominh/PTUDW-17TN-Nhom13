@@ -2,6 +2,8 @@ import { Entity, PrimaryColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate, 
 import bcrypt from "bcrypt";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { Comment } from "./Comment";
+import { BorrowCard, BorrowStatus } from "./BorrowCard";
+import UserNotification from "./UserNotification";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
@@ -38,9 +40,32 @@ export class User extends BaseEntity {
   @OneToMany(type => Comment, comment => comment.user)
   comments: Comment[];
 
+  @OneToMany(type => BorrowCard, card => card.user)
+  borrowCards: BorrowCard[];
+
+  @OneToMany(type => UserNotification, noti => noti.user)
+  notifications: UserNotification[];
+
   strip() {
     this.username = this.username.trim();
     this.password = this.password.trim();
+  }
+
+  async getBorrowCard(bookId: number): Promise<BorrowCard>{
+    return await BorrowCard
+      .createQueryBuilder("card")
+      .leftJoin("card.book", "book")
+      .where(":username = card.username", { username: this.username})
+      .andWhere(":bookId = book.id", { bookId })
+      .andWhere(":status <> card.status", { status: BorrowStatus.CANCELED })
+      .andWhere(":status2 <> card.status", { status2: BorrowStatus.RETURNED })
+      .orderBy("card.id", "DESC")
+      .getOne();
+  }
+  async getBookStatus(bookId: number): Promise<BorrowStatus>{
+    const card = await this.getBorrowCard(bookId);
+    const status = card ? card.status : BorrowStatus.CANCELED;
+    return status;
   }
 
   @BeforeUpdate()
