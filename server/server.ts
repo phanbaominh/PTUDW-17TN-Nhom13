@@ -18,6 +18,7 @@ import newsRouter from "./routes/news";
 import settingsRouter from "./routes/settings";
 import searchRouter from "./routes/search";
 import adminRouter from "./routes/admin";
+import commentsRouter from "./routes/comments";
 
 import { parseAuth } from "./middlewares/auth";
 import db from "./db";
@@ -74,6 +75,7 @@ app.use(
   app.use("/", authRouter);
   app.use("/", catalogueRouter);
   app.use("/", booksRouter);
+  app.use("/books", commentsRouter);
   app.use("/news", newsRouter);
   app.use("/settings", settingsRouter);
   app.use("/search", searchRouter);

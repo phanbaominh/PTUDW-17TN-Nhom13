@@ -1,6 +1,8 @@
-{% macro bookComment(comment) %}
+{% if isTopLevel %}
+  <div class="h-6"></div>
+{% endif %}
 <div class="h-4"></div>
-<div class="book__comment flex flex-wrap md:flex-no-wrap w-full">
+<div id="book__comment__{{comment.id}}" class="book__comment flex flex-wrap md:flex-no-wrap w-full">
     <div class="mr-8 flex-shrink-0 flex items-center md:items-start mb-4 md:mb-0">
         <img src="{{ comment.user.profilePicture }}" alt="Commenter's profile picture" class="rounded-full h-12 w-12">
         <div class="md:hidden font-bold ml-4">
@@ -17,20 +19,25 @@
             <p class="text-base md:flex break-words">{{ comment.content }}</p>
             <div class="book__comment__buttons mt-1 text-gray-700 text-xs font-bold">
                 <button type="button" class="mr-8 hover:text-black">Like</button>
-                <button type="button" class="book__comment__reply-button mr-8 hover:text-black">
+                <button type="button" data-id="{{comment.id}}"
+                        data-book-id="{{bookId}}"
+                        class="book__comment__reply-button mr-8 hover:text-black">
                     Trả lời
                 </button>
-                {% if comment.replies.length > 0 %}
-                <button type="button" class="book__comment__more-button hover:text-black">Xem trả lời</button>
+                {% if comment.repliesCount > 0 %}
+                <button type="button" data-id="{{comment.id}}" 
+                        data-book-id="{{bookId}}"
+                        class="book__comment__more-button hover:text-black">
+                    Xem trả lời
+                </button>
                 {% endif %}
             </div>
         </div>
-        <div class="book__comment__replies hidden">
-            {% for reply in comment.replies %}
-            {{ bookComment(reply) }}
-            {% endfor %}
-        </div>
+        <div class="book__comment__replies hidden"></div>
         <div class="book__comment-form--wrapper"></div>
     </div>
 </div>
-{% endmacro %}
+
+{% if isResponse %}
+    {% include "flash.html" %}
+{% endif %}

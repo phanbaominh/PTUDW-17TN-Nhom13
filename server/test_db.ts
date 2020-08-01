@@ -36,7 +36,7 @@ async function testDB() {
   book.pageCount = 300;
   book.publisher = 'minh';
   book.publishingYear = 1999;
-  book.dateAdded = new Date();
+  book.createdAt = new Date();
   book.bookCount = 1;
   book.coverImage = '';
   book.author = '';

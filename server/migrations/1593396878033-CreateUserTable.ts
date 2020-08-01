@@ -8,14 +8,12 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
         columns: [
           {
             name: "username",
-            type: "char",
-            length: "20",
+            type: "varchar(20)",
             isPrimary: true
           },
           {
             name: "password",
-            type: "char",
-            length: "60"
+            type: "varchar(60)",
           },
           {
             name: "fullname",
@@ -31,8 +29,7 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
           },
           {
             name: "gender",
-            type: "char",
-            length: "20"
+            type: "varchar(20)",
           },
           {
             name: "email",
@@ -40,8 +37,7 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
           },
           {
             name: "phone",
-            type: "char",
-            length: "10"
+            type: "varchar(10)",
           },
           {
             name: "address",

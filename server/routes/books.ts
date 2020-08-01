@@ -1,18 +1,22 @@
 import express from "express";
-import { DUMMY_COMMENTS } from "../models/Comment";
 import { Book } from "../entities/Book";
+import { getRedirectOption } from "./helpers";
 
 var router = express.Router();
 
 router.get("/books/:id", async function (req, res, next) {
   try {
     const book = await Book.findOneWithRelations(Number(req.params.id));
+    const options = getRedirectOption(req);
+    const comments = await book.toplevelComments();
+    await Promise.allSettled(comments.map(comment => comment.setRepliesCount()));
     const relatedBooks: Book[] = await Book.getRelatedBooks(book);
     res.render("book", {
-      title: "Homepage",
+      title: `${book.title}`,
       book,
-      comments: DUMMY_COMMENTS,
       relatedBooks,
+      comments,
+      ...options,
     });
   } catch (err){
     res.status(404).render("index", {
@@ -24,6 +28,5 @@ router.get("/books/:id", async function (req, res, next) {
     });
   }
 });
-
 
 export default router;

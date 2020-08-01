@@ -46,7 +46,7 @@ export class CreateBookTable1595425245757 implements MigrationInterface {
                         isNullable: true,
                     },
                     {
-                        name: 'date_added',
+                        name: 'created_at',
                         type: 'date',
                     },
                     {

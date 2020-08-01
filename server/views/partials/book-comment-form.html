@@ -5,7 +5,8 @@
     </div>
 
     <div class="book__comment-form-container">
-        <form action="/books/{{ book.id }}/comments/create" method="post" class="flex flex-wrap">
+        <form action="/books/{{ book.id }}/comments/create" method="post" 
+              enctype="multipart/form-data" class="flex flex-wrap">
             <textarea
                 name="content" placeholder="Phản hồi công khai..."
                 class="w-full border px-4 py-2 rounded hover:shadow"></textarea>

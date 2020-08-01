@@ -10,21 +10,8 @@ import { BookType } from "../../entities/BookType";
 import { BookLanguage } from "../../entities/BookLanguage";
 import { Tag } from "../../entities/Tag";
 import csv from "csv-parser";
+import { redirectWithOption, getRedirectOption } from "../helpers";
 let router = Router();
-
-function redirectWithOption(req: Request, res: Response<any>, url: string, options = null){
-  req.session.options = options;
-  res.redirect(url);
-}
-
-function getRedirectOption(req: Request){
-  let options = {}
-  if (req.session.options){
-    options = req.session.options;
-    req.session.options = null;
-  }
-  return options;
-}
 
 function uploadImage(rawData: string) {
   const formData = new FormData();
@@ -75,7 +62,7 @@ function uploadImageAndUpdate(file: formidable.File, newBook: Book, req: Request
       const responseJson = await response.json();
       if (responseJson.success){
         newBook.coverImage = responseJson.data.link;
-        Book.save(newBook);
+        await Book.save(newBook);
         redirectWithOption(req, res, '/admin/book', {
           successMessage: "Cập nhật sách thành công",
         });
@@ -181,7 +168,7 @@ router.put("/:id", async function(req, res){
           uploadImageAndUpdate(file, newBook, req, res, next);
         } else {
           newBook.coverImage = book.coverImage;
-          Book.save(newBook);
+          await Book.save(newBook);
           redirectWithOption(req, res, '/admin/book', {
             successMessage: "Cập nhật sách thành công",
           });
