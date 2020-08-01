@@ -41,7 +41,7 @@ app.set("engine", env);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "html");
 
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -102,7 +102,7 @@ app.use(
     console.log("Server running port " + port);
   });
 
-  const terminator = createHttpTerminator({server});
+  const terminator = createHttpTerminator({ server });
   function shutdown() {
     terminator.terminate();
     connection.close();
