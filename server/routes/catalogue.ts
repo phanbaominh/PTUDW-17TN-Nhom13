@@ -1,16 +1,17 @@
 import express from "express";
 import { Category } from "../entities/Category";
+import renderTemplate from "../utils/renderTemplate";
 
 var router = express.Router();
 
 router.get("/catalogue", async function (req, res, next) {
   try {
     const categories: Category[] = await Category.getAllWithBooks();
-    res.render("catalogue", {
+    renderTemplate(req, res, "catalogue", {
       title: "Catalogue",
-      categories,
+      categories
     });
-  } catch(err){
+  } catch (err) {
     next(err);
   }
 });

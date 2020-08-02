@@ -1,15 +1,16 @@
 import { Router } from "express";
 import passport from "passport";
 import { User } from "../../entities/User";
+import renderTemplate from "../../utils/renderTemplate";
 
 let router = Router();
 
-router.get("/login", function (_, res) {
+router.get("/login", function (req, res) {
   if (res.locals.admin) {
     res.redirect("/admin/borrow");
     return;
   }
-  res.render("admin-login");
+  renderTemplate(req, res, "admin-login");
 });
 
 router.post("/login", async function (req, res, next) {
@@ -39,11 +40,17 @@ router.post("/login", async function (req, res, next) {
       })(req, res, next);
     });
 
-    return res.redirect("/admin/borrow");
+    res.redirect("/admin/borrow");
   } catch (err) {
-    res.status(400).render("admin-login", {
-      errorMessage: err
-    });
+    renderTemplate(
+      req,
+      res,
+      "admin-login",
+      {
+        errorMessage: err
+      },
+      400
+    );
   }
 });
 

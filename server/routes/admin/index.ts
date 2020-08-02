@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { Environment } from "nunjucks";
 
 import authRouter from "./auth";
 import bookRouter from "./book";
@@ -10,27 +9,20 @@ import updatePasswordRouter from "./update-password";
 import createLibrarianRouter from "./create-librarian";
 
 import { requireAdmin } from "../../middlewares/auth";
+import { Environment } from "nunjucks";
 
 let router = Router();
 
-router.use(function (req, res, next) {
-  let url = req.url;
-  let engine: Environment = res.app.get("engine");
-  if (engine) {
-    engine.addFilter("activeRoute", function (routes) {
-      for (let route of routes) {
-        if (url === route) {
-          return "active";
-        }
-      }
-      return "";
-    });
-  }
-  next();
-});
-
 router.get("/", function (_, res) {
   res.redirect("/admin/login");
+});
+
+router.use(function (_, res, next) {
+  let engine: Environment | null = res.app.get("engine");
+  engine?.addFilter("activeRoute", function (routes: string[], url: string) {
+    return routes.map((route) => "/admin" + route).includes(url) ? "active" : "";
+  });
+  next();
 });
 
 router.use("/", authRouter);

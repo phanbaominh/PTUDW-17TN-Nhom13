@@ -3,14 +3,15 @@ import { requireAuth } from "../middlewares/auth";
 import passport from "passport";
 import { User } from "../entities/User";
 import { Book } from "../entities/Book";
+import renderTemplate from "../utils/renderTemplate";
 var router = express.Router();
 
-router.get("/login", function (_, res) {
+router.get("/login", function (req, res) {
   if (res.locals.user) {
     res.redirect("/");
     return;
   }
-  res.render("login", {
+  renderTemplate(req, res, "login", {
     title: "Login"
   });
 });
@@ -46,31 +47,38 @@ router.post("/login", async function (req: Request, res, next) {
 
     return res.redirect("/profile");
   } catch (err) {
-    res.status(400).render("login", {
-      title: "Login",
-      flash: {
-        type: "error",
-        content: err
-      }
-    });
+    renderTemplate(
+      req,
+      res,
+      "login",
+      {
+        title: "Login",
+        flash: {
+          type: "error",
+          content: err
+        }
+      },
+      400
+    );
   }
 });
 
 router.get("/logout", function (req, res, next) {
   req.logout();
+  console.log({ user: req.user });
   res.redirect("/");
 });
 
 router.get("/profile", requireAuth, async function (req, res, next) {
   const bookList = await Book.getMany(10);
-  res.render("profile", {
+  renderTemplate(req, res, "profile", {
     title: "Profile",
-    bookList: bookList,
+    bookList: bookList
   });
 });
 
 router.get("/forgot-password", function (req, res, next) {
-  res.render("forgot-password", {
+  renderTemplate(req, res, "forgot-password", {
     title: "Forgot password"
   });
 });

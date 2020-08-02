@@ -1,8 +1,9 @@
 import { Router } from "express";
+import renderTemplate from "../utils/renderTemplate";
 let router = Router();
 
 router.get("/", function (req, res, next) {
-  res.render("settings", {
+  renderTemplate(req, res, "settings", {
     title: "Settings"
   });
 });

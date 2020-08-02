@@ -1,22 +1,15 @@
 import { NextFunction, Response, Request } from "express";
-import { Environment } from "nunjucks";
 import { User } from "../entities/User";
 
 function parseAuth(req: Request, res: Response, next: NextFunction) {
-  let engine: Environment = res.app.get("engine");
-
-  engine?.addGlobal("request", req);
   if (req.user) {
     let user = req.user as User;
     if (!user.isAdmin) {
       res.locals.user = user;
-      engine?.addGlobal("user", user);
     } else {
       res.locals.admin = user;
-      engine?.addGlobal("admin", user);
     }
   }
-
   next();
 }
 
