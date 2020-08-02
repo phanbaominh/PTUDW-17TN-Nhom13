@@ -62,7 +62,7 @@
   <h2>Quản lý sách</h2>
   <ol class="breadcrumb">
     <li>
-      <a href="/admin">Trang chủ</a>
+      <a href="/admin">Home</a>
     </li>
     <li class="active">
       <strong>Quản lý sách</strong>
@@ -103,5 +103,55 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="/js/admin-book.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#book-table").DataTable({
+      pageLength: 10,
+      responsive: true,
+      dom: '<"html5buttons"B>lTfgitp',
+      buttons: [{
+          extend: "copy"
+        },
+        {
+          extend: "csv"
+        },
+        {
+          extend: "excel",
+          title: "ExampleFile"
+        },
+        {
+          extend: "pdf",
+          title: "ExampleFile"
+        },
+        {
+          extend: "print",
+          customize: function(win) {
+            $(win.document.body).addClass("white-bg");
+            $(win.document.body).css("font-size", "10px");
+
+            $(win.document.body)
+              .find("table")
+              .addClass("compact")
+              .css("font-size", "inherit");
+          }
+        }
+      ],
+      "columnDefs": [ 
+        {
+          "targets": [-1, -2],
+          "orderable": false,
+        },
+        {
+          targets: 3,
+          width: "10%",
+        },
+        {
+          "targets": -1,
+          "width": "5%",
+        }
+      ],
+
+    });
+  });
+</script>
 {% endblock %}

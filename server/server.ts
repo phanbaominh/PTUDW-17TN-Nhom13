@@ -39,6 +39,14 @@ env.addFilter("getBorrowForm", (status: BorrowStatus, bookId: number, bookCount:
   return BorrowCard.getBorrowForm(status, bookId, bookCount);
 });
 
+env.addFilter("isBorrowConfirmable", (status: BorrowStatus) => {
+  return (status === BorrowStatus.REQUESTED || status === BorrowStatus.BORROWED);
+})
+
+env.addFilter("isCanceled", (status: BorrowStatus) => {
+  return (status === BorrowStatus.CANCELED);
+})
+
 app.set("engine", env);
 
 app.set("views", path.join(__dirname, "views"));

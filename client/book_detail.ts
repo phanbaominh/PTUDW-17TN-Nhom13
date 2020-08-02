@@ -133,7 +133,6 @@ function setupBorrowButton(){
     const form = $(this);
     const buttonWrapper = form.parent();
     const bookCountDiv = buttonWrapper.parent().find("#book__book-count");
-    console.log("cool");
     $.post({
       url: form.attr("action"),
       dataType: "json",

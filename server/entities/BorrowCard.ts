@@ -29,6 +29,13 @@ export class BorrowCard extends BaseEntity {
   @Column({name: "created_at"})
   createdAt: Date;
 
+  static getAllWithRelations(): Promise<BorrowCard[]>{
+    return BorrowCard
+      .createQueryBuilder("card")
+      .leftJoinAndSelect("card.user", "user")
+      .leftJoinAndSelect("card.book", "book")
+      .getMany();
+  }
   static getBorrowText(status, bookCount) {
     switch (status) {
       case BorrowStatus.REQUESTED:
@@ -61,5 +68,34 @@ export class BorrowCard extends BaseEntity {
         ${BorrowCard.getBorrowText(status, bookCount)}
       </button>
     </form>`;
+  }
+
+  static async parseBorrowCard(raw: any, oldCard: BorrowCard | null): Promise<BorrowCard> {
+    const card = oldCard || new BorrowCard();
+    if (!oldCard){
+      card.user = await User.findOneOrFail(raw.username);
+      card.book = await Book.findOneOrFail(raw.bookdId);
+      card.createdAt = new Date();
+    }
+    const oldStatus = card.status;
+    card.status = raw.status;
+    card.changeBookCount(oldStatus);
+    return card;
+  }
+
+  static isTakeBook(status: BorrowStatus){
+    if (status === BorrowStatus.REQUESTED || status === BorrowStatus.BORROWED){
+      return true;
+    }
+    return false;
+  }
+
+  changeBookCount(oldStatus: BorrowStatus | null = BorrowStatus.CANCELED){
+    if (!oldStatus) oldStatus = BorrowStatus.CANCELED;
+    if (BorrowCard.isTakeBook(oldStatus) && !BorrowCard.isTakeBook(this.status)){
+      this.book.bookCount += 1;
+    } else if (!BorrowCard.isTakeBook(oldStatus) && BorrowCard.isTakeBook(this.status)){
+      this.book.bookCount -= 1;
+    }
   }
 };

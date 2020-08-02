@@ -6,6 +6,19 @@ import { User } from "../entities/User";
 import { BorrowCard, BorrowStatus } from "../entities/BorrowCard";
 var router = express.Router();
 
+function renderSuccessResponse(book: Book, status: BorrowStatus, flashMsg: string, user: User){
+  return nunjucks.render("partials/book.borrow.button.html", {
+    book,
+    status,
+    isResponse: true,
+    flash: {
+      type: "success",
+      content: flashMsg,
+    },
+    user,
+  });
+}
+
 router.post("/:bookId/borrows", requireAuth, async function (req, res) {
   try {
     const currentUser = (req.user as User);
@@ -28,15 +41,7 @@ router.post("/:bookId/borrows", requireAuth, async function (req, res) {
       card.createdAt = new Date();
       await card.save();
       await Book.save(book);
-      const template = nunjucks.render("partials/book.borrow.button.html", {
-        book,
-        status: card.status,
-        isResponse: true,
-        flash: {
-          type: "success",
-          content: flashMsg,
-        }
-      })
+      const template = renderSuccessResponse(book, card.status, flashMsg, currentUser);
       res.json({ template, bookCount: book.bookCount });
     } else {
       res.status(400).json({ template: "" });
@@ -57,7 +62,6 @@ router.delete("/:bookId/borrows", requireAuth, async function (req, res) {
     const currentUser = (req.user as User);
     const book = await Book.findOneOrFail(Number(req.params.bookId));
     let card = await currentUser.getBorrowCard(book.id);
-    console.log('card:', card);
     if (!card) {
       res.status(400).json({ template: "" });
     } else {
@@ -73,15 +77,7 @@ router.delete("/:bookId/borrows", requireAuth, async function (req, res) {
         card.status = BorrowStatus.CANCELED;
         await BorrowCard.save(card);
         await Book.save(book);
-        const template = nunjucks.render("partials/book.borrow.button.html", {
-          book,
-          status: card.status,
-          isResponse: true,
-          flash: {
-            type: "success",
-            content: flashMsg,
-          }
-        })
+        const template = renderSuccessResponse(book, card.status, flashMsg, currentUser);
         res.json({ template, bookCount: book.bookCount });
       } else {
         res.status(400).json({ template: "" });

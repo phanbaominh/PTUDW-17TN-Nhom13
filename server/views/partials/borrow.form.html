@@ -1,0 +1,32 @@
+{% from "partials/admin.form.html" import dashedDivider, textInput %}
+{% macro selectInput(options, name, label, key, default="", disabled=true) %}
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">{{label}}</label>
+    <div class="col-sm-10">
+      <select class="form-control m-b" name="{{name}}" {{'disabled' if disabled else ''}}>
+        {% for option in options %}
+          <option value="{{option[key]}}" {{"selected" if option[key] === default else ""}}> 
+            {{option[key]}}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  {{ dashedDivider() }}
+{% endmacro %}
+<div class="form-group row" id="staff-id-div">
+  <label class="col-sm-2 col-form-label">Tên sách</label>
+  <div class="col-sm-10">
+    {{card.book.title}}
+  </div>
+</div>
+{{ dashedDivider() }}
+{{ selectInput(bookIds, "bookId", "Id Sách", "id", card.book.id) }}
+{{ selectInput(usernames, "username", "Username", "username", card.user.username) }}
+{{ selectInput(statuses, "status", "Loại thẻ", "name", card.status, false) }}
+<div class="form-group row">
+  <div class="col-sm-4 col-sm-offset-2">
+    <button class="btn btn-white btn-sm" id="cancel-btn">Cancel</button>
+    <button id="submit-btn" class="btn btn-primary btn-sm" type="submit">Create</button>
+  </div>
+</div>
