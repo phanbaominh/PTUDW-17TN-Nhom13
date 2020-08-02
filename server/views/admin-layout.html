@@ -50,53 +50,53 @@
             </div>
           </li>          
           {% if admin.username == 'admin' %}
-          <li class="{{ ['/create-librarian'] | activeRoute }}">
+          <li class="{{ ['/create-librarian'] | activeRoute(url) }}">
             <a href="/admin/create-librarian">
               <i class="fa fa-user-plus"></i>
               <span class="nav-label">Tạo tài khoản thủ thư</span>
             </a>
           </li>
           {% endif %}
-          <li class="{{ ['/update-password'] | activeRoute }}">
+          <li class="{{ ['/update-password'] | activeRoute(url) }}">
             <a href="/admin/update-password">
               <i class="fa fa-key"></i>
               <span class="nav-label">Đổi mật khẩu</span>
             </a>
           </li>
-          <li class="{{ ['/borrow', '/return'] | activeRoute }}">
+          <li class="{{ ['/borrow', '/return'] | activeRoute(url) }}">
             <a href="#">
               <i class="fa fa-th-large"></i>
               <span class="nav-label">Quản lý mượn trả sách</span>
               <span class="fa arrow"></span>
             </a>
             <ul class="nav nav-second-level collapse">
-              <li class="{{ ['/borrow'] | activeRoute }}">
+              <li class="{{ ['/borrow'] | activeRoute(url) }}">
                 <a href="/admin/borrow">Nhận sách</a>
               </li>
-              <li class="{{ ['/return'] | activeRoute }}">
+              <li class="{{ ['/return'] | activeRoute(url) }}">
                 <a href="/admin/return">Trả sách</a>
               </li>
             </ul>
           </li>
-          <li class="{{ ['/book', '/book/new', '/book/import'] | activeRoute }}">
+          <li class="{{ ['/book', '/book/new', '/book/import'] | activeRoute(url) }}">
             <a href="#">
               <i class="fa fa-bar-chart-o"></i>
               <span class="nav-label">Quản lý sách</span>
               <span class="fa arrow"></span>
             </a>
             <ul class="nav nav-second-level collapse">
-              <li class="{{ ['/book'] | activeRoute }}">
+              <li class="{{ ['/book'] | activeRoute(url) }}">
                 <a href="/admin/book">Xem danh sách</a>
               </li>
-              <li class="{{ ['/book/new'] | activeRoute }}">
+              <li class="{{ ['/book/new'] | activeRoute(url) }}">
                 <a href="/admin/book/new">Thêm sách</a>
               </li>
-              <li class="{{ ['/book/import'] | activeRoute }}">
+              <li class="{{ ['/book/import'] | activeRoute(url) }}">
                 <a href="/admin/book/import">Import sách</a>
               </li>
             </ul>
           </li>
-          <li class="{{ ['/reader'] | activeRoute }}">
+          <li class="{{ ['/reader'] | activeRoute(url) }}">
             <a href="/admin/reader">
               <i class="fa fa-users"></i>
               <span class="nav-label">Import sinh viên</span>

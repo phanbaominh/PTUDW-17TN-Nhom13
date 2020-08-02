@@ -2,6 +2,7 @@ import express from "express";
 import { Book } from "../entities/Book";
 import { Category } from "../entities/Category";
 import EntityHelpers from "../entities/helpers";
+import renderTemplate from "../utils/renderTemplate";
 
 let router = express.Router();
 
@@ -9,7 +10,7 @@ router.get("/", async function (req, res, next) {
   try {
     const books: Book[] = await Book.getMany(10);
     const categories: Category[] = await EntityHelpers.getAll(Category);
-    res.render("index", {
+    renderTemplate(req, res, "index", {
       title: "Homepage",
       books,
       categories
@@ -20,7 +21,7 @@ router.get("/", async function (req, res, next) {
 });
 
 router.get("/guide", function (req, res) {
-  res.render("guide.html", {
+  renderTemplate(req, res, "guide.html", {
     title: "Hướng dẫn sử dụng"
   });
 });

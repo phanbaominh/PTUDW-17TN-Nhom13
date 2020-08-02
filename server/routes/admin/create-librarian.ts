@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { User } from "../../entities/User";
+import renderTemplate from "../../utils/renderTemplate";
 
 let router = Router();
 
@@ -11,15 +12,21 @@ interface RequestBodyType {
   email: string;
 }
 
-router.get("/create-librarian", function (_, res) {
-  res.render("admin-create-librarian.html");
+router.get("/create-librarian", function (req, res) {
+  renderTemplate(req, res, "admin-create-librarian.html");
 });
 
 router.post("/create-librarian", function (req, res) {
   function next(err: Error) {
-    res.status(400).render("admin-create-librarian.html", {
-      errorMessage: err.message
-    });
+    renderTemplate(
+      req,
+      res,
+      "admin-create-librarian.html",
+      {
+        errorMessage: err.message
+      },
+      400
+    );
   }
 
   let { username, password, password2, fullname, email }: RequestBodyType = req.body;
@@ -53,7 +60,7 @@ router.post("/create-librarian", function (req, res) {
   user
     .save()
     .then(function () {
-      res.render("admin-create-librarian.html", {
+      renderTemplate(req, res, "admin-create-librarian.html", {
         successMessage: "Tạo tài khoản thành công"
       });
     })

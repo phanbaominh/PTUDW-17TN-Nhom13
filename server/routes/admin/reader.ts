@@ -3,16 +3,17 @@ import formidable from "formidable";
 import fs from "fs";
 import csv from "csv-parser";
 import { User } from "../../entities/User";
+import renderTemplate from "../../utils/renderTemplate";
 
 let router = Router();
 
-router.get("/", function (_, res) {
-  res.render("admin-reader.html");
+router.get("/", function (req, res) {
+  renderTemplate(req, res, "admin-reader.html");
 });
 
 router.post("/", function (req, res) {
   function next(err) {
-    res.render("admin-reader.html", {
+    renderTemplate(req, res, "admin-reader.html", {
       errorMessage: err
     });
   }
@@ -39,7 +40,7 @@ router.post("/", function (req, res) {
       .on("end", async function () {
         try {
           await Promise.allSettled(rawUserList.map((user) => User.parseUser(user).save()));
-          res.render("admin-reader.html", {
+          renderTemplate(req, res, "admin-reader.html", {
             successMessage: "Đã import thành công"
           });
         } catch (err) {

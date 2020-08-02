@@ -24,6 +24,7 @@ import "./configs";
 import db from "./configs/database";
 import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
+import renderTemplate from "./utils/renderTemplate";
 
 let app = express();
 
@@ -90,7 +91,7 @@ app.use(
 
     // render the error page
     res.status(err.status || 500);
-    res.render("error");
+    // renderTemplate(req, res, "error");
   });
 
   let port = process.env.PORT || 3000;
