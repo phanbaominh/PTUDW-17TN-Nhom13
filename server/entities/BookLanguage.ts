@@ -1,15 +1,14 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
 import { Book } from "./Book";
 
-@Entity({name: "book_languages"})
+@Entity({ name: "book_languages" })
 export class BookLanguage extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  name: string;
 
-    @Column()
-    name: string;
-
-    @OneToMany(type => Book, book => book.language)
-    books: Book[]
+  @OneToMany((type) => Book, (book) => book.language)
+  books: Book[];
 }
