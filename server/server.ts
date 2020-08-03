@@ -23,11 +23,10 @@ import borrowsRouter from "./routes/borrows";
 
 import "./configs";
 import db from "./configs/database";
+import setupBorrowFilter from "./configs/borrowFilter";
 import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
-import setupBorrowFilter from "./configs/borrowFilter";
 import { BorrowCard } from "./entities/BorrowCard";
-
 
 let app = express();
 
@@ -83,7 +82,7 @@ app.use(
   app.use("/settings", settingsRouter);
   app.use("/search", searchRouter);
   app.use("/admin", adminRouter);
-  
+
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
     next(createError(404));
