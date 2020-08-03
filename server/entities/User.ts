@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany } from "typeorm";
+import { Entity, PrimaryColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, Brackets } from "typeorm";
 import bcrypt from "bcrypt";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { Comment } from "./Comment";
@@ -51,7 +51,7 @@ export class User extends BaseEntity {
     this.password = this.password.trim();
   }
 
-  async getBorrowCard(bookId: number): Promise<BorrowCard>{
+  async getBorrowCardForBook(bookId: number): Promise<BorrowCard>{
     return await BorrowCard
       .createQueryBuilder("card")
       .leftJoin("card.book", "book")
@@ -63,9 +63,32 @@ export class User extends BaseEntity {
       .getOne();
   }
   async getBookStatus(bookId: number): Promise<BorrowStatus>{
-    const card = await this.getBorrowCard(bookId);
+    const card = await this.getBorrowCardForBook(bookId);
     const status = card ? card.status : BorrowStatus.CANCELED;
     return status;
+  }
+
+  async getBorrowCards(): Promise<BorrowCard[]>{
+    return await BorrowCard
+      .createQueryBuilder("card")
+      .leftJoinAndSelect("card.book", "book")
+      .leftJoinAndSelect("book.borrowCards", "cards")
+      .where(":username = card.username", { username: this.username} )
+      .andWhere(":status <> card.status", { status: BorrowStatus.CANCELED })
+      .getMany();
+  }
+
+  async getRAndBCount(): Promise<number> {
+    return BorrowCard
+    .createQueryBuilder("card")
+    .leftJoinAndSelect("card.book", "book")
+    .where(":username = card.username", { username: this.username} )
+    .andWhere(new Brackets(qb => {
+      qb.where(":status = card.status", { status: BorrowStatus.REQUESTED })
+        .orWhere(":status2 = card.status", { status2: BorrowStatus.BORROWED })
+      })
+    )
+    .getCount();
   }
 
   @BeforeUpdate()

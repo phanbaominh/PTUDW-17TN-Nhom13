@@ -35,7 +35,14 @@ async function renderBorrowForm(req: Request, res: Response, options = {}, actio
 
 router.get("/edit/:id", async function (req, res) {
   try {
-    const card = await BorrowCard.findOneOrFail(Number(req.params.id), { relations: ["user", "book"] });
+    const card = await BorrowCard
+      .createQueryBuilder("card")
+      .leftJoinAndSelect("card.user", "user")
+      .leftJoinAndSelect("card.book", "book")
+      .leftJoinAndSelect("book.category", "cat")
+      .where(":id = card.id", { id: Number(req.params.id) })
+      .getOne();
+    if (!card) throw `Không tồn tại sách với ${req.params.id}`;
     renderBorrowForm(req, res, { card }, "edit");
   } catch (err) {
     redirectWithOption(req, res, "admin-borrow.html", {
@@ -46,11 +53,10 @@ router.get("/edit/:id", async function (req, res) {
 
 router.put("/:id", async function (req, res) {
   try {
-    const card = await BorrowCard.findOneOrFail(Number(req.params.id), { relations: ["user", "book"] });
+    const card =  await BorrowCard.findOneWithRelations(Number(req.params.id));
     const next = (err) => {
       redirectWithOption(req, res, `/admin/borrow/edit/${card.id}`, {
-        card,
-        errorMessage: err
+        errorMessage: err.message,
       });
     };
     let form = new formidable.IncomingForm();
@@ -62,7 +68,6 @@ router.put("/:id", async function (req, res) {
       try {
         const newCard = await BorrowCard.parseBorrowCard(fields, card);
         await BorrowCard.save(newCard);
-        await Book.save(newCard.book);
           redirectWithOption(req, res, "/admin/borrow", {
             successMessage: "Cập nhật thẻ mượn thành công"
           });
@@ -73,26 +78,24 @@ router.put("/:id", async function (req, res) {
     form.once("error", next);
   } catch (err) {
     redirectWithOption(req, res, "/admin/borrow", {
-      errorMessage: err
+      errorMessage: err.message,
     });
   }
 });
 
 router.put("/quick/:id", async function (req, res){
   try {
-    const card = await BorrowCard.findOneOrFail(Number(req.params.id), { relations: ["book"] });
-    if (card.status === BorrowStatus.REQUESTED || card.status === BorrowStatus.BORROWED){
+    const card =  await BorrowCard.findOneOrFail(Number(req.params.id), { relations: ["book"] });;
+    if (BorrowCard.isTakeBook(card.status)){
       let msg;
       if (card.status === BorrowStatus.REQUESTED) {
         card.status = BorrowStatus.BORROWED;
         msg = "Xác nhận mượn sách thành công";
       } else {
-        card.book.bookCount += 1;
         card.status = BorrowStatus.RETURNED;
         msg = "Xác nhận trả sách thành công";
       }
       await BorrowCard.save(card);
-      await Book.save(card.book);
       redirectWithOption(req, res, "/admin/borrow", {
         successMessage: msg,
       })
@@ -103,7 +106,7 @@ router.put("/quick/:id", async function (req, res){
     }
   } catch (err) {
     redirectWithOption(req, res, "/admin/borrow", {
-      errorMessage: err,
+      errorMessage: err.message,
     })
   }
   
@@ -112,17 +115,13 @@ router.put("/quick/:id", async function (req, res){
 router.delete("/:id", async function (req, res){
   try {
     const card = await BorrowCard.findOneOrFail(Number(req.params.id), { relations: ["book"] });
-    const oldStatus = card.status;
-    card.status = BorrowStatus.CANCELED;
-    card.changeBookCount(oldStatus);
     await BorrowCard.save(card);
-    await Book.save(card.book);
     redirectWithOption(req, res, "/admin/borrow", {
       successMessage: "Hủy thẻ mượn sách thành công",
     })
   } catch (err) {
     redirectWithOption(req, res, "/admin/borrow", {
-      errorMessage: err,
+      errorMessage: err.message,
     })
   }
 });

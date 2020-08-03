@@ -2,15 +2,19 @@
 
 {% macro borrowCardRow(card) %}
   <tr>
-    <td>{{card.status}}</td>
-    <td>{{card.book.title}}</td>
-    <td>{{card.book.bookCount}}</td>
+    <td>{{card.id}}</td>
     <td>{{card.user.username}}</td>
-    <td>{{card.createdAt}}</td>
+    <td>{{card.book.title}}</td>
+    <td>{{card.book.position}}</td>
+    <td>{{card | getStatusLabel() | safe}}</td>
+    
     <td>
       {% if (card.status | isBorrowConfirmable) %}
+      {% set confirmText = (card.status | getBorrowConfirmText) %}
       <form class="borrow-form" action="borrow/quick/{{card.id}}?_method=PUT" method="post">
-        <button type="submit" class="action-btn text-navy">
+        <button type="submit" class="action-btn text-navy" 
+                title="Xác nhận đã {{confirmText}}"
+                onclick="return confirm('Bạn có chắc là muốn xác nhận đã {{confirmText}} không?')">
           <i class="fa fa-check-circle-o" aria-hidden="true" style="font-size: 20px;margin-left: 5px"></i>
         </button>
       </form>
@@ -20,7 +24,8 @@
 
       {% if (card.status | isCanceled) === false %}
       <form class="borrow-form" action="borrow/{{card.id}}?_method=DELETE" method="post">
-        <button type="submit" class="action-btn text-danger" style="margin-left: 15px" onclick="return confirm('Bạn có chắc không?')">
+        <button type="submit" class="action-btn text-danger" style="margin-left: 15px" 
+                onclick="return confirm('Bạn có chắc không?')" title="Hủy thẻ mượn">
           <i class="fa fa-trash-o" aria-hidden="true" style="font-size: 20px"></i>
         </button>
       </form>
@@ -29,7 +34,7 @@
       {% endif %}
 
       <a href="borrow/edit/{{card.id}}">
-        <button type="button" class="action-btn text-navy" style="margin-left: 15px">
+        <button type="button" class="action-btn text-navy" style="margin-left: 15px" title="Chỉnh sửa thẻ mượn">
           <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i>
         </button>
       </a>
@@ -39,12 +44,12 @@
 
 {% macro borrowCardHeader() %}
   <tr>
-    <th>Tình trạng</th>
+    <th>Mã thẻ</th>
+    <th>MSSV người mượn</th>
     <th>Tựa sách</th>
-    <th>Số sách</th>
-    <th>Username</th>
-    <th>Ngày tạo</th>
-    <th></th>
+    <th>Vị trí sách</th>
+    <th>Tình trạng</th>
+    <th>Hành động</th>
   </tr>
 {% endmacro %}
 

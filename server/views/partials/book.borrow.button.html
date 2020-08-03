@@ -7,7 +7,7 @@
 {% endmacro %}
 
 {% if user %}
-  {{ status | getBorrowForm(book.id, book.bookCount) | safe }}
+  {{ status | getBorrowForm(book.id, book.currentBookCount) | safe }}
 {% else %}
   {{ button("Mượn", "/login") }}
 {% endif %}

@@ -25,8 +25,9 @@ import "./configs";
 import db from "./configs/database";
 import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
-import renderTemplate from "./utils/renderTemplate";
-import { BorrowStatus, BorrowCard } from "./entities/BorrowCard";
+import setupBorrowFilter from "./configs/borrowFilter";
+import { BorrowCard } from "./entities/BorrowCard";
+
 
 let app = express();
 
@@ -35,17 +36,7 @@ let env = nunjucks.configure(path.join(__dirname, "views"), {
   express: app
 });
 
-env.addFilter("getBorrowForm", (status: BorrowStatus, bookId: number, bookCount: number) => {
-  return BorrowCard.getBorrowForm(status, bookId, bookCount);
-});
-
-env.addFilter("isBorrowConfirmable", (status: BorrowStatus) => {
-  return (status === BorrowStatus.REQUESTED || status === BorrowStatus.BORROWED);
-})
-
-env.addFilter("isCanceled", (status: BorrowStatus) => {
-  return (status === BorrowStatus.CANCELED);
-})
+setupBorrowFilter(env);
 
 app.set("engine", env);
 
@@ -74,7 +65,7 @@ app.use(
     console.log(e);
     return;
   }
-
+  await BorrowCard.deleteNotTakenCards();
   // await testDB();
   initPassport();
 

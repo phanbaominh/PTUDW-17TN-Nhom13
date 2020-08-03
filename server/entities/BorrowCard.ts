@@ -1,6 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, JoinColumn} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, JoinColumn } from "typeorm";
 import { Book } from "./Book";
 import { User } from "./User";
+import moment from "moment";
 
 export enum BorrowStatus {
   CANCELED = "canceled",
@@ -10,32 +11,62 @@ export enum BorrowStatus {
   FOLLOWED = "followed",
 }
 
-@Entity({name: "borrow_cards"})
+export enum TrangThai {
+  canceled = "Đã hủy",
+  requested = "Yêu cầu mượn",
+  borrowed = "Đang mượn",
+  returned = "Đã trả sách",
+  followed = "Theo dõi",
+  overdue = "Quá hạn",
+}
+@Entity({ name: "borrow_cards" })
 export class BorrowCard extends BaseEntity {
+  static OVERDUE_DURATION = 14;
+  static MAX_BORROWED = 2;
+  static MAX_WAIT = 7;
+
   @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(type => Book, book => book.borrowCards)
-  @JoinColumn({name: "book_id"})
+  @JoinColumn({ name: "book_id" })
   book: Book;
 
   @ManyToOne(type => User, user => user.borrowCards)
-  @JoinColumn({name: "username"})
+  @JoinColumn({ name: "username" })
   user: User;
 
   @Column()
   status: BorrowStatus;
 
-  @Column({name: "created_at"})
+  @Column({ name: "created_at" })
   createdAt: Date;
 
-  static getAllWithRelations(): Promise<BorrowCard[]>{
+  @Column({ name: "borrowed_at" })
+  borrowedAt: Date;
+
+  static getAllWithRelations(): Promise<BorrowCard[]> {
     return BorrowCard
       .createQueryBuilder("card")
       .leftJoinAndSelect("card.user", "user")
       .leftJoinAndSelect("card.book", "book")
+      .leftJoinAndSelect("book.category","cat")
+      .where("card.status <> :status", { status: BorrowStatus.FOLLOWED })
       .getMany();
   }
+
+  static async findOneWithRelations(id: number): Promise<BorrowCard>{
+    const card = BorrowCard
+      .createQueryBuilder("card")
+      .leftJoinAndSelect("card.user", "user")
+      .leftJoinAndSelect("card.book", "book")
+      .leftJoinAndSelect("book.borrowCards", "cards")
+      .where("card.id = :id", { id })
+      .getOne();
+    if (!card) throw `Không tìm thấy card với id ${id}`;
+    return card;
+  }
+
   static getBorrowText(status, bookCount) {
     switch (status) {
       case BorrowStatus.REQUESTED:
@@ -59,12 +90,12 @@ export class BorrowCard extends BaseEntity {
     }
   }
 
-  static getBorrowForm(status: BorrowStatus, bookId: number, bookCount: number): string{
+  static getBorrowForm(status: BorrowStatus, bookId: number, bookCount: number, style = ""): string {
     let isDisabled = "";
     if (status === BorrowStatus.BORROWED) isDisabled ="disabled";
     return `
-    <form class="delete-form" action="${BorrowCard.getBorrowRef(status, bookId)}" method="post" class="inline-block">
-      <button type="submit" ${isDisabled} class="text-white bg-indigo-500 border-0 py-1 px-4 xs:py-2 xs:px-6 focus:outline-none hover:bg-indigo-600 rounded">
+    <form class="delete-form inline-block w-full" action="${BorrowCard.getBorrowRef(status, bookId)}" method="post">
+      <button type="submit" ${isDisabled} class="${style} text-white bg-indigo-500 border-0 py-1 px-4 xs:py-2 xs:px-6 focus:outline-none hover:bg-indigo-600 rounded">
         ${BorrowCard.getBorrowText(status, bookCount)}
       </button>
     </form>`;
@@ -74,7 +105,6 @@ export class BorrowCard extends BaseEntity {
     const card = oldCard || new BorrowCard();
     if (!oldCard){
       card.user = await User.findOneOrFail(raw.username);
-      card.book = await Book.findOneOrFail(raw.bookdId);
       card.createdAt = new Date();
     }
     const oldStatus = card.status;
@@ -83,19 +113,55 @@ export class BorrowCard extends BaseEntity {
     return card;
   }
 
-  static isTakeBook(status: BorrowStatus){
+  static isTakeBook(status: BorrowStatus) {
     if (status === BorrowStatus.REQUESTED || status === BorrowStatus.BORROWED){
       return true;
     }
     return false;
   }
 
-  changeBookCount(oldStatus: BorrowStatus | null = BorrowStatus.CANCELED){
+  static isFirstStatus(status: BorrowStatus) {
+    return (status === BorrowStatus.REQUESTED || status === BorrowStatus.FOLLOWED);
+  }
+  static getLabel(status: BorrowStatus){
+    switch (status) {
+      case BorrowStatus.FOLLOWED:
+        return "label-info";
+      case BorrowStatus.REQUESTED:
+        return "label-warning";
+      case BorrowStatus.BORROWED:
+        return "label-success";
+      case BorrowStatus.RETURNED:
+        return "label-primary";
+      default:
+        return "label-default";
+    };
+  }
+
+  static isOverdue(createdAt: Date) {
+    return moment.duration(moment().diff(moment(createdAt))).asDays() >= this.OVERDUE_DURATION;
+  }
+
+  static async deleteNotTakenCards(): Promise<void> {
+    const dateBefore = new Date();
+    dateBefore.setDate(dateBefore.getDate() - this.MAX_WAIT);
+    await BorrowCard
+      .createQueryBuilder()
+      .update(BorrowCard)
+      .set({ status: BorrowStatus.CANCELED })
+      .where("status = :status", { status: BorrowStatus.REQUESTED })
+      .andWhere("created_at <= :date", { date: dateBefore })
+      .execute();
+  }
+
+  changeBookCount(oldStatus: BorrowStatus | null = BorrowStatus.CANCELED) {
     if (!oldStatus) oldStatus = BorrowStatus.CANCELED;
     if (BorrowCard.isTakeBook(oldStatus) && !BorrowCard.isTakeBook(this.status)){
-      this.book.bookCount += 1;
+      this.book.currentBookCount += 1;
     } else if (!BorrowCard.isTakeBook(oldStatus) && BorrowCard.isTakeBook(this.status)){
-      this.book.bookCount -= 1;
+      this.book.currentBookCount -= 1;
+      this.borrowedAt = new Date();
     }
+    if (this.book.currentBookCount < 0) throw new Error("Số sách còn lại không đủ");
   }
 };

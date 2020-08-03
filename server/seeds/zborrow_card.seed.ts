@@ -3,15 +3,20 @@ import { Connection } from "typeorm";
 import { BorrowCard } from "../entities/BorrowCard";
 import { User } from "../entities/User";
 import { Book } from "../entities/Book";
-import EntityHelpers from "../entities/helpers";
-const getRand = EntityHelpers.getRand;
+
 class CreateBorrowCards implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any>{
+    const users = await User.find();
+    const books = await Book.find();
+    let userIndex = 0;
+    let bookIndex = 0;
     await factory(BorrowCard)()
       .map(async (card: BorrowCard) => {
-        card.user = (await getRand<User>(User))[0];
-        card.book = (await getRand<Book>(Book))[0];
-        return card
+        card.user = users[userIndex];
+        card.book = books[bookIndex];
+        userIndex = (userIndex + 1) % users.length;
+        bookIndex = (bookIndex + 1) % books.length;
+        return card;
       })
       .createMany(30);
   }

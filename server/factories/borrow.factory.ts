@@ -7,5 +7,8 @@ define(BorrowCard, (faker: typeof Faker) => {
   const statuses = Object.values(BorrowStatus);
   const randomStatus = statuses[faker.random.number({max: statuses.length - 1})];
   card.status = randomStatus;
+  if (card.status === BorrowStatus.BORROWED || card.status === BorrowStatus.RETURNED){
+    card.borrowedAt = faker.date.between('2020-07-01', new Date());
+  }
   return card;
 });

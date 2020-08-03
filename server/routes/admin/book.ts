@@ -115,7 +115,7 @@ router.get("/new", async function (req, res) {
 router.post("/", function (req, res) {
   function next(err) {
     redirectWithOption(req, res, `/admin/book/new`, {
-      errorMessage: err
+      errorMessage: err.message
     });
   }
   let form = new formidable.IncomingForm();
@@ -145,7 +145,7 @@ router.get("/edit/:id", async function (req, res) {
     renderBookForm(req, res, { book }, "edit");
   } catch (err) {
     redirectWithOption(req, res, "admin-book.html", {
-      errorMessage: err
+      errorMessage: err.message
     });
   }
 });
@@ -155,7 +155,6 @@ router.put("/:id", async function (req, res) {
     const book = await Book.findOneWithRelations(Number(req.params.id));
     const next = (err) => {
       redirectWithOption(req, res, `/admin/book/edit/${book.id}`, {
-        book,
         errorMessage: err
       });
     };
@@ -184,7 +183,7 @@ router.put("/:id", async function (req, res) {
     form.once("error", next);
   } catch (err) {
     redirectWithOption(req, res, "/admin/book", {
-      errorMessage: err
+      errorMessage: err.message
     });
   }
 });
@@ -198,7 +197,7 @@ router.delete("/:id", async function (req, res) {
     });
   } catch (err) {
     redirectWithOption(req, res, "/admin/book", {
-      errorMessage: err
+      errorMessage: err.message
     });
   }
 });
@@ -211,7 +210,7 @@ router.get("/import", function (req, res) {
 router.post("/import", function (req, res) {
   function next(err) {
     redirectWithOption(req, res, "/admin/book/import", {
-      errorMessage: err
+      errorMessage: err.message
     });
   }
 

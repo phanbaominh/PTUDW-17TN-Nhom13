@@ -7,14 +7,14 @@
         <img src="{{ comment.user.profilePicture }}" alt="Commenter's profile picture" class="rounded-full h-12 w-12">
         <div class="md:hidden font-bold ml-4">
             {{ comment.user.username }}
-            <span class="text-gray-500 text-xs ml-4">1 ngày trước</span>
+            <span class="text-gray-500 text-xs ml-4">{{ comment.createdAt | getRelativeTime() }}</span>
         </div>
     </div>
     <div class="book__comment__content">
         <div class="text-sm md:self-center">
             <div class="hidden md:block font-bold">
                 {{ comment.user.username }}
-                <span class="text-gray-500 text-xs ml-4">1 ngày trước</span>
+                <span class="text-gray-500 text-xs ml-4">{{ comment.createdAt | getRelativeTime() }}</span>
             </div>
             <p class="text-base md:flex break-words">{{ comment.content }}</p>
             <div class="book__comment__buttons mt-1 text-gray-700 text-xs font-bold">

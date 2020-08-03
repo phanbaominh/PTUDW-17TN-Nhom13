@@ -31,6 +31,11 @@ export class CreateBorrowTable1596247432824 implements MigrationInterface {
                         name: 'created_at',
                         type: 'date',
                     },
+                    {
+                        name: 'borrowed_at',
+                        type: 'date',
+                        isNullable: true,
+                    },
                 ],
             }),
             true,

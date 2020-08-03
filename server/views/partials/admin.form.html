@@ -6,6 +6,16 @@
   {{"required" if isRequired else ""}}
 {% endmacro %}
 
+{% macro infoRow(label, value) %}
+<div class="form-group row" id="staff-id-div">
+  <label class="col-sm-2 col-form-label">{{label}}</label>
+  <div class="col-sm-10">
+    {{value}}
+  </div>
+</div>
+{{ dashedDivider() }}
+{% endmacro %}
+
 {% macro textInput(name, label, defaultValue="", isRequired=true) %}
   <div class="form-group row" id="staff-id-div">
     <label class="col-sm-2 col-form-label">{{label}}</label>
