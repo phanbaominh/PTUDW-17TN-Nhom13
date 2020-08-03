@@ -1,9 +1,11 @@
 .search__filter {
   position: fixed;
   left: 0;
-  height: 500px;
-  bottom: -500px;
+  height: 600px;
+  max-height: calc(100% - 54px - 50px);
+  bottom: -600px;
   transition: bottom linear 0.15s;
+  overflow: auto;
   width: 100%;
   @apply px-6 py-8 bg-white z-40;
   &.active {
@@ -23,4 +25,15 @@
 
 .search__filter.active + .search__filter-underlay {
   @apply block;
+}
+
+.sort-select__desktop {
+  margin-right: calc(-24px - 1rem);
+  padding-right: calc(24px + 1rem);
+  @apply bg-white rounded-lg;
+}
+
+.sort-select__desktop:focus {
+  outline: none;
+  box-shadow: 0 0 2px 2px #667eea;
 }

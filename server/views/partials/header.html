@@ -60,7 +60,7 @@
                     <form action="/search" method="GET" class="hidden md:block">
                         <input type="text" placeholder="Search" aria-label="Search"
                             class="w-full px-4 py-3 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
-                            name="q" value="{{query}}">
+                            name="q" value="{{ params.q if params else '' }}" required>
                     </form>
                 </div>
                 {% if user %}
@@ -140,7 +140,7 @@
                     <form action="/search" method="GET">
                         <input type="text" placeholder="Search" aria-label="Search"
                             class="w-full px-4 py-3 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
-                            name="q" value="{{query}}">
+                            name="q" value="{{ params.q if params else '' }}" required>
                     </form>
                 </div>
             </div>

@@ -1,28 +1,26 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity, OneToMany} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
 import { Book } from "./Book";
 
-@Entity({name: "categories"})
+@Entity({ name: "categories" })
 export class Category extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  name: string;
 
-    @Column()
-    name: string;
+  @Column()
+  desc: string;
 
-    @Column()
-    desc: string;
+  @Column()
+  image: string;
 
-    @Column()
-    image: string;
+  @OneToMany((type) => Book, (book) => book.category)
+  books: Book[];
 
-    @OneToMany(type => Book, book => book.category)
-    books: Book[];
-
-    static getAllWithBooks(): Promise<Category[]>{
-        return Category
-            .createQueryBuilder("category")
-            .leftJoinAndSelect("category.books","book")
-            .getMany();
-    }
+  static getAllWithBooks(): Promise<Category[]> {
+    return Category.createQueryBuilder("category")
+      .leftJoinAndSelect("category.books", "book")
+      .getMany();
+  }
 }

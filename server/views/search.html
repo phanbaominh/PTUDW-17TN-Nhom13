@@ -1,40 +1,64 @@
 {% extends "layout.html" %}
 
+{% macro sort_option_item(value, name) %}
+<option value="{{ value }}" {{ "selected" if params.sort == value else "" }}>{{ name }}</option>
+{% endmacro %}
+
+{% macro sort_options() %}
+{{ sort_option_item("date", "Sách mới nhất") }}
+{{ sort_option_item("borrow-count", "Lượt mượn") }}
+{{ sort_option_item("publish-year", "Năm xuất bản") }}
+{% endmacro %}
+
+{% macro pagination_button(page, label) %}
+<li class="mx-1">
+    <a
+        href="/search?{{ params | addParam('page', page) }}"
+        class="{{ 'active' if params.page == page else '' }}">
+        {{ label }}
+    </a>
+</li>
+{% endmacro %}
+
 {% block body %}
-<div class="w-full pt-2 pb-2 md:mb-4 bg-gray-300 shadow">
-    <div class="container mx-auto px-6">
-        <div class="md:flex items-center justify-between">
-            <div class="text-lg text-gray-900 font-medium">
-                Kết quả từ 1 - 10 cho tìm kiếm: <span class="text-blue-600">"{{query}}"</span>.
-            </div>
-            <div class="hidden md:flex items-center justify-end">
-                <div class="text-lg text-blue-800 font-medium md:flex items-center">
-                    <select
-                        class="text-blue-800 font-medium bg-transparent appearance-none text-right pl-2 pr-2 responsive-width-select cursor-pointer">
-                        <option>Mức độ liên quan</option>
-                        <option>Lượt mượn</option>
-                        <option>Năm xuất bản</option>
-                    </select>
-                    <select class="tmp-select hidden appearance-none">
-                        <option></option>
-                    </select>
-                    <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="8 12 12 16 16 12"></polyline>
-                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                    </svg>
+<div class="search__sort">
+    <div class="w-full pt-2 pb-2 md:mb-4 bg-gray-300 shadow">
+        <div class="container mx-auto px-6">
+            <div class="md:flex items-center justify-between">
+                <div class="text-lg text-gray-900 font-medium">
+                    {% if pagination.minBook <= pagination.maxBook %}
+                    Kết quả từ {{ pagination.minBook }} - {{ pagination.maxBook }} cho tìm kiếm: <span class="text-blue-600">"{{ params.q }}"</span>.
+                    {% else %}
+                    Không có kết quả nào cho tìm kiếm: <span class="text-blue-600">"{{ params.q }}"</span>.
+                    {% endif %}
                 </div>
+                <div class="hidden md:flex items-center justify-end">
+                    <div class="text-lg text-blue-800 font-medium md:flex items-center">
+                        <select
+                            class="sort-select sort-select__desktop text-blue-800 font-medium bg-transparent appearance-none text-right pl-2 responsive-width-select cursor-pointer">
+                            {{ sort_options() }}
+                        </select>
+                        <select class="tmp-select hidden appearance-none">
+                            <option></option>
+                        </select>
+                        <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="8 12 12 16 16 12"></polyline>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                        </svg>
+                    </div>
+                </div>
+                <button type="button" id="search__filter-trigger" class="float-right mt-2 flex md:hidden items-center">
+                    Lọc kết quả
+                    <svg class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M3 6V8H21V6H3ZM10 18H14V16H10V18ZM18 13H6V11H18V13Z" fill="black" fill-opacity="0.54" />
+                    </svg>
+                </button>
             </div>
-            <button type="button" id="search__filter-trigger" class="float-right mt-2 flex md:hidden items-center">
-                Lọc kết quả
-                <svg class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M3 6V8H21V6H3ZM10 18H14V16H10V18ZM18 13H6V11H18V13Z" fill="black" fill-opacity="0.54" />
-                </svg>
-            </button>
         </div>
     </div>
 </div>
@@ -42,199 +66,119 @@
 <div class="body-font">
     <div class="container px-6 py-8 mx-auto">
         <div class="md:flex md:text-left order-first">
-            <div class="search__filter md:min-w-1/4 lg:min-w-1/5 md:pr-4 md:border-r-2">
+            <form class="search__filter md:min-w-1/4 lg:min-w-1/5 md:pr-4 md:border-r-2">
                 <div class="md:hidden mb-10">
                     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-1">SẮP XẾP THEO</h2>
-                    <select class="text-gray-700 bg-transparent text-right pr-2 -ml-1">
-                        <option>Mức độ liên quan</option>
-                        <option>Lượt mượn</option>
-                        <option>Năm xuất bản</option>
+                    <select class="sort-select text-gray-700 bg-transparent text-right pr-2 -ml-1">
+                        {{ sort_options() }}
                     </select>
                 </div>
                 <div class="">
                     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-1">LĨNH VỰC</h2>
                     <nav class="list-none mb-10">
+                        {% for category in categoryList %}
                         <li>
-                            <a class="text-gray-700 hover:text-gray-900">Trí tuệ nhân tạo</a>
+                            <a
+                                href="/search?{{ params | addParam('categoryId', category.id) }}"
+                                class="text-gray-700 hover:text-gray-900 {{ 'font-bold' if params.categoryId == category.id else '' }}">
+                                {{ category.name }}
+                            </a>
                         </li>
-                        <li>
-                            <a class="text-gray-700 hover:text-gray-900">Hệ thống thông tin</a>
-                        </li>
-                        <li>
-                            <a class="text-gray-700 hover:text-gray-900">Khoa học máy tính</a>
-                        </li>
+                        {% endfor %}
                     </nav>
                 </div>
 
                 <div class="">
                     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-1">NGÔN NGỮ</h2>
                     <nav class="list-none mb-10">
+                        {% for language in languageList %}
                         <li>
-                            <a class="text-gray-700 hover:text-gray-900">Tiếng Anh</a>
+                            <a
+                                href="/search?{{ params | addParam('languageId', language.id) }}"
+                                class="text-gray-700 hover:text-gray-900 {{ 'font-bold' if params.languageId == language.id else '' }}">
+                                {{ language.name }}
+                            </a>
                         </li>
-                        <li>
-                            <a class="text-gray-700 hover:text-gray-900">Tiếng Việt</a>
-                        </li>
+                        {% endfor %}
                     </nav>
                 </div>
 
                 <div class="">
                     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-1">LOẠI SÁCH</h2>
                     <nav class="list-none mb-10">
+                        {% for bookType in bookTypeList %}
                         <li>
-                            <a class="text-gray-700 hover:text-gray-900">Sách</a>
+                            <a
+                                href="/search?{{ params | addParam('bookTypeId', bookType.id) }}"                                
+                                class="text-gray-700 hover:text-gray-900 {{ 'font-bold' if params.bookTypeId == bookType.id else '' }}">
+                                {{ bookType.name }}
+                            </a>
                         </li>
-                        <li>
-                            <a class="text-gray-700 hover:text-gray-900">Tạp chí khoa học</a>
-                        </li>
-                        <li>
-                            <a class="text-gray-700 hover:text-gray-900">Bài báo khoa học</a>
-                        </li>
+                        {% endfor %}
                     </nav>
                 </div>
-            </div>
+            </form>
             <div class="search__filter-underlay"></div>
             <div class="flex-grow md:pl-4">
                 <div class="h-full flex flex-col items-center justify-between">
+                    {% for book in bookList %}
                     <div class="xs:flex xs:items-center w-full mb-8 pb-8 border-b-2">
-                        <div class="flex xs:block justify-center xs:min-w-1/4 lg:min-w-1/6">
+                        <a href="/books/{{ book.id }}" class="flex xs:block justify-center xs:min-w-1/4 lg:min-w-1/6">
                             <div class="w-2/3 xs:w-auto">
                                 <div class="relative h-0" style="padding-bottom: 130%;">
-                                    <img class="absolute left-0 top-0 w-full h-full object-cover object-center"
-                                        alt="hero" src="/images/book__cong-nghe-phan-mem.jpg">
+                                    <img 
+                                        class="absolute left-0 top-0 w-full h-full object-cover object-center"
+                                        src="{{ book.coverImage }}"
+                                        alt="hero">
                                 </div>
                             </div>
-                        </div>
+                        </a>
                         <div class="pt-4 xs:pt-0 flex-grow xs:pl-5 md:pl-8">
                             <div class="text-sm text-blue-500 uppercase">
-                                Sách
+                                {{ book.type.name }}
                             </div>
-                            <a href="/books/1"
+                            <a href="/books/{{ book.id }}"
                                 class="text-xl font-bold text-gray-700 my-3 hover:text-gray-600 focus:text-gray-600">
-                                How To Add Advanced Photo Uploads in Node and Express
+                                {{ book.title }}
                             </a>
                             <div class="text-base text-gray-800 leading-tight my-1 clamp-3">
-                                In this tutorial, we will see how to upload a photo to an Express app and manipulate it
-                                (resize, crop,
-                                greyscale, etc) before writing it to storage.
+                                {{ book.desc }}
                             </div>
                             <div class="text-sm text-gray-800 mt-2 lg:mt-4 lg:flex items-center">
                                 <div>
-                                    <span>3 months ago </span> • <span>By Glad Chinda</span>
+                                    <span>Xuất bản năm {{ book.publishingYear }}</span> • <span>{{ book.author }}</span>
                                 </div>
                                 <div class="lg:ml-2 mt-1 lg:mt-0 flex">
-                                    <span class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">Ubuntu 18.04</span>
-                                    <span class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">Flask</span>
+                                    {% for tag in book.tags %}
+                                    <a href="/search?q={{ tag.name }}" class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">{{ tag.name }}</a>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="xs:flex xs:items-center w-full mb-8 pb-8 border-b-2">
-                        <div class="flex xs:block justify-center xs:min-w-1/4 lg:min-w-1/6">
-                            <div class="w-2/3 xs:w-auto">
-                                <div class="relative h-0" style="padding-bottom: 130%;">
-                                    <img class="absolute left-0 top-0 w-full h-full object-cover object-center"
-                                        alt="hero" src="/images/book__cong-nghe-tri-thuc.jpg">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pt-4 xs:pt-0 flex-grow xs:pl-5 md:pl-8">
-                            <div class="text-sm text-blue-500 uppercase">
-                                Sách
-                            </div>
-                            <a href="/books/1"
-                                class="text-xl font-bold text-gray-700 my-3 hover:text-gray-600 focus:text-gray-600">
-                                How To Add Advanced Photo Uploads in Node and Express
-                            </a>
-                            <div class="text-base text-gray-800 leading-tight my-1 clamp-3">
-                                In this tutorial, we will see how to upload a photo to an Express app and manipulate it
-                                (resize, crop,
-                                greyscale, etc) before writing it to storage.
-                            </div>
-                            <div class="text-sm text-gray-800 mt-2 lg:mt-4 lg:flex items-center">
-                                <div>
-                                    <span>3 months ago </span> • <span>By Glad Chinda</span>
-                                </div>
-                                <div class="lg:ml-2 mt-1 lg:mt-0 flex">
-                                    <span class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">Ubuntu 18.04</span>
-                                    <span class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">Flask</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full mb-8 pb-8 border-b-2">
-                        <div class="text-sm text-blue-500 uppercase">
-                            TẠP CHÍ KHOA HỌC
-                        </div>
-                        <a href="/books/3"
-                            class="text-xl font-bold text-gray-700 my-3 hover:text-gray-600 focus:text-gray-600">
-                            How To Add Advanced Photo Uploads in Node and Express
-                        </a>
-                        <div class="text-base text-gray-800 leading-tight my-1">
-                            In this tutorial, we will see how to upload a photo to an Express app and manipulate it
-                            (resize, crop,
-                            greyscale, etc) before writing it to storage.
-                        </div>
-                        <div class="text-sm text-gray-800 mt-2 lg:mt-4 lg:flex items-center">
-                            <div>
-                                <span>3 months ago </span> • <span>By Glad Chinda</span>
-                            </div>
-                            <div class="lg:ml-2 mt-1 lg:mt-0 flex">
-                                <span class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">Ubuntu 18.04</span>
-                                <span class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">Flask</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full mb-8 pb-8 border-b-2">
-                        <div class="text-sm text-blue-500 uppercase">
-                            Thông báo
-                        </div>
-                        <a href="/books/4"
-                            class="text-xl font-bold text-gray-700 my-3 hover:text-gray-600 focus:text-gray-600">
-                            How To Add Advanced Photo Uploads in Node and Express
-                        </a>
-                        <div class="text-base text-gray-800 leading-tight my-1">
-                            In this tutorial, we will see how to upload a photo to an Express app and manipulate it
-                            (resize, crop,
-                            greyscale, etc) before writing it to storage.
-                        </div>
-                        <div class="text-sm text-gray-800 mt-2 lg:mt-4 lg:flex items-center">
-                            <div>
-                                <span>3 months ago </span> • <span>By Glad Chinda</span>
-                            </div>
-                            <div class="lg:ml-2 mt-1 lg:mt-0 flex">
-                                <span class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">Ubuntu 18.04</span>
-                                <span class="py-1 px-2 mr-4 bg-gray-300 text-blue-800 rounded">Flask</span>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+                    {% if bookList.length == 0 %}
+                    <p class="text-2xl">Không có kết quả nào phù hợp</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+{% if pagination.total > 1 %}
 <nav class="pagination">
     <ul class="flex justify-center mb-16">
-        <li class="mx-1">
-            <a href="#" class="disabled">
-                previous
-            </a>
-        </li>
-        <li class="mx-1">
-            <a href="#" class="active">1</a>
-        </li>
-        <li class="mx-1">
-            <a href="#" class="">2</a>
-        </li>
-        <li class="mx-1">
-            <a href="#" class="">3</a>
-        </li>
-        <li class="mx-1">
-            <a href="#" class="">
-                next
-            </a>
-        </li>
+        {% if params.page > 1 %}
+        {{ pagination_button(params.page - 1, "previous") }}
+        {% endif %}
+        {% for i in range(pagination.min, pagination.max + 1) %}
+        {{ pagination_button(i, i) }}
+        {% endfor %}
+        {% if params.page < pagination.total %}
+        {{ pagination_button(params.page + 1, "next") }}
+        {% endif %}
     </ul>
 </nav>
+{% endif %}
 {% endblock %}
