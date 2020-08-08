@@ -35,6 +35,7 @@ $(document).ready(() => {
     const column = this;
     input.on( 'keyup change clear', function () {
       if ( column.search() !== this.value ) {
+          console.log(this.value);
           column
               .search( this.value )
               .draw();

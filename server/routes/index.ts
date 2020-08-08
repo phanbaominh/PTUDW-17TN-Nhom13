@@ -3,20 +3,17 @@ import { Book } from "../entities/Book";
 import { Category } from "../entities/Category";
 import EntityHelpers from "../entities/helpers";
 import renderTemplate from "../utils/renderTemplate";
-import { getRedirectOption } from "./helpers";
 
 let router = express.Router();
 
 router.get("/", async function (req, res, next) {
   try {
-    const options = getRedirectOption(req);
     const books: Book[] = await Book.getMany(10);
     const categories: Category[] = await EntityHelpers.getAll(Category);
     renderTemplate(req, res, "index", {
       title: "Homepage",
       books,
-      categories,
-      ...options,
+      categories
     });
   } catch (err) {
     next(err);

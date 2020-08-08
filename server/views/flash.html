@@ -8,7 +8,7 @@
   var textColour = "text-red-500";
   {% endif %}
   var template = `
-  <div class="notification-popup mb-2">
+  <div class="notification-popup">
       <div class="flex justify-center items-center min-w-12 ${bgColour}">
           <svg class="h-6 w-6 fill-current text-white" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -24,9 +24,9 @@
   </div>`;
   document.querySelector(".notification-popup--wrapper").innerHTML += template;
   setTimeout(function() {
-      document.querySelectorAll(".notification-popup").forEach(ele => ele.classList.add("fade"));
+      document.querySelector(".notification-popup").classList.add("fade");
       setTimeout(function() {
-          document.querySelectorAll(".notification-popup").forEach(ele => ele.classList.add("hidden"));
+          document.querySelector(".notification-popup").classList.add("hidden");
       }, 200);
   }, 3500);
 </script>
