@@ -19,11 +19,14 @@ import settingsRouter from "./routes/settings";
 import searchRouter from "./routes/search";
 import adminRouter from "./routes/admin";
 import commentsRouter from "./routes/comments";
+import borrowsRouter from "./routes/borrows";
 
 import "./configs";
 import db from "./configs/database";
+import setupBorrowFilter from "./configs/borrowFilter";
 import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
+import { BorrowCard } from "./entities/BorrowCard";
 
 let app = express();
 
@@ -31,6 +34,8 @@ let env = nunjucks.configure(path.join(__dirname, "views"), {
   autoescape: true,
   express: app
 });
+
+setupBorrowFilter(env);
 
 app.set("engine", env);
 
@@ -59,7 +64,7 @@ app.use(
     console.log(e);
     return;
   }
-
+  await BorrowCard.deleteNotTakenCards();
   // await testDB();
   initPassport();
 
@@ -72,6 +77,7 @@ app.use(
   app.use("/", catalogueRouter);
   app.use("/", booksRouter);
   app.use("/books", commentsRouter);
+  app.use("/books", borrowsRouter);
   app.use("/news", newsRouter);
   app.use("/settings", settingsRouter);
   app.use("/search", searchRouter);

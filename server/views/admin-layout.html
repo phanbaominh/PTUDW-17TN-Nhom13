@@ -71,10 +71,7 @@
             </a>
             <ul class="nav nav-second-level collapse">
               <li class="{{ ['/borrow'] | activeRoute(url) }}">
-                <a href="/admin/borrow">Nhận sách</a>
-              </li>
-              <li class="{{ ['/return'] | activeRoute(url) }}">
-                <a href="/admin/return">Trả sách</a>
+                <a href="/admin/borrow">Xem danh sách thẻ mượn</a>
               </li>
             </ul>
           </li>
@@ -151,7 +148,7 @@
 
     <!-- Toastr -->
     <script src="/js/plugins/toastr/toastr.min.js"></script>
-
+    <script src="/js/flash.js"></script>
     <!-- Page-Level Scripts -->
     {% block scripts %}
     {% endblock %}
@@ -168,7 +165,7 @@
           toastr.success("{{ successMessage }}", "System");
         }, 300);
         {% endif %}
-
+    
         {% if errorMessage %}
         setTimeout(function() {
           toastr.options = {

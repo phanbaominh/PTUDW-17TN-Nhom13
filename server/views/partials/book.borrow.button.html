@@ -1,0 +1,17 @@
+{% macro button(status, link) %}
+<a
+  href="{{link}}"
+  class="flex ml-auto text-white bg-indigo-500 border-0 py-1 px-4 xs:py-2 xs:px-6 focus:outline-none hover:bg-indigo-600 rounded">
+  {{status}}
+</a>
+{% endmacro %}
+
+{% if user %}
+  {{ status | getBorrowForm(book.id, book.currentBookCount) | safe }}
+{% else %}
+  {{ button("Mượn", "/login") }}
+{% endif %}
+
+{% if isResponse %}
+  {% include "flash.html" %}
+{% endif %}

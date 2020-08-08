@@ -3,6 +3,7 @@ import { Comment } from "../entities/Comment";
 import nunjucks from "nunjucks";
 import { Book } from "../entities/Book";
 import renderTemplate from "../utils/renderTemplate";
+import { requireAuth } from "../middlewares/auth";
 
 var router = express.Router();
 
@@ -46,12 +47,7 @@ function getCommentResponse(comment: Comment, bookId, isTopLevel): any {
   };
 }
 
-router.post("/:bookId/comments/:parentId?/create", async function (req, res) {
-  if (!res.locals.user) {
-    res.redirect("/login");
-    return;
-  }
-
+router.post("/:bookId/comments/:parentId?/create", requireAuth, async function (req, res){
   try {
     const book = await Book.findOneOrFail(Number(req.params.bookId), { relations: ["comments"] });
     const next = (err) => {
