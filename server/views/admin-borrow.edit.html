@@ -1,0 +1,49 @@
+{% extends "admin-layout.html" %}
+
+{% block breadcrumb %}
+<div class="col-lg-10">
+  <h2>Quản lý thẻ mượn</h2>
+  <ol class="breadcrumb">
+    <li>
+      <a href="/admin">Trang chủ</a>
+    </li>
+    <li>
+      <a href="/admin/borrow">Quản lý thẻ mượn</a>
+    </li>
+    <li class="active">
+      <strong>Chỉnh sửa thông tin</strong>
+    </li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox ">
+      <div class="ibox-title">
+        <h5>Chỉnh sửa thông tin</h5>
+        <div class="ibox-tools">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="close-link">
+            <i class="fa fa-times"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <form id="staff-form" method="POST" action="/admin/borrow/{{card.id}}?_method=PUT" enctype="multipart/form-data">
+          {% include "partials/borrow.form.html" %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
