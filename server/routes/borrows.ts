@@ -5,6 +5,8 @@ import { Book } from "../entities/Book";
 import { User } from "../entities/User";
 import { BorrowCard, BorrowStatus } from "../entities/BorrowCard";
 import { redirectWithOption } from "./helpers";
+import moment from "moment";
+import { getNextFreeDate } from "../utils/time";
 var router = express.Router();
 
 function checkFromProfile(req: Request): boolean {
@@ -46,7 +48,7 @@ router.post("/:bookId/borrows", requireAuth, async function (req, res) {
         card.status = BorrowStatus.REQUESTED;
         flashMsg = "Bạn đã mượn sách thành công"
         book.currentBookCount -= 1;
-        card.borrowedAt = new Date();
+        card.scheduledAt = getNextFreeDate();
       } else {
         card.status = BorrowStatus.FOLLOWED;
         flashMsg = "Bạn đã theo dõi sách thành công"

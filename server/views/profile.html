@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% from "partials/book.carousel.html" import bookCarousel, bookCarouselWithHeading %}
 
-{% macro prettyBookCarousel(books, title, heading=false) %}
+{% macro prettyBookCarousel(books, title) %}
 <section class="text-gray-700 body-font">
     <div class="container px-6 pt-12 pb-24 mx-auto">
         <div class="flex flex-wrap w-full mb-20">
@@ -10,10 +10,10 @@
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">{{title}}</h1>
                 <div class="h-1 w-40 bg-indigo-500 rounded"></div>
             </div>
-            <p class="lg:w-1/2 w-full leading-relaxed text-base">
+            <!-- <p class="lg:w-1/2 w-full leading-relaxed text-base">
                 {{heading if heading else "Thư viện luôn luôn cập nhật các đầu sách mới, liên quan đến học tập nghiên cứu của sinh viên và giảng
                 viên của Khoa Công nghệ thông tin."}}
-            </p>
+            </p> -->
         </div>
         <div class="profile__book-carousel--wrapper">
             <button type="button" class="profile__book-carousel__slick-arrow prev">
@@ -84,20 +84,20 @@
 
 {% set count = 0 %}
 {% if bAndRBooks.length > 0 %}
-    {{ prettyBookCarousel(bAndRBooks, "Sách đang mượn", "Thêm text nha tuấn") }}
+    {{ prettyBookCarousel(bAndRBooks, "Sách đang yêu cầu mượn hoặc đang mượn") }}
     {% set count = count + 1 %}
 {% endif %}
 
 {% if followedBooks.length > 0 %}
     <div class="{{'bg-gray-300' if count == 1 else ''}}">
-        {{ prettyBookCarousel(followedBooks, "Sách đang theo dõi", "Thêm text nha tuấn") }}
+        {{ prettyBookCarousel(followedBooks, "Sách đang theo dõi") }}
     </div>
     {% set count = count + 1 %}
 {% endif %}
 
 {% if returnedBooks.length > 0 %}
     <div class="{{'bg-gray-300' if count == 1 else ''}}">
-        {{ bookCarouselWithHeading(returnedBooks, "Sách đã đọc", "Thêm text nha tuấn", false) }}
+        {{ bookCarouselWithHeading(returnedBooks, "Sách đã đọc", "", false) }}
     </div>
 {% endif %}
 

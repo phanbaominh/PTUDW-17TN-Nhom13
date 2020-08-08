@@ -1,7 +1,7 @@
 import { BorrowStatus, BorrowCard, TrangThai } from "../entities/BorrowCard";
 import moment from "moment";
 import { Book } from "../entities/Book";
-import getVNTime from "../utils/getVNTime";
+import { getVNTime } from "../utils/time";
 import nunjucks from "nunjucks";
 
 export default function setupBorrowFilter(env: nunjucks.Environment) {
@@ -32,6 +32,9 @@ export default function setupBorrowFilter(env: nunjucks.Environment) {
     let style = BorrowCard.getLabel(status);
     let title = `Tạo lúc ${getVNTime(card.createdAt)}`;
 
+    if (status === BorrowStatus.REQUESTED) {
+      title = `Hẹn lấy sách ngày ${getVNTime(card.scheduledAt, "LL")}`;
+    }
     if (status === BorrowStatus.BORROWED || status === BorrowStatus.RETURNED) {
       title = `Mượn lúc ${getVNTime(card.borrowedAt)}`;
     }
@@ -53,19 +56,21 @@ export default function setupBorrowFilter(env: nunjucks.Environment) {
     const card = book.currentCard;
     if (BorrowCard.isFirstStatus(card.status)) {
       const outerStyle = "mt-4 sm:mt-0 bottom-0 insert-x-auto inline-block w-full";
-      return BorrowCard.getBorrowForm(card.status, book.id, book.currentBookCount, outerStyle);
-
-      // return `<button type="button"
-      //   class="mt-4 sm:mt-0 sm:absolute bottom-0 insert-x-auto w-full text-white
-      //          bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-      //   Hủy Mượn
-      // </button>`;
+      const scheduleElem = 
+        card.scheduledAt ? `<div class="text-indigo-500"> 
+                              Hẹn lấy sách vào ${getVNTime(card.scheduledAt, "LL")}
+                            </div>` 
+                         : "";
+      return `
+        ${scheduleElem}
+        ${BorrowCard.getBorrowForm(card.status, book.id, book.currentBookCount, outerStyle)}
+      `;
     } else if (card.status === BorrowStatus.BORROWED) {
-      const textColor = BorrowCard.isOverdue(card.borrowedAt) ? "text-red-500" : "text-indigo-500";
+      const color = BorrowCard.isOverdue(card.borrowedAt) ? "red-500" : "indigo-500";
       return `
       <p
-        class="mt-4 sm:mt-0 bottom-0 w-full ${textColor} border-t-2 border-indigo-500 py-2 text-center">
-        Ngày hết hạn: ${getVNTime(card.borrowedAt, "L")}
+        class="mt-4 sm:mt-0 bottom-0 w-full text-${color} border-t-2 border-${color} py-2 text-center">
+        Ngày hết hạn: ${getVNTime(card.getOverdueDate(), "L")}
       </p>`;
     }
     return "";

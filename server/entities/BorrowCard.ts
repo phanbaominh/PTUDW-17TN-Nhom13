@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, JoinColumn, SelectQueryBuilder } from "typeorm";
 import { Book } from "./Book";
 import { User } from "./User";
 import moment from "moment";
@@ -42,25 +42,37 @@ export class BorrowCard extends BaseEntity {
   @Column({ name: "created_at" })
   createdAt: Date;
 
+  @Column({ name: "scheduled_at" })
+  scheduledAt: Date;
+
   @Column({ name: "borrowed_at" })
   borrowedAt: Date;
 
-  static getAllWithRelations(): Promise<BorrowCard[]> {
+  private static buildCardQuery(): SelectQueryBuilder<BorrowCard> {
     return BorrowCard
       .createQueryBuilder("card")
       .leftJoinAndSelect("card.user", "user")
       .leftJoinAndSelect("card.book", "book")
+  }
+  static getAllWithRelations(): Promise<BorrowCard[]> {
+    return this.buildCardQuery()
       .leftJoinAndSelect("book.category","cat")
       .where("card.status <> :status", { status: BorrowStatus.FOLLOWED })
       .getMany();
   }
 
-  static async findOneWithRelations(id: number): Promise<BorrowCard>{
-    const card = BorrowCard
-      .createQueryBuilder("card")
-      .leftJoinAndSelect("card.user", "user")
-      .leftJoinAndSelect("card.book", "book")
+  static async findOneWithBookCardRelations(id: number): Promise<BorrowCard> {
+    const card = this.buildCardQuery()
       .leftJoinAndSelect("book.borrowCards", "cards")
+      .where("card.id = :id", { id })
+      .getOne();
+    if (!card) throw `Không tìm thấy card với id ${id}`;
+    return card;
+  }
+
+  static async findOneWithBookCatRelations(id: number): Promise<BorrowCard> {
+    const card = this.buildCardQuery()
+      .leftJoinAndSelect("book.category", "cat")
       .where("card.id = :id", { id })
       .getOne();
     if (!card) throw `Không tìm thấy card với id ${id}`;
@@ -70,7 +82,7 @@ export class BorrowCard extends BaseEntity {
   static getBorrowText(status, bookCount) {
     switch (status) {
       case BorrowStatus.REQUESTED:
-        return "Hủy mượn";
+        return "Hủy yêu cầu mượn";
       case BorrowStatus.FOLLOWED:
         return "Hủy theo dõi";
       case BorrowStatus.BORROWED:
@@ -143,15 +155,17 @@ export class BorrowCard extends BaseEntity {
   }
 
   static async deleteNotTakenCards(): Promise<void> {
-    const dateBefore = new Date();
-    dateBefore.setDate(dateBefore.getDate() - this.MAX_WAIT);
     await BorrowCard
       .createQueryBuilder()
       .update(BorrowCard)
       .set({ status: BorrowStatus.CANCELED })
       .where("status = :status", { status: BorrowStatus.REQUESTED })
-      .andWhere("created_at <= :date", { date: dateBefore })
+      .andWhere("scheduled_at < :date", { date: new Date() })
       .execute();
+  }
+
+  getOverdueDate(): moment.Moment {
+    return moment(this.borrowedAt).add(BorrowCard.OVERDUE_DURATION, 'd');
   }
 
   changeBookCount(oldStatus: BorrowStatus | null = BorrowStatus.CANCELED) {

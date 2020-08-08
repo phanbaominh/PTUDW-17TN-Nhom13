@@ -148,7 +148,7 @@
 
     <!-- Toastr -->
     <script src="/js/plugins/toastr/toastr.min.js"></script>
-
+    <script src="/js/flash.js"></script>
     <!-- Page-Level Scripts -->
     {% block scripts %}
     {% endblock %}
@@ -165,7 +165,7 @@
           toastr.success("{{ successMessage }}", "System");
         }, 300);
         {% endif %}
-
+    
         {% if errorMessage %}
         setTimeout(function() {
           toastr.options = {

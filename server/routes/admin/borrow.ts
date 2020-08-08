@@ -5,7 +5,7 @@ import { getRedirectOption, redirectWithOption } from "../helpers";
 import { Book } from "../../entities/Book";
 import formidable from "formidable";
 import { User } from "../../entities/User";
-
+import nunjucks from "nunjucks";
 let router = Router();
 
 router.get("/", async function (req, res) {
@@ -53,7 +53,7 @@ router.get("/edit/:id", async function (req, res) {
 
 router.put("/:id", async function (req, res) {
   try {
-    const card =  await BorrowCard.findOneWithRelations(Number(req.params.id));
+    const card =  await BorrowCard.findOneWithBookCardRelations(Number(req.params.id));
     const next = (err) => {
       redirectWithOption(req, res, `/admin/borrow/edit/${card.id}`, {
         errorMessage: err.message,
@@ -85,42 +85,41 @@ router.put("/:id", async function (req, res) {
 
 router.put("/quick/:id", async function (req, res){
   try {
-    const card =  await BorrowCard.findOneOrFail(Number(req.params.id), { relations: ["book"] });;
+    const card =  await BorrowCard.findOneWithBookCatRelations(Number(req.params.id));
     if (BorrowCard.isTakeBook(card.status)){
       let msg;
       if (card.status === BorrowStatus.REQUESTED) {
         card.status = BorrowStatus.BORROWED;
+        card.borrowedAt = new Date();
         msg = "Xác nhận mượn sách thành công";
       } else {
         card.status = BorrowStatus.RETURNED;
         msg = "Xác nhận trả sách thành công";
       }
       await BorrowCard.save(card);
-      redirectWithOption(req, res, "/admin/borrow", {
-        successMessage: msg,
-      })
+      const row = nunjucks.render("partials/borrow.row.html", { card });
+      res.json({ row, successMessage: msg });
     } else {
-      redirectWithOption(req, res, "/admin/borrow", {
-        errorMessage: "Yêu cầu không hợp lý",
-      })
+      res.status(500).json({ errorMessage: "Yêu cầu không hợp lí" });
     }
   } catch (err) {
-    redirectWithOption(req, res, "/admin/borrow", {
-      errorMessage: err.message,
-    })
+    res.status(500).json({ errorMessage: err.message });
   }
   
 });
 
 router.delete("/:id", async function (req, res){
   try {
-    const card = await BorrowCard.findOneOrFail(Number(req.params.id), { relations: ["book"] });
+    const card = await BorrowCard.findOneWithBookCatRelations(Number(req.params.id));
+    card.status = BorrowStatus.CANCELED;
     await BorrowCard.save(card);
-    redirectWithOption(req, res, "/admin/borrow", {
+    const row = nunjucks.render("partials/borrow.row.html", { card });
+    res.json({
+      row,
       successMessage: "Hủy thẻ mượn sách thành công",
     })
   } catch (err) {
-    redirectWithOption(req, res, "/admin/borrow", {
+    res.status(404).json({
       errorMessage: err.message,
     })
   }

@@ -1,44 +1,8 @@
 {% extends "admin-layout.html" %}
 
 {% macro borrowCardRow(card) %}
-  <tr>
-    <td>{{card.id}}</td>
-    <td>{{card.user.username}}</td>
-    <td>{{card.book.title}}</td>
-    <td>{{card.book.position}}</td>
-    <td>{{card | getStatusLabel() | safe}}</td>
-    
-    <td>
-      {% if (card.status | isBorrowConfirmable) %}
-      {% set confirmText = (card.status | getBorrowConfirmText) %}
-      <form class="borrow-form" action="borrow/quick/{{card.id}}?_method=PUT" method="post">
-        <button type="submit" class="action-btn text-navy" 
-                title="Xác nhận đã {{confirmText}}"
-                onclick="return confirm('Bạn có chắc là muốn xác nhận đã {{confirmText}} không?')">
-          <i class="fa fa-check-circle-o" aria-hidden="true" style="font-size: 20px;margin-left: 5px"></i>
-        </button>
-      </form>
-      {% else %}
-        <i class="fa fa-check-circle-o invisible-button" aria-hidden="true" style="margin-left: 5px"></i>
-      {% endif %}
-
-      {% if (card.status | isCanceled) === false %}
-      <form class="borrow-form" action="borrow/{{card.id}}?_method=DELETE" method="post">
-        <button type="submit" class="action-btn text-danger" style="margin-left: 15px" 
-                onclick="return confirm('Bạn có chắc không?')" title="Hủy thẻ mượn">
-          <i class="fa fa-trash-o" aria-hidden="true" style="font-size: 20px"></i>
-        </button>
-      </form>
-      {% else %}
-        <i class="fa fa-check-circle-o invisible-button" aria-hidden="true" style="margin-left: 15px"></i>
-      {% endif %}
-
-      <a href="borrow/edit/{{card.id}}">
-        <button type="button" class="action-btn text-navy" style="margin-left: 15px" title="Chỉnh sửa thẻ mượn">
-          <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i>
-        </button>
-      </a>
-    </td>
+  <tr id="borrow-table__row-{{card.id}}">
+    {% include "partials/borrow.row.html" %}
   </tr>
 {% endmacro %}
 
@@ -124,50 +88,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-  $(document).ready(function() {
-    $("#borrow-table").DataTable({
-      pageLength: 10,
-      responsive: true,
-      dom: '<"html5buttons"B>lTfgitp',
-      buttons: [{
-          extend: "copy"
-        },
-        {
-          extend: "csv"
-        },
-        {
-          extend: "excel",
-          title: "ExampleFile"
-        },
-        {
-          extend: "pdf",
-          title: "ExampleFile"
-        },
-        {
-          extend: "print",
-          customize: function(win) {
-            $(win.document.body).addClass("white-bg");
-            $(win.document.body).css("font-size", "10px");
+<script src="/js/admin-borrow-table.js">
 
-            $(win.document.body)
-              .find("table")
-              .addClass("compact")
-              .css("font-size", "inherit");
-          }
-        }
-      ],
-      "columnDefs": [ 
-        {
-          "targets": -1,
-          "orderable": false,
-        },
-        {
-          "targets": -1,
-          "width": "8%",
-        },
-      ],
-    });
-  });
 </script>
 {% endblock %}
