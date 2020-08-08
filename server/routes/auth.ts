@@ -4,8 +4,6 @@ import passport from "passport";
 import { User } from "../entities/User";
 import { Book } from "../entities/Book";
 import renderTemplate from "../utils/renderTemplate";
-import { BorrowCard, BorrowStatus } from "../entities/BorrowCard";
-import { redirectWithOption, getRedirectOption } from "./helpers";
 var router = express.Router();
 
 router.get("/login", function (req, res) {
@@ -67,47 +65,16 @@ router.post("/login", async function (req: Request, res, next) {
 
 router.get("/logout", function (req, res, next) {
   req.logout();
+  console.log({ user: req.user });
   res.redirect("/");
 });
 
 router.get("/profile", requireAuth, async function (req, res, next) {
-  try {
-    const currentUser = (req.user as User);
-    const options = getRedirectOption(req);
-    const borrowCards = await currentUser.getBorrowCards();
-    const bAndRBooks: Book[] = [] ;
-    const returnedBooks: Book[] = [];
-    const followedBooks: Book[] = [];
-    const mapReturned = new Map<number, boolean>();
-    borrowCards.forEach(card => {
-      card.book.currentCard = card;
-      if (BorrowCard.isTakeBook(card.status)) {
-        bAndRBooks.push(card.book);
-      } else if (card.status === BorrowStatus.RETURNED){
-        if (!mapReturned.has(card.book.id)){
-          returnedBooks.push(card.book);
-          mapReturned.set(card.book.id, true);
-        }
-      } else if (card.status === BorrowStatus.FOLLOWED) {
-        followedBooks.push(card.book);
-      }
-    });
-    renderTemplate(req, res, "profile", {
-      title: "Profile",
-      bAndRBooks,
-      returnedBooks,
-      followedBooks,
-      ...options,
-    });
-  } catch (err){
-    redirectWithOption(req, res, "/", {
-      flash: {
-        type: "error",
-        content: err.message,
-      },
-    });
-  }
-  
+  const bookList = await Book.getMany(10);
+  renderTemplate(req, res, "profile", {
+    title: "Profile",
+    bookList: bookList
+  });
 });
 
 router.get("/forgot-password", function (req, res, next) {

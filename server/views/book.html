@@ -35,12 +35,14 @@
                     {{ bookDetailList(book) }}
                 </div>
                 <div class="flex">
-                    <span id="book__book-count" class="title-font font-medium text-xl xs:text-2xl text-gray-900">
-                        Số lượng: {{ book.currentBookCount }}
+                    <span class="title-font font-medium text-xl xs:text-2xl text-gray-900">
+                        Số lượng: {{ book.bookCount }}
                     </span>
-                    <span class="book__borrow-button-wrapper flex ml-auto">
-                        {% include "partials/book.borrow.button.html" %}
-                    </span>
+                    <button
+                        type="button"
+                        class="flex ml-auto text-white bg-indigo-500 border-0 py-1 px-4 xs:py-2 xs:px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                        Mượn
+                    </button>
                     <button
                         type="button"
                         aria-label="Yêu thích"

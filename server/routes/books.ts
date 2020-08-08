@@ -2,8 +2,6 @@ import express from "express";
 import { Book } from "../entities/Book";
 import { getRedirectOption } from "./helpers";
 import renderTemplate from "../utils/renderTemplate";
-import { User } from "../entities/User";
-import { BorrowCard } from "../entities/BorrowCard";
 
 var router = express.Router();
 
@@ -14,9 +12,6 @@ router.get("/books/:id", async function (req, res, next) {
     const comments = await book.toplevelComments();
     await Promise.allSettled(comments.map((comment) => comment.setRepliesCount()));
     const relatedBooks: Book[] = await Book.getRelatedBooks(book);
-    if (req.user) {
-      options["status"] = await (req.user as User).getBookStatus(book.id);
-    }
     renderTemplate(req, res, "book", {
       title: `${book.title}`,
       book,

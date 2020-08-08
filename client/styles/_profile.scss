@@ -37,7 +37,7 @@
 }
 
 .profile__book {
-  @apply bg-gray-100 p-4 pr-6;
+  @apply bg-gray-100 p-4 pr-6 pb-2;
   @screen sm {
     @apply grid grid-cols-5 gap-5;
   }
@@ -49,5 +49,5 @@
 }
 
 .profile__book__detail {
-  @apply col-span-3 flex flex-col justify-between;
+  @apply col-span-3 relative;
 }

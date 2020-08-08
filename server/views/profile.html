@@ -1,59 +1,5 @@
 {% extends "layout.html" %}
-{% from "partials/book.carousel.html" import bookCarousel, bookCarouselWithHeading %}
-
-{% macro prettyBookCarousel(books, title) %}
-<section class="text-gray-700 body-font">
-    <div class="container px-6 pt-12 pb-24 mx-auto">
-        <div class="flex flex-wrap w-full mb-20">
-            <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
-               
-                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">{{title}}</h1>
-                <div class="h-1 w-40 bg-indigo-500 rounded"></div>
-            </div>
-            <!-- <p class="lg:w-1/2 w-full leading-relaxed text-base">
-                {{heading if heading else "Thư viện luôn luôn cập nhật các đầu sách mới, liên quan đến học tập nghiên cứu của sinh viên và giảng
-                viên của Khoa Công nghệ thông tin."}}
-            </p> -->
-        </div>
-        <div class="profile__book-carousel--wrapper">
-            <button type="button" class="profile__book-carousel__slick-arrow prev">
-                <span>➜</span>
-            </button>
-            <button type="button" class="profile__book-carousel__slick-arrow next">
-                <span>➜</span>
-            </button>
-            <div class="profile__book-carousel -mx-4">
-                {% for book in books %}
-                <div class="px-4">
-                    <div class="profile__book rounded shadow">
-                        <div class="profile__book__cover-image">
-                            <img class="absolute h-full w-full object-cover object-center" src="{{ book.coverImage }}"
-                                alt="Cover image for {{ book.title }}">
-                        </div>
-                        <div class="profile__book__detail pt-3 md:pt-0">
-                            <div>
-                                <h3 class="hover:underline tracking-widest text-indigo-500 text-xs font-medium title-font">
-                                    <a href="/search?q={{ book.author }}">{{ book.author }}</a>
-                                </h3>
-                                <h2 class="hover:underline text-lg text-gray-900 font-medium title-font sm:mb-4 clamp-1"> 
-                                    <a href="/books/{{ book.id }}">{{ book.title }}</a>
-                                </h2>
-                                <div class="hidden sm:block">
-                                    <p class="leading-relaxed text-base hidden sm:block clamp-3">{{ book.desc }}</p>
-                                </div>
-                            </div>
-                            <div>
-                                {{book | getProfileBookSlot | safe}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</section>
-{% endmacro %}
+{% from "partials/book.carousel.html" import bookCarousel %}
 
 {% block body %}
 <section class="text-gray-700 body-font bg-fixed" style="background-image: url('/images/bg-home.jpg');">
@@ -67,8 +13,16 @@
                 </p>
             </div>
             <div class="p-4 pl-0 sm:w-1/2 lg:w-1/4 w-1/2">
-                <h2 class="title-font font-medium text-3xl text-gray-900">{{returnedBooks.length}}</h2>
+                <h2 class="title-font font-medium text-3xl text-gray-900">200</h2>
                 <p class="leading-relaxed">Sách đã đọc</p>
+            </div>
+            <div class="p-4 pl-0 sm:w-1/2 lg:w-1/4 w-1/2">
+                <h2 class="title-font font-medium text-3xl text-gray-900">2000</h2>
+                <p class="leading-relaxed">Sách đã xem</p>
+            </div>
+            <div class="p-4 pl-0 sm:w-1/2 lg:w-1/4 w-1/2">
+                <h2 class="title-font font-medium text-3xl text-gray-900">1000</h2>
+                <p class="leading-relaxed">Bình luận</p>
             </div>
             <div class="p-4 pl-0 sm:w-1/2 lg:w-1/4 w-1/2">
                 <h2 class="title-font font-medium text-3xl text-gray-900">1.0K</h2>
@@ -82,23 +36,137 @@
     </div>
 </section>
 
-{% set count = 0 %}
-{% if bAndRBooks.length > 0 %}
-    {{ prettyBookCarousel(bAndRBooks, "Sách đang yêu cầu mượn hoặc đang mượn") }}
-    {% set count = count + 1 %}
-{% endif %}
-
-{% if followedBooks.length > 0 %}
-    <div class="{{'bg-gray-300' if count == 1 else ''}}">
-        {{ prettyBookCarousel(followedBooks, "Sách đang theo dõi") }}
+<section class="text-gray-700 body-font">
+    <div class="container px-6 pt-12 pb-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20">
+            <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Sách yêu cầu mượn</h1>
+                <div class="h-1 w-40 bg-indigo-500 rounded"></div>
+            </div>
+            <p class="lg:w-1/2 w-full leading-relaxed text-base">
+                Thư viện luôn luôn cập nhật các đầu sách mới, liên quan đến học tập nghiên cứu của sinh viên và giảng
+                viên của Khoa Công nghệ thông tin.
+            </p>
+        </div>
+        <div class="profile__book-carousel--wrapper">
+            <button type="button" class="profile__book-carousel__slick-arrow prev">
+                <span>➜</span>
+            </button>
+            <button type="button" class="profile__book-carousel__slick-arrow next">
+                <span>➜</span>
+            </button>
+            <div class="profile__book-carousel -mx-4">
+                {% for book in bookList %}
+                <div class="px-4">
+                    <div class="profile__book rounded shadow">
+                        <div class="profile__book__cover-image">
+                            <img class="absolute h-full w-full object-cover object-center" src="{{ book.coverImage }}"
+                                alt="Cover image for {{ book.title }}">
+                        </div>
+                        <div class="profile__book__detail pt-3 md:pt-0">
+                            <h3 class="tracking-widest text-indigo-500 text-xs font-medium title-font">
+                                {{ book.author }}
+                            </h3>
+                            <h2 class="text-lg text-gray-900 font-medium title-font sm:mb-4 clamp-1">
+                                <a href="/books/{{ book.id }}">{{ book.title }}</a>
+                            </h2>
+                            <div class="hidden sm:block">
+                                <p class="leading-relaxed text-base hidden sm:block clamp-3">{{ book.desc }}</p>
+                            </div>
+                            <button type="button"
+                                class="mt-4 sm:mt-0 sm:absolute bottom-0 insert-x-auto w-full text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                                Hủy Mượn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-    {% set count = count + 1 %}
-{% endif %}
+</section>
 
-{% if returnedBooks.length > 0 %}
-    <div class="{{'bg-gray-300' if count == 1 else ''}}">
-        {{ bookCarouselWithHeading(returnedBooks, "Sách đã đọc", "", false) }}
+<section class="text-gray-700 body-font bg-gray-300">
+    <div class="container px-6 pt-12 pb-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20">
+            <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Sách đang mượn</h1>
+                <div class="h-1 w-40 bg-indigo-500 rounded"></div>
+            </div>
+            <p class="lg:w-1/2 w-full leading-relaxed text-base">
+                Thư viện luôn luôn cập nhật các đầu sách mới, liên quan đến học tập nghiên cứu của sinh viên và giảng
+                viên của Khoa Công nghệ thông tin.
+            </p>
+        </div>
+        <div class="profile__book-carousel--wrapper">
+            <button type="button" class="profile__book-carousel__slick-arrow prev">
+                <span>➜</span>
+            </button>
+            <button type="button" class="profile__book-carousel__slick-arrow next">
+                <span>➜</span>
+            </button>
+            <div class="profile__book-carousel -mx-4">
+                {% for book in bookList %}
+                <div class="px-4">
+                    <div class="profile__book rounded shadow">
+                        <div class="profile__book__cover-image">
+                            <img class="absolute h-full w-full object-cover object-center" src="{{ book.coverImage }}"
+                                alt="Cover image for {{ book.title }}">
+                        </div>
+                        <div class="profile__book__detail pt-3 md:pt-0">
+                            <h3 class="tracking-widest text-indigo-500 text-xs font-medium title-font">
+                                {{ book.author }}
+                            </h3>
+                            <h2 class="text-lg text-gray-900 font-medium title-font sm:mb-4 clamp-1">{{ book.title }}</h2>
+                            <div class="hidden sm:block">
+                                <p class="leading-relaxed text-base hidden sm:block clamp-3">{{ book.desc }}</p>
+                            </div>
+                            <p
+                                class="mt-4 sm:mt-0 sm:absolute bottom-0 w-full text-indigo-500 border-t-2 border-indigo-500 py-2 text-center">
+                                Ngày hết hạn: 20/06/2020
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-{% endif %}
+</section>
 
+<section class="text-gray-700 body-font">
+    <div class="container px-6 pt-12 pb-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20">
+            <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+                    Sách đã xem
+                </h1>
+                <div class="h-1 w-40 bg-indigo-500 rounded"></div>
+            </div>
+            <p class="lg:w-1/2 w-full leading-relaxed text-base">
+                Thư viện luôn luôn cập nhật các đầu sách mới, liên quan
+                đến học tập nghiên cứu của sinh viên và giảng viên của Khoa Công nghệ thông tin.
+            </p>
+        </div>
+        {{ bookCarousel(bookList) }}
+    </div>
+</section>
+
+<section class="text-gray-700 body-font bg-gray-300">
+    <div class="container px-6 pt-12 pb-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20">
+            <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+                    Sách đã đọc
+                </h1>
+                <div class="h-1 w-40 bg-indigo-500 rounded"></div>
+            </div>
+            <p class="lg:w-1/2 w-full leading-relaxed text-base">
+                Thư viện luôn luôn cập nhật các đầu sách mới, liên quan
+                đến học tập nghiên cứu của sinh viên và giảng viên của Khoa Công nghệ thông tin.
+            </p>
+        </div>
+        {{ bookCarousel(bookList) }}
+    </div>
+</section>
 {% endblock %}
