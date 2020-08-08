@@ -10,7 +10,7 @@ import {
   OneToMany,
   BeforeUpdate,
   BeforeInsert,
-  AfterLoad
+  AfterLoad,
 } from "typeorm";
 import { BookLanguage } from "./BookLanguage";
 import { BookType } from "./BookType";
@@ -67,10 +67,10 @@ export class Book extends BaseEntity {
   @JoinColumn({ name: "type_id" })
   type: BookType;
 
-  @OneToMany(type => BorrowCard, card => card.book)
+  @OneToMany((type) => BorrowCard, (card) => card.book)
   borrowCards: BorrowCard[];
-  
-  @OneToMany(type => UserNotification, noti => noti.book)
+
+  @OneToMany((type) => UserNotification, (noti) => noti.book)
   notifications: Notification[];
 
   @ManyToOne((type) => Category, (category) => category.books)
@@ -81,7 +81,7 @@ export class Book extends BaseEntity {
   @JoinTable({
     name: "taggings",
     joinColumn: { name: "book_id", referencedColumnName: "id" },
-    inverseJoinColumn: { name: "tag_id", referencedColumnName: "id" }
+    inverseJoinColumn: { name: "tag_id", referencedColumnName: "id" },
   })
   tags: Tag[];
   position: string;
@@ -110,22 +110,20 @@ export class Book extends BaseEntity {
   }
 
   @AfterLoad()
-  setPosition(){
-    if (this.category){
+  setPosition() {
+    if (this.category) {
       let idString = (this.id % 1000).toString();
-      while (idString.length < 3) idString = '0' + idString;
-      this.position = `${this.category.id}-${idString}`;
+      while (idString.length < 3) idString = "0" + idString;
+      this.position = `${this.category.position}-${idString}`;
     }
   }
 
   @AfterLoad()
-  setCurrentCount(){
-    if (this.borrowCards){
-      const borrowedCount = this
-        .borrowCards
-        .filter(card => BorrowCard.isTakeBook(card.status))
-        .length
-      this.currentBookCount = this.bookCount - borrowedCount;    
+  setCurrentCount() {
+    if (this.borrowCards) {
+      const borrowedCount = this.borrowCards.filter((card) => BorrowCard.isTakeBook(card.status))
+        .length;
+      this.currentBookCount = this.bookCount - borrowedCount;
     }
   }
 
@@ -150,7 +148,7 @@ export class Book extends BaseEntity {
 
   static async findOneWithRelations(id: number): Promise<Book> {
     const book = await Book.findOneOrFail(id, {
-      relations: ["category", "type", "language", "tags", "borrowCards"]
+      relations: ["category", "type", "language", "tags", "borrowCards"],
     });
     return book;
   }
