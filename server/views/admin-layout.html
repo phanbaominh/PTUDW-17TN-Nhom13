@@ -39,7 +39,7 @@
                     Admin
                     {% else %}
                     Librarian
-                    {% endif %} 
+                    {% endif %}
                     <b class="caret"></b>
                   </span>
                 </span>
@@ -48,7 +48,7 @@
             <div class="logo-element">
               IN+
             </div>
-          </li>          
+          </li>
           {% if admin.username == 'admin' %}
           <li class="{{ ['/create-librarian'] | activeRoute(url) }}">
             <a href="/admin/create-librarian">
@@ -75,7 +75,7 @@
               </li>
             </ul>
           </li>
-          <li class="{{ ['/book', '/book/new', '/book/import'] | activeRoute(url) }}">
+          <li class="{{ ['/book', '/book/new', '/book/import', '/category'] | activeRoute(url) }}">
             <a href="#">
               <i class="fa fa-bar-chart-o"></i>
               <span class="nav-label">Quản lý sách</span>
@@ -90,6 +90,9 @@
               </li>
               <li class="{{ ['/book/import'] | activeRoute(url) }}">
                 <a href="/admin/book/import">Import sách</a>
+              </li>
+              <li class="{{ ['/category'] | activeRoute(url) }}">
+                <a href="/admin/category">Quản lý thể loại sách</a>
               </li>
             </ul>
           </li>
@@ -154,29 +157,10 @@
     {% endblock %}
     <script>
       $(document).ready(function() {
-        {% if successMessage %}
-        setTimeout(function() {
-          toastr.options = {
-            closeButton: true,
-            progressBar: true,
-            showMethod: 'slideDown',
-            timeOut: 2000
-          };
-          toastr.success("{{ successMessage }}", "System");
-        }, 300);
-        {% endif %}
-    
-        {% if errorMessage %}
-        setTimeout(function() {
-          toastr.options = {
-            closeButton: true,
-            progressBar: true,
-            showMethod: 'slideDown',
-            timeOut: 2000
-          };
-          toastr.error("{{ errorMessage }}", "System");
-        }, 300);
-        {% endif %}
+        flash({
+          successMessage: "{{ successMessage if successMessage else '' }}",
+          errorMessage: "{{ errorMessage if errorMessage else '' }}"
+        });
       });
     </script>
 </body>
