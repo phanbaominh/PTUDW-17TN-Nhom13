@@ -15,18 +15,20 @@
   border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  padding: 0.5rem;
 }
 
 .notification-dropdown {
-  width: 350px;
+  width: 400px;
 }
 
 .notification-dropdown .header__dropdown--content {
-  padding: 1rem;
+  max-height: 500px;
+  overflow: auto;
 }
 
 .notification-dropdown .header__dropdown--content.empty {
+  padding: 1rem;
   text-align: center;
 }
 
@@ -37,4 +39,13 @@
 .user-dropdown a {
   display: block;
   padding: 0.4rem 1rem;
+}
+
+#notification-menu {
+  @apply -mx-6 -mb-3;
+}
+
+.header__dropdown--content--mobile {
+  max-height: 400px;
+  overflow: auto;
 }

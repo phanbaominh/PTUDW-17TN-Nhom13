@@ -1,3 +1,22 @@
+{% macro noti(notification) %}
+<a
+    href="/books/{{ notification.book.id }}?nid={{ notification.id }}"
+    class="notification-item {{ 'bg-blue-50' if not notification.read else '' }} grid grid-cols-4 md:grid-cols-6 gap-4 items-center p-2 border-b hover:bg-gray-200 cursor-pointer"
+    style="border-color: #ddd;">
+    <div class="relative h-0" style="padding-bottom: 100%;">
+        <img
+            src="{{ notification.book.coverImage }}"
+            alt="Ảnh bìa {{ notification.book.title }}"
+            class="absolute inset-0 w-full h-full object-cover object-center rounded-full">
+    </div>
+    <div class="col-span-3 md:col-span-5">
+        <p class="text-sm">{{ notification.content | safe }}</p>
+        <p class="italic text-xs text-gray-600">{{ notification.createdTime }}</p>
+    </div>
+</a>
+{% endmacro %}
+
+
 <nav class="bg-white shadow fixed top-0 left-0 w-full z-50">
     <div class="container mx-auto px-6 py-3">
         <div class="md:flex md:items-center md:justify-between">
@@ -30,18 +49,26 @@
                 </div>
             </div>
             <div id="notification-menu" class="md:items-center md:justify-between flex-1 hidden">
-                <div class="flex justify-between items-center text-sm py-2" style="border-bottom: 1px solid #ddd;">
+                <div class="flex justify-between items-center text-sm p-2" style="border-bottom: 1px solid #ddd;">
                     <h2>Notifications</h2>
-                    <button type="button" class="text-blue-700 hover:underline focus:underline">
+                    <button type="button" class="mark-all-as-read-btn text-blue-700 hover:underline focus:underline">
                         Mark all as read
                     </button>
                 </div>
+                {% if notificationList.length == 0 %}
                 <div class="text-center p-2 pb-0">
                     <p class="text-md mb-2">No notifications yet</p>
                     <p class="text-sm">
                         Stay tuned! Notifications about your subscribed books will show up here.
                     </p>
                 </div>
+                {% else %}
+                <div class="header__dropdown--content--mobile">
+                    {% for notification in notificationList %}
+                    {{ noti(notification) }}
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
             <div id="header-menu" class="md:flex md:items-center md:justify-between flex-1 hidden">
                 <div class="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
@@ -93,16 +120,24 @@
                         <div class="header__dropdown notification-dropdown hidden">
                             <div class="header__dropdown--header text-sm">
                                 <h2>Notifications</h2>
-                                <button type="button" class="text-blue-700 hover:underline focus:underline">
+                                <button type="button" class="mark-all-as-read-btn text-blue-700 hover:underline focus:underline">
                                     Mark all as read
                                 </button>
                             </div>
+                            {% if notificationList.length > 0 %}
+                            <div class="header__dropdown--content">
+                                {% for notification in notificationList %}
+                                {{ noti(notification) }}
+                                {% endfor %}
+                            </div>
+                            {% else %}
                             <div class="header__dropdown--content empty">
                                 <p class="text-md mb-2">No notifications yet</p>
                                 <p class="text-sm">
                                     Stay tuned! Notifications about your subscribed books will show up here.
                                 </p>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="header__dropdown--wrapper">

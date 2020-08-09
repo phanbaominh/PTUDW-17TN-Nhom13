@@ -1,4 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from "typeorm";
+import moment from "moment";
 import { Book } from "./Book";
 import { User } from "./User";
 
@@ -12,7 +13,7 @@ export default class UserNotification extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => Book, (book) => book.notifications)
+  @ManyToOne((type) => Book, (book) => book.notifications, { eager: true })
   @JoinColumn({ name: "book_id" })
   book: Book;
 
@@ -25,4 +26,15 @@ export default class UserNotification extends BaseEntity {
 
   @Column()
   type: NotiType;
+
+  @Column({ name: "created_at" })
+  createdAt: number;
+
+  @Column()
+  read: boolean;
+
+  get createdTime() {
+    let createdAt = moment(this.createdAt);
+    return moment().to(createdAt);
+  }
 }
