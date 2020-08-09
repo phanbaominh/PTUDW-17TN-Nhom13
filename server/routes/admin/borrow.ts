@@ -93,7 +93,6 @@ router.put("/quick/:id", async function (req, res) {
         msg = "Xác nhận mượn sách thành công";
       } else {
         card.status = BorrowStatus.RETURNED;
-        await card.sendNotificationsToFollower();
         msg = "Xác nhận trả sách thành công";
       }
       await BorrowCard.save(card);

@@ -27,7 +27,7 @@ async function renderTemplate(
 
   // Inject notifications
   if (req.user && !(req.user as User).isAdmin) {
-    data.notificationList = await UserNotification.find({
+    let notificationList = await UserNotification.find({
       where: {
         user: req.user,
       },
@@ -35,8 +35,16 @@ async function renderTemplate(
         createdAt: "DESC",
       },
     });
+    data.notificationList = notificationList;
+    data.unreadNotificationCount = 0;
+    for (let noti of notificationList) {
+      if (!noti.read) {
+        data.unreadNotificationCount += 1;
+      }
+    }
   } else {
     data.notificationList = [];
+    data.unreadNotificationCount = 0;
   }
 
   res.status(statusCode ?? 200).render(templateName, data);

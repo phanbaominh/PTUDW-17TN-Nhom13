@@ -57,27 +57,6 @@ export class BorrowCard extends BaseEntity {
   @Column({ name: "borrowed_at" })
   borrowedAt: Date;
 
-  async sendNotificationsToFollower() {
-    let followerList = (
-      await BorrowCard.createQueryBuilder("card")
-        .leftJoinAndSelect("card.user", "user")
-        .where("card.status = :status", { status: BorrowStatus.FOLLOWED })
-        .andWhere("card.book_id = :bookId", { bookId: this.book.id })
-        .getMany()
-    ).map((card) => card.user);
-
-    await UserNotification.save(
-      followerList.map((follower) => {
-        let noti = new UserNotification();
-        noti.book = this.book;
-        noti.content = `Bạn có thể mượn <strong>${this.book.title}</strong> ngay bây giờ`;
-        noti.type = NotiType.DUE;
-        noti.user = follower;
-        return noti;
-      }),
-    );
-  }
-
   private static buildCardQuery(): SelectQueryBuilder<BorrowCard> {
     return BorrowCard.createQueryBuilder("card")
       .leftJoinAndSelect("card.user", "user")

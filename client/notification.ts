@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 declare global {
   interface Window {
     flash: (type: string, content: string) => void;
@@ -10,6 +12,7 @@ function markAllAsRead() {
   }).then(function (res) {
     if (res.ok) {
       $(".notification-item").removeClass("bg-blue-50");
+      $(".notification-count").remove();
     } else {
       window.flash("error", "Lỗi hệ thống");
     }

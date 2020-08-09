@@ -49,3 +49,20 @@
   max-height: 400px;
   overflow: auto;
 }
+
+.notification-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+
+  align-items: center;
+  background: red;
+  color: white;
+  display: flex;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: bold;
+  height: 19px;
+  justify-content: center;
+  width: 19px;
+}
