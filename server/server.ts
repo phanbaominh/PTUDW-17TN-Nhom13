@@ -24,6 +24,7 @@ import borrowsRouter from "./routes/borrows";
 import "./configs";
 import db from "./configs/database";
 import setupBorrowFilter from "./configs/borrowFilter";
+import { setupMomentFilter } from "./configs/helperFilter";
 import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
 import { BorrowCard } from "./entities/BorrowCard";
@@ -32,9 +33,10 @@ let app = express();
 
 let env = nunjucks.configure(path.join(__dirname, "views"), {
   autoescape: true,
-  express: app
+  express: app,
 });
 
+setupMomentFilter(env);
 setupBorrowFilter(env);
 
 app.set("engine", env);
@@ -52,8 +54,8 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
-  })
+    saveUninitialized: false,
+  }),
 );
 
 (async function () {

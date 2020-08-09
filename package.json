@@ -48,6 +48,8 @@
     "passport-local": "^1.0.0",
     "pg": "^8.2.1",
     "reflect-metadata": "^0.1.13",
+    "rss-parser": "^3.9.0",
+    "slugify": "^1.4.5",
     "tailwindcss": "^1.4.6",
     "ts-node": "^8.10.2",
     "typeorm": "^0.2.25",
