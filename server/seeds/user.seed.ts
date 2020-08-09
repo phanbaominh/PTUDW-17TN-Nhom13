@@ -1,5 +1,4 @@
-import { Seeder, Factory } from "typeorm-seeding";
-import { Connection } from "typeorm";
+import { Seeder } from "typeorm-seeding";
 import { User } from "../entities/User";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
@@ -13,7 +12,7 @@ const DUMMY_USER1 = {
   gender: "Nam",
   email: "1712092@student.hcmus.edu.vn",
   phone: "0121712092",
-  address: "17120/92 NVC"
+  address: "17120/92 NVC",
 };
 
 const DUMMY_USER2 = {
@@ -25,7 +24,7 @@ const DUMMY_USER2 = {
   gender: "Nam",
   email: "1712247@student.hcmus.edu.vn",
   phone: "0121712247",
-  address: "17122/47 NVC"
+  address: "17122/47 NVC",
 };
 
 const DUMMY_USER3 = {
@@ -37,7 +36,7 @@ const DUMMY_USER3 = {
   gender: "Nam",
   email: "1712932@student.hcmus.edu.vn",
   phone: "0121712932",
-  address: "17129/32 NVC"
+  address: "17129/32 NVC",
 };
 
 const ADMIN_USER = {
@@ -51,15 +50,22 @@ const ADMIN_USER = {
   phone: "0123456789",
   address: "",
   isAdmin: true,
-}
-const DUMMY_USERS: Array<QueryDeepPartialEntity<User>> = [DUMMY_USER1, DUMMY_USER2, DUMMY_USER3, ADMIN_USER];
+};
+
+const DUMMY_USERS: Array<QueryDeepPartialEntity<User>> = [
+  DUMMY_USER1,
+  DUMMY_USER2,
+  DUMMY_USER3,
+  ADMIN_USER,
+];
 
 class CreateUsers implements Seeder {
-  public async run(factory: Factory, connection: Connection): Promise<any> {
+  public async run(): Promise<any> {
     // To trigger entity hooks
     await Promise.allSettled(DUMMY_USERS.map((user) => User.parseUser(user).save()));
   }
 }
+
 module.exports = {
   CreateUsers,
-}
+};
