@@ -20,6 +20,7 @@ import searchRouter from "./routes/search";
 import adminRouter from "./routes/admin";
 import commentsRouter from "./routes/comments";
 import borrowsRouter from "./routes/borrows";
+import notificationRouter from "./routes/notification";
 
 import "./configs";
 import db from "./configs/database";
@@ -66,7 +67,7 @@ app.use(
     console.log(e);
     return;
   }
-  await BorrowCard.deleteNotTakenCards();
+  await Promise.all([BorrowCard.deleteNotTakenCards(), BorrowCard.sendDueNotifications()]);
   // await testDB();
   initPassport();
 
@@ -83,6 +84,7 @@ app.use(
   app.use("/news", newsRouter);
   app.use("/settings", settingsRouter);
   app.use("/search", searchRouter);
+  app.use("/notifications", notificationRouter);
   app.use("/admin", adminRouter);
 
   // catch 404 and forward to error handler

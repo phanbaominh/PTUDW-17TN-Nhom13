@@ -11,6 +11,7 @@ import {
   BeforeUpdate,
   BeforeInsert,
   AfterLoad,
+  In,
 } from "typeorm";
 import { BookLanguage } from "./BookLanguage";
 import { BookType } from "./BookType";
@@ -18,7 +19,7 @@ import { Category } from "./Category";
 import { Tag } from "./Tag";
 import EntityHelpers from "./helpers";
 import { Comment } from "./Comment";
-import { BorrowCard } from "./BorrowCard";
+import { BorrowCard, BorrowStatus } from "./BorrowCard";
 import UserNotification from "./UserNotification";
 
 @Entity({ name: "books" })
@@ -125,6 +126,16 @@ export class Book extends BaseEntity {
         .length;
       this.currentBookCount = this.bookCount - borrowedCount;
     }
+  }
+
+  async getCurrentCount() {
+    let takenBookCount = await BorrowCard.count({
+      where: {
+        book: this,
+        status: In([BorrowStatus.REQUESTED, BorrowStatus.BORROWED]),
+      },
+    });
+    return this.bookCount - takenBookCount;
   }
 
   static getMany(limit: number): Promise<Book[]> {

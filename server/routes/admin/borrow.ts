@@ -21,7 +21,7 @@ async function renderBorrowForm(req: Request, res: Response, options = {}, actio
   const redirectOption = getRedirectOption(req);
   const bookIds = await Book.createQueryBuilder("book").select("book.id").getMany();
   const usernames = await User.createQueryBuilder("user").select("user.username").getMany();
-  const statuses = Object.values(BorrowStatus).map(status => ({ name: status }));
+  const statuses = Object.values(BorrowStatus).map((status) => ({ name: status }));
   if (!options["card"]) options["card"] = {};
 
   renderTemplate(req, res, `admin-borrow.${action}.html`, {
@@ -29,14 +29,13 @@ async function renderBorrowForm(req: Request, res: Response, options = {}, actio
     usernames,
     statuses,
     ...options,
-    ...redirectOption
+    ...redirectOption,
   });
 }
 
 router.get("/edit/:id", async function (req, res) {
   try {
-    const card = await BorrowCard
-      .createQueryBuilder("card")
+    const card = await BorrowCard.createQueryBuilder("card")
       .leftJoinAndSelect("card.user", "user")
       .leftJoinAndSelect("card.book", "book")
       .leftJoinAndSelect("book.category", "cat")
@@ -46,14 +45,14 @@ router.get("/edit/:id", async function (req, res) {
     renderBorrowForm(req, res, { card }, "edit");
   } catch (err) {
     redirectWithOption(req, res, "admin-borrow.html", {
-      errorMessage: err
+      errorMessage: err,
     });
   }
 });
 
 router.put("/:id", async function (req, res) {
   try {
-    const card =  await BorrowCard.findOneWithBookCardRelations(Number(req.params.id));
+    const card = await BorrowCard.findOneWithBookCardRelations(Number(req.params.id));
     const next = (err) => {
       redirectWithOption(req, res, `/admin/borrow/edit/${card.id}`, {
         errorMessage: err.message,
@@ -68,9 +67,9 @@ router.put("/:id", async function (req, res) {
       try {
         const newCard = await BorrowCard.parseBorrowCard(fields, card);
         await BorrowCard.save(newCard);
-          redirectWithOption(req, res, "/admin/borrow", {
-            successMessage: "Cập nhật thẻ mượn thành công"
-          });
+        redirectWithOption(req, res, "/admin/borrow", {
+          successMessage: "Cập nhật thẻ mượn thành công",
+        });
       } catch (err) {
         next(err);
       }
@@ -83,11 +82,11 @@ router.put("/:id", async function (req, res) {
   }
 });
 
-router.put("/quick/:id", async function (req, res){
+router.put("/quick/:id", async function (req, res) {
   try {
-    const card =  await BorrowCard.findOneWithBookCatRelations(Number(req.params.id));
-    if (BorrowCard.isTakeBook(card.status)){
-      let msg;
+    const card = await BorrowCard.findOneWithBookCatRelations(Number(req.params.id));
+    if (BorrowCard.isTakeBook(card.status)) {
+      let msg: string;
       if (card.status === BorrowStatus.REQUESTED) {
         card.status = BorrowStatus.BORROWED;
         card.borrowedAt = new Date();
@@ -105,10 +104,9 @@ router.put("/quick/:id", async function (req, res){
   } catch (err) {
     res.status(500).json({ errorMessage: err.message });
   }
-  
 });
 
-router.delete("/:id", async function (req, res){
+router.delete("/:id", async function (req, res) {
   try {
     const card = await BorrowCard.findOneWithBookCatRelations(Number(req.params.id));
     card.status = BorrowStatus.CANCELED;
@@ -117,11 +115,11 @@ router.delete("/:id", async function (req, res){
     res.json({
       row,
       successMessage: "Hủy thẻ mượn sách thành công",
-    })
+    });
   } catch (err) {
     res.status(404).json({
       errorMessage: err.message,
-    })
+    });
   }
 });
 

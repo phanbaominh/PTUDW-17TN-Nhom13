@@ -1,7 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, JoinColumn, SelectQueryBuilder } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToOne,
+  JoinColumn,
+  SelectQueryBuilder,
+} from "typeorm";
 import { Book } from "./Book";
 import { User } from "./User";
 import moment from "moment";
+import UserNotification, { NotiType } from "./UserNotification";
 
 export enum BorrowStatus {
   CANCELED = "canceled",
@@ -28,11 +37,11 @@ export class BorrowCard extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => Book, book => book.borrowCards)
+  @ManyToOne((type) => Book, (book) => book.borrowCards)
   @JoinColumn({ name: "book_id" })
   book: Book;
 
-  @ManyToOne(type => User, user => user.borrowCards)
+  @ManyToOne((type) => User, (user) => user.borrowCards)
   @JoinColumn({ name: "username" })
   user: User;
 
@@ -49,14 +58,14 @@ export class BorrowCard extends BaseEntity {
   borrowedAt: Date;
 
   private static buildCardQuery(): SelectQueryBuilder<BorrowCard> {
-    return BorrowCard
-      .createQueryBuilder("card")
+    return BorrowCard.createQueryBuilder("card")
       .leftJoinAndSelect("card.user", "user")
-      .leftJoinAndSelect("card.book", "book")
+      .leftJoinAndSelect("card.book", "book");
   }
+
   static getAllWithRelations(): Promise<BorrowCard[]> {
     return this.buildCardQuery()
-      .leftJoinAndSelect("book.category","cat")
+      .leftJoinAndSelect("book.category", "cat")
       .where("card.status <> :status", { status: BorrowStatus.FOLLOWED })
       .getMany();
   }
@@ -102,11 +111,16 @@ export class BorrowCard extends BaseEntity {
     }
   }
 
-  static getBorrowForm(status: BorrowStatus, bookId: number, bookCount: number, style = ""): string {
-    let isDisabled = "";
-    if (status === BorrowStatus.BORROWED) isDisabled ="disabled";
+  static getBorrowForm(
+    status: BorrowStatus,
+    bookId: number,
+    bookCount: number,
+    style = "",
+  ): string {
+    let isDisabled = status === BorrowStatus.BORROWED ? "disabled" : "";
+    let action = BorrowCard.getBorrowRef(status, bookId);
     return `
-    <form class="delete-form inline-block w-full" action="${BorrowCard.getBorrowRef(status, bookId)}" method="post">
+    <form class="delete-form inline-block w-full" action="${action}" method="post">
       <button type="submit" ${isDisabled} class="${style} text-white bg-indigo-500 border-0 py-1 px-4 xs:py-2 xs:px-6 focus:outline-none hover:bg-indigo-600 rounded">
         ${BorrowCard.getBorrowText(status, bookCount)}
       </button>
@@ -115,7 +129,7 @@ export class BorrowCard extends BaseEntity {
 
   static async parseBorrowCard(raw: any, oldCard: BorrowCard | null): Promise<BorrowCard> {
     const card = oldCard || new BorrowCard();
-    if (!oldCard){
+    if (!oldCard) {
       card.user = await User.findOneOrFail(raw.username);
       card.createdAt = new Date();
     }
@@ -126,16 +140,17 @@ export class BorrowCard extends BaseEntity {
   }
 
   static isTakeBook(status: BorrowStatus) {
-    if (status === BorrowStatus.REQUESTED || status === BorrowStatus.BORROWED){
+    if (status === BorrowStatus.REQUESTED || status === BorrowStatus.BORROWED) {
       return true;
     }
     return false;
   }
 
   static isFirstStatus(status: BorrowStatus) {
-    return (status === BorrowStatus.REQUESTED || status === BorrowStatus.FOLLOWED);
+    return status === BorrowStatus.REQUESTED || status === BorrowStatus.FOLLOWED;
   }
-  static getLabel(status: BorrowStatus){
+
+  static getLabel(status: BorrowStatus) {
     switch (status) {
       case BorrowStatus.FOLLOWED:
         return "label-info";
@@ -147,7 +162,7 @@ export class BorrowCard extends BaseEntity {
         return "label-primary";
       default:
         return "label-default";
-    };
+    }
   }
 
   static isOverdue(createdAt: Date) {
@@ -155,8 +170,7 @@ export class BorrowCard extends BaseEntity {
   }
 
   static async deleteNotTakenCards(): Promise<void> {
-    await BorrowCard
-      .createQueryBuilder()
+    await BorrowCard.createQueryBuilder()
       .update(BorrowCard)
       .set({ status: BorrowStatus.CANCELED })
       .where("status = :status", { status: BorrowStatus.REQUESTED })
@@ -164,18 +178,39 @@ export class BorrowCard extends BaseEntity {
       .execute();
   }
 
+  static async sendDueNotifications(): Promise<void> {
+    let dueCardList = await BorrowCard.createQueryBuilder()
+      .where("status = :status", { status: BorrowStatus.BORROWED })
+      .andWhere("scheduled_at < :date", { date: new Date() })
+      .getMany();
+    await UserNotification.save(
+      dueCardList.map(function (card) {
+        let noti = new UserNotification();
+        noti.book = card.book;
+        noti.content = `Bạn đã quá hạn trả sách <strong>${card.book.title}</strong>`;
+        noti.type = NotiType.DUE;
+        noti.user = card.user;
+        return noti;
+      }),
+    );
+  }
+
   getOverdueDate(): moment.Moment {
-    return moment(this.borrowedAt).add(BorrowCard.OVERDUE_DURATION, 'd');
+    return moment(this.borrowedAt).add(BorrowCard.OVERDUE_DURATION, "d");
   }
 
   changeBookCount(oldStatus: BorrowStatus | null = BorrowStatus.CANCELED) {
-    if (!oldStatus) oldStatus = BorrowStatus.CANCELED;
-    if (BorrowCard.isTakeBook(oldStatus) && !BorrowCard.isTakeBook(this.status)){
+    if (!oldStatus) {
+      oldStatus = BorrowStatus.CANCELED;
+    }
+    if (BorrowCard.isTakeBook(oldStatus) && !BorrowCard.isTakeBook(this.status)) {
       this.book.currentBookCount += 1;
-    } else if (!BorrowCard.isTakeBook(oldStatus) && BorrowCard.isTakeBook(this.status)){
+    } else if (!BorrowCard.isTakeBook(oldStatus) && BorrowCard.isTakeBook(this.status)) {
       this.book.currentBookCount -= 1;
       this.borrowedAt = new Date();
     }
-    if (this.book.currentBookCount < 0) throw new Error("Số sách còn lại không đủ");
+    if (this.book.currentBookCount < 0) {
+      throw new Error("Số sách còn lại không đủ");
+    }
   }
-};
+}

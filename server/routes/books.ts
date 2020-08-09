@@ -3,11 +3,26 @@ import { Book } from "../entities/Book";
 import { getRedirectOption } from "./helpers";
 import renderTemplate from "../utils/renderTemplate";
 import { User } from "../entities/User";
-import { BorrowCard } from "../entities/BorrowCard";
+import UserNotification from "../entities/UserNotification";
 
-var router = express.Router();
+let router = express.Router();
 
 router.get("/books/:id", async function (req, res, next) {
+  // Mark notification as read
+  if (typeof req.query.nid === "string") {
+    let notificationId = parseInt(req.query.nid);
+    if (!isNaN(notificationId)) {
+      UserNotification.update(
+        {
+          id: notificationId,
+        },
+        {
+          read: true,
+        },
+      );
+    }
+  }
+
   try {
     const book = await Book.findOneWithRelations(Number(req.params.id));
     const options = getRedirectOption(req);
@@ -22,7 +37,7 @@ router.get("/books/:id", async function (req, res, next) {
       book,
       relatedBooks,
       comments,
-      ...options
+      ...options,
     });
   } catch (err) {
     renderTemplate(
@@ -33,10 +48,10 @@ router.get("/books/:id", async function (req, res, next) {
         title: "Homepage",
         flash: {
           type: "error",
-          content: err
-        }
+          content: err,
+        },
       },
-      404
+      404,
     );
   }
 });

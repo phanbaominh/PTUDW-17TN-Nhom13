@@ -5,6 +5,7 @@ import profile from "./profile";
 import settings from "./styles/settings";
 import responsiveSelect from "./responsive-width-select";
 import search from "./search";
+import notification from "./notification";
 
 function setupHeader() {
   $("#hamburger-button").click(function () {
@@ -36,4 +37,5 @@ $(document).ready(function () {
   settings.setup();
   responsiveSelect.setup();
   search.setup();
+  notification.setup();
 });
