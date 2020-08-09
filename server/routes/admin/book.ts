@@ -1,31 +1,18 @@
 import { Router, Response, Request } from "express";
 import formidable from "formidable";
 import fs from "fs";
-import FormData from "form-data";
-import fetch from "node-fetch";
+import csv from "csv-parser";
 import { Book } from "../../entities/Book";
 import { Category } from "../../entities/Category";
 import EntityHelpers from "../../entities/helpers";
 import { BookType } from "../../entities/BookType";
 import { BookLanguage } from "../../entities/BookLanguage";
 import { Tag } from "../../entities/Tag";
-import csv from "csv-parser";
 import { redirectWithOption, getRedirectOption } from "../helpers";
 import renderTemplate from "../../utils/renderTemplate";
-let router = Router();
+import uploadImage from "../../utils/uploadImage";
 
-function uploadImage(rawData: string) {
-  const formData = new FormData();
-  formData.append("image", rawData);
-  formData.append("type", "base64");
-  return fetch("https://api.imgur.com/3/upload", {
-    method: "POST",
-    headers: {
-      Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`
-    },
-    body: formData
-  });
-}
+let router = Router();
 
 function uploadImageAndSave(file: formidable.File, book: Book, req: Request, res: Response, next) {
   fs.readFile(file.path, { encoding: "base64" }, async function (err, data) {
@@ -40,7 +27,7 @@ function uploadImageAndSave(file: formidable.File, book: Book, req: Request, res
         book.coverImage = responseJson.data.link;
         await book.save();
         redirectWithOption(req, res, "/admin/book", {
-          successMessage: "Thêm sách thành công"
+          successMessage: "Thêm sách thành công",
         });
       } else {
         next(new Error(`Không upload image lên imgur được: ${responseJson.status}`));
@@ -56,7 +43,7 @@ function uploadImageAndUpdate(
   newBook: Book,
   req: Request,
   res: Response,
-  next
+  next,
 ) {
   fs.readFile(file.path, { encoding: "base64" }, async function (err, data) {
     if (err) {
@@ -70,7 +57,7 @@ function uploadImageAndUpdate(
         newBook.coverImage = responseJson.data.link;
         await Book.save(newBook);
         redirectWithOption(req, res, "/admin/book", {
-          successMessage: "Cập nhật sách thành công"
+          successMessage: "Cập nhật sách thành công",
         });
       } else {
         next(new Error(`Không upload image lên imgur được: ${responseJson.status}`));
@@ -95,7 +82,7 @@ async function renderBookForm(req: Request, res: Response, options = {}, action 
     languages,
     tags,
     ...options,
-    ...redirectOption
+    ...redirectOption,
   });
 }
 
@@ -104,7 +91,7 @@ router.get("/", async function (req, res) {
   const books = await Book.getAllWithRelations();
   renderTemplate(req, res, "admin-book.html", {
     books,
-    ...options
+    ...options,
   });
 });
 
@@ -115,7 +102,7 @@ router.get("/new", async function (req, res) {
 router.post("/", function (req, res) {
   function next(err) {
     redirectWithOption(req, res, `/admin/book/new`, {
-      errorMessage: err.message
+      errorMessage: err.message,
     });
   }
   let form = new formidable.IncomingForm();
@@ -145,7 +132,7 @@ router.get("/edit/:id", async function (req, res) {
     renderBookForm(req, res, { book }, "edit");
   } catch (err) {
     redirectWithOption(req, res, "admin-book.html", {
-      errorMessage: err.message
+      errorMessage: err.message,
     });
   }
 });
@@ -155,7 +142,7 @@ router.put("/:id", async function (req, res) {
     const book = await Book.findOneWithRelations(Number(req.params.id));
     const next = (err) => {
       redirectWithOption(req, res, `/admin/book/edit/${book.id}`, {
-        errorMessage: err
+        errorMessage: err,
       });
     };
     let form = new formidable.IncomingForm();
@@ -173,7 +160,7 @@ router.put("/:id", async function (req, res) {
           newBook.coverImage = book.coverImage;
           await Book.save(newBook);
           redirectWithOption(req, res, "/admin/book", {
-            successMessage: "Cập nhật sách thành công"
+            successMessage: "Cập nhật sách thành công",
           });
         }
       } catch (err) {
@@ -183,7 +170,7 @@ router.put("/:id", async function (req, res) {
     form.once("error", next);
   } catch (err) {
     redirectWithOption(req, res, "/admin/book", {
-      errorMessage: err.message
+      errorMessage: err.message,
     });
   }
 });
@@ -193,11 +180,11 @@ router.delete("/:id", async function (req, res) {
     const book = await Book.findOneWithRelations(Number(req.params.id));
     await Book.delete(book.id);
     redirectWithOption(req, res, "/admin/book", {
-      successMessage: "Đã xóa sách thành công"
+      successMessage: "Đã xóa sách thành công",
     });
   } catch (err) {
     redirectWithOption(req, res, "/admin/book", {
-      errorMessage: err.message
+      errorMessage: err.message,
     });
   }
 });
@@ -210,7 +197,7 @@ router.get("/import", function (req, res) {
 router.post("/import", function (req, res) {
   function next(err) {
     redirectWithOption(req, res, "/admin/book/import", {
-      errorMessage: err.message
+      errorMessage: err.message,
     });
   }
 
@@ -227,16 +214,16 @@ router.post("/import", function (req, res) {
       .on("error", next)
       .on("data", function (rawBook) {
         rawBookList.push({
-          ...rawBook
+          ...rawBook,
         });
       })
       .on("end", async function () {
         try {
           await Promise.allSettled(
-            rawBookList.map(async (book) => (await Book.parseBook(book)).save())
+            rawBookList.map(async (book) => (await Book.parseBook(book)).save()),
           );
           redirectWithOption(req, res, "/admin/book/import", {
-            successMessage: "Đã import thành công"
+            successMessage: "Đã import thành công",
           });
         } catch (err) {
           next(err);

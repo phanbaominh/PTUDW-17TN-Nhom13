@@ -47,9 +47,9 @@ router.post("/login", async function (req, res, next) {
       res,
       "admin-login",
       {
-        errorMessage: err
+        errorMessage: err,
       },
-      400
+      400,
     );
   }
 });
