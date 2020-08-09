@@ -32,7 +32,7 @@ let app = express();
 
 let env = nunjucks.configure(path.join(__dirname, "views"), {
   autoescape: true,
-  express: app
+  express: app,
 });
 
 setupBorrowFilter(env);
@@ -52,8 +52,8 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
-  })
+    saveUninitialized: false,
+  }),
 );
 
 (async function () {
@@ -64,7 +64,7 @@ app.use(
     console.log(e);
     return;
   }
-  await BorrowCard.deleteNotTakenCards();
+  await Promise.all([BorrowCard.deleteNotTakenCards(), BorrowCard.sendDueNotifications()]);
   // await testDB();
   initPassport();
 

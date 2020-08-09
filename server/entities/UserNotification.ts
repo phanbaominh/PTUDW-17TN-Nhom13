@@ -7,17 +7,17 @@ export enum NotiType {
   AVAILABLE = "available",
 }
 
-@Entity({name: "notifications"})
+@Entity({ name: "notifications" })
 export default class UserNotification extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => Book, book => book.notifications)
-  @JoinColumn({name: "book_id"})
+  @ManyToOne((type) => Book, (book) => book.notifications)
+  @JoinColumn({ name: "book_id" })
   book: Book;
 
-  @ManyToOne(type => User, user => user.notifications)
-  @JoinColumn({name: "username"})
+  @ManyToOne((type) => User, (user) => user.notifications)
+  @JoinColumn({ name: "username" })
   user: User;
 
   @Column()
