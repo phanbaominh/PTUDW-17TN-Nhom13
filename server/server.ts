@@ -20,11 +20,13 @@ import searchRouter from "./routes/search";
 import adminRouter from "./routes/admin";
 import commentsRouter from "./routes/comments";
 import borrowsRouter from "./routes/borrows";
+import lovesRouter from "./routes/loves";
 import notificationRouter from "./routes/notification";
 
 import "./configs";
 import db from "./configs/database";
 import setupBorrowFilter from "./configs/borrowFilter";
+import setupLoveFilter from "./configs/loveFilter"
 import { setupMomentFilter } from "./configs/helperFilter";
 import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
@@ -39,6 +41,7 @@ let env = nunjucks.configure(path.join(__dirname, "views"), {
 
 setupMomentFilter(env);
 setupBorrowFilter(env);
+setupLoveFilter(env);
 
 app.set("engine", env);
 
@@ -81,6 +84,7 @@ app.use(
   app.use("/", booksRouter);
   app.use("/books", commentsRouter);
   app.use("/books", borrowsRouter);
+  app.use("/books", lovesRouter);
   app.use("/news", newsRouter);
   app.use("/settings", settingsRouter);
   app.use("/search", searchRouter);

@@ -149,12 +149,33 @@ function setupBorrowButton(){
     event.preventDefault();
   })
 }
+
+function setupLoveButton(){
+  $(".book__love-button-wrapper").on("submit", "form", function(event){
+    const form = $(this);
+    const buttonWrapper = form.parent();
+    $.post({
+      url: form.attr("action"),
+      dataType: "json",
+      method: "post",
+      success: (data) => {
+        buttonWrapper.html(data.template);
+      },
+      error: (xhr) => {
+        const response = JSON.parse(xhr.responseText);
+        buttonWrapper.append(response.template);
+      },
+    });
+    event.preventDefault();
+  })
+}
 export default function setup(): void {
   setupBookDetail();
   setupShowMoreButton();
   setupReplyButton();
   setupCommentSubmitButton();
   setupBorrowButton();
+  setupLoveButton();
   // Initialise root comment form
   setupTextArea($(".book__comment-form-container textarea"));
 }

@@ -20,6 +20,7 @@ import { Tag } from "./Tag";
 import EntityHelpers from "./helpers";
 import { Comment } from "./Comment";
 import { BorrowCard, BorrowStatus } from "./BorrowCard";
+import { Love } from "./Love"
 import UserNotification from "./UserNotification";
 
 @Entity({ name: "books" })
@@ -70,6 +71,9 @@ export class Book extends BaseEntity {
 
   @OneToMany((type) => BorrowCard, (card) => card.book)
   borrowCards: BorrowCard[];
+
+  @OneToMany((type) => Love, (love) => love.book)
+  loves: Love[];
 
   @OneToMany((type) => UserNotification, (noti) => noti.book)
   notifications: Notification[];

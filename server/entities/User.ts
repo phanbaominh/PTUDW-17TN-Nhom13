@@ -1,9 +1,11 @@
-import { Entity, PrimaryColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, Brackets } from "typeorm";
+import { Entity, PrimaryColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, Brackets, Like } from "typeorm";
 import bcrypt from "bcrypt";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { Comment } from "./Comment";
 import { BorrowCard, BorrowStatus } from "./BorrowCard";
+import { Love } from "./Love";
 import UserNotification from "./UserNotification";
+import { type } from "jquery";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
@@ -42,6 +44,9 @@ export class User extends BaseEntity {
 
   @OneToMany(type => BorrowCard, card => card.user)
   borrowCards: BorrowCard[];
+
+  @OneToMany(type => Love, love => love.user)
+  loves: Love[];
 
   @OneToMany(type => UserNotification, noti => noti.user)
   notifications: UserNotification[];
@@ -89,6 +94,21 @@ export class User extends BaseEntity {
       })
     )
     .getCount();
+  }
+
+  async getLoveForBook(bookId: number): Promise<Love>{
+    return await Love
+      .createQueryBuilder("love")
+      .leftJoinAndSelect("love.book", "book")
+      .where(":username = love.username", {username: this.username})
+      .andWhere(":bookId = book.id", {bookId})
+      .getOne()
+  }
+
+  async getLoveStatus(bookId: number): Promise<Boolean> {
+    const love = await this.getLoveForBook(bookId);
+    const status = love ? true : false;
+    return status;
   }
 
   @BeforeUpdate()
