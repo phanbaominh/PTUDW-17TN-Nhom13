@@ -29,7 +29,7 @@ function setupShowMoreButton(): void {
       .children(".book__comment__replies");
     replySection.toggleClass("hidden");
     if (!replySection.hasClass("hidden")) {
-      buttonText = "Ẩn trả lời";
+      buttonText = "Ẩn các trả lời";
       $.get(`/books/${bookId}/comments/${commentId}/replies`, (data) => {
         replySection.html(data);
         showMoreButton.text(buttonText);
@@ -84,7 +84,7 @@ function addSubmitListener(form: JQuery<HTMLElement>){
       if (replySection.hasClass("hidden")) {
         const showMoreButton = commentSection.find("> .book__comment_buttons > .book__comment__more-button");
         replySection.toggleClass("hidden");
-        showMoreButton.text("Ẩn trả lời");
+        showMoreButton.text("Ẩn các trả lời");
       }
       replySection.append(data);
     };

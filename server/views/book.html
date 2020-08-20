@@ -22,10 +22,10 @@
                 </h1>
                 <div class="flex mb-4 book__detail-tabs">
                     <a class="book__detail-tab flex-grow border-b-2 border-gray-300 py-2 text-lg px-1 cursor-pointer w-1/2">
-                        Description
+                        Mô tả
                     </a>
                     <a class="book__detail-tab flex-grow border-b-2 border-gray-300 py-2 text-lg px-1 cursor-pointer w-1/2">
-                        Details
+                        Chi tiết
                     </a>
                 </div>
                 <div class="book__detail-content relative mb-4">
@@ -35,10 +35,10 @@
                     {{ bookDetailList(book) }}
                 </div>
                 <div class="flex">
-                    <span id="book__book-count" class="title-font font-medium text-xl xs:text-2xl text-gray-900">
+                    <span id="book__book-count" class="font-medium text-lg xl:text-xl text-gray-800 py-1 ml-auto">
                         Số lượng: {{ book.currentBookCount }}
                     </span>
-                    <span class="book__borrow-button-wrapper flex ml-auto">
+                    <span class="book__borrow-button-wrapper flex ml-24">
                         {% include "partials/book.borrow.button.html" %}
                     </span>
                     <button
@@ -64,7 +64,12 @@
 {% endif %}
 
 {{ bookCarouselWithHeading(relatedBookList, book.category.name, book.category.desc) }}
+
+{% if book.testimonial.length > 0 %}
+<div class="bg-gray-200">
+{% else %}
 <div class="bg-gray-300">
+{% endif %}
     {% include "partials/book.comment.section.html" %}
 </div>
 {% endblock %}

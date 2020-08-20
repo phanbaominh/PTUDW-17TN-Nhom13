@@ -17,18 +17,18 @@
                 <span class="text-gray-500 text-xs ml-4">{{ comment.createdAt | getRelativeTime() }}</span>
             </div>
             <p class="text-base md:flex break-words">{{ comment.content }}</p>
-            <div class="book__comment__buttons mt-1 text-gray-700 text-xs font-bold">
-                <button type="button" class="mr-8 hover:text-black">Like</button>
+            <div class="book__comment__buttons mt-1 text-gray-700 text-sm font-bold">
+                <button type="button" class="mr-8 hover:text-black">LIKE</button>
                 <button type="button" data-id="{{comment.id}}"
                         data-book-id="{{bookId}}"
                         class="book__comment__reply-button mr-8 hover:text-black">
-                    Trả lời
+                    PHẢN HỒI
                 </button>
                 {% if comment.repliesCount > 0 %}
                 <button type="button" data-id="{{comment.id}}" 
                         data-book-id="{{bookId}}"
-                        class="book__comment__more-button hover:text-black">
-                    Xem trả lời
+                        class="book__comment__more-button hover:text-black font-bold">
+                    Xem {{comment.repliesCount}} câu trả lời
                 </button>
                 {% endif %}
             </div>
