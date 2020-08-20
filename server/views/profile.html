@@ -3,8 +3,8 @@
 
 {% macro prettyBookCarousel(books, title) %}
 <section class="text-gray-700 body-font">
-    <div class="container px-6 pt-12 pb-24 mx-auto">
-        <div class="flex flex-wrap w-full mb-20">
+    <div class="container px-6 py-12 mx-auto">
+        <div class="flex flex-wrap w-full mb-12">
             <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
                
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">{{title}}</h1>
@@ -84,7 +84,7 @@
 
 {% set count = 0 %}
 {% if bAndRBooks.length > 0 %}
-    {{ prettyBookCarousel(bAndRBooks, "Sách đang yêu cầu mượn hoặc đang mượn") }}
+    {{ prettyBookCarousel(bAndRBooks, "Thẻ mượn sách") }}
     {% set count = count + 1 %}
 {% endif %}
 
