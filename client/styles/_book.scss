@@ -23,16 +23,28 @@
 .book__comment-form-container {
   @apply w-full;
   max-width: 500px;
-  button {
-    cursor: pointer;
-    @apply flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 text-sm rounded self-center mr-1 mt-2;
+}
+
+.book__comment-form__send-button {
+  cursor: pointer;
+    @apply flex-shrink-0 inline-flex bg-indigo-500 text-white border-0 py-2 px-6 text-sm rounded self-center mt-2;
     @screen lg {
-      @apply px-6 mr-2;
+      @apply px-6;
     }
     &:hover {
       @apply bg-indigo-600;
     }
-  }
+}
+
+.book__comment-form__cancel-button {
+  cursor: pointer;
+    @apply flex-shrink-0 inline-flex text-gray-700 font-bold border-0 py-2 px-6 text-sm rounded self-center mr-1 mt-2;
+    @screen lg {
+      @apply px-6 mr-2;
+    }
+    &:hover {
+      @apply text-gray-900;
+    }
 }
 
 .book__comment__content {
