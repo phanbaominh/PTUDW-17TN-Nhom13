@@ -4,6 +4,7 @@ import { getRedirectOption } from "./helpers";
 import renderTemplate from "../utils/renderTemplate";
 import { User } from "../entities/User";
 import UserNotification from "../entities/UserNotification";
+import { Love } from "../entities/Love";
 
 let router = express.Router();
 
@@ -18,7 +19,7 @@ router.get("/books/:id", async function (req, res, next) {
         },
         {
           read: true,
-        },
+        }
       );
     }
   }
@@ -27,10 +28,13 @@ router.get("/books/:id", async function (req, res, next) {
     const book = await Book.findOneWithRelations(Number(req.params.id));
     const options = getRedirectOption(req);
     const comments = await book.toplevelComments();
-    await Promise.allSettled(comments.map((comment) => comment.setRepliesCount()));
+    await Promise.allSettled(
+      comments.map((comment) => comment.setRepliesCount())
+    );
     const relatedBooks: Book[] = await Book.getRelatedBooks(book);
     if (req.user) {
       options["status"] = await (req.user as User).getBookStatus(book.id);
+      options["isLove"] = await (req.user as User).getLoveStatus(book.id);
     }
     renderTemplate(req, res, "book", {
       title: `${book.title}`,
@@ -51,7 +55,7 @@ router.get("/books/:id", async function (req, res, next) {
           content: err,
         },
       },
-      404,
+      404
     );
   }
 });
