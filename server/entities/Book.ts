@@ -20,7 +20,7 @@ import { Tag } from "./Tag";
 import EntityHelpers from "./helpers";
 import { Comment } from "./Comment";
 import { BorrowCard, BorrowStatus } from "./BorrowCard";
-import { Love } from "./Love"
+import { Love } from "./Love";
 import UserNotification from "./UserNotification";
 
 @Entity({ name: "books" })
@@ -126,8 +126,9 @@ export class Book extends BaseEntity {
   @AfterLoad()
   setCurrentCount() {
     if (this.borrowCards) {
-      const borrowedCount = this.borrowCards.filter((card) => BorrowCard.isTakeBook(card.status))
-        .length;
+      const borrowedCount = this.borrowCards.filter((card) =>
+        BorrowCard.isTakeBook(card.status)
+      ).length;
       this.currentBookCount = this.bookCount - borrowedCount;
     }
   }
@@ -182,7 +183,11 @@ export class Book extends BaseEntity {
     book.type = await BookType.findOneOrFail(raw.type);
     book.language = await BookLanguage.findOneOrFail(raw.language);
     book.category = await Category.findOneOrFail(raw.category);
-    book.tags = await EntityHelpers.findOrCreate(Tag, "name", raw.tags.split(","));
+    book.tags = await EntityHelpers.findOrCreate(
+      Tag,
+      "name",
+      raw.tags.split(",")
+    );
     return book;
   }
 }

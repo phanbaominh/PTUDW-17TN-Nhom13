@@ -26,7 +26,7 @@ import notificationRouter from "./routes/notification";
 import "./configs";
 import db from "./configs/database";
 import setupBorrowFilter from "./configs/borrowFilter";
-import setupLoveFilter from "./configs/loveFilter"
+import setupLoveFilter from "./configs/loveFilter";
 import { setupMomentFilter } from "./configs/helperFilter";
 import { initPassport } from "./configs/passport";
 import { parseAuth } from "./middlewares/auth";
@@ -59,7 +59,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-  }),
+  })
 );
 
 (async function () {
@@ -70,7 +70,10 @@ app.use(
     console.log(e);
     return;
   }
-  await Promise.all([BorrowCard.deleteNotTakenCards(), BorrowCard.sendDueNotifications()]);
+  await Promise.all([
+    BorrowCard.deleteNotTakenCards(),
+    BorrowCard.sendDueNotifications(),
+  ]);
   // await testDB();
   initPassport();
 
