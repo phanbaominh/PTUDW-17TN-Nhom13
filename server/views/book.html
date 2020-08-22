@@ -13,7 +13,7 @@
                         class="absolute top-0 left-0 w-full h-full object-center object-cover" src="{{ book.coverImage }}" />
                 </div>
             </div>
-            <div class="md:w-2/3 w-full mt-4 md:mt-0">
+            <div class="md:w-2/3 w-full mt-4 md:mt-0 flex flex-col">
                 <h2 class="text-sm title-font text-gray-500 tracking-widest">
                     {{ book.author }}
                 </h2>
@@ -28,22 +28,24 @@
                         Chi tiết
                     </a>
                 </div>
-                <div class="book__detail-content relative mb-4">
-                    <p class="book__desc leading-relaxed">
-                        {{ book.desc }}
-                    </p>
-                    {{ bookDetailList(book) }}
-                </div>
-                <div class="flex">
-                    <span id="book__book-count" class="font-medium text-lg xl:text-xl text-gray-800 py-1 ml-auto">
-                        Số lượng: {{ book.currentBookCount }}
-                    </span>
-                    <span class="book__borrow-button-wrapper flex ml-24">
-                        {% include "partials/book.borrow.button.html" %}
-                    </span>
-                    <span class="book__love-button-wrapper"> 
-                        {% include "partials/book.love.button.html" %}
-                    </span>
+                <div class="flex flex-col justify-between flex-grow">
+                    <div class="book__detail-content relative mb-4">
+                        <p class="book__desc leading-relaxed">
+                            {{ book.desc }}
+                        </p>
+                        {{ bookDetailList(book) }}
+                    </div>
+                    <div class="flex">
+                        <span id="book__book-count" class="font-medium text-lg xl:text-xl text-gray-800 py-1 ml-auto">
+                            Số lượng: {{ book.currentBookCount }}
+                        </span>
+                        <span class="book__borrow-button-wrapper flex ml-24">
+                            {% include "partials/book.borrow.button.html" %}
+                        </span>
+                        <span class="book__love-button-wrapper"> 
+                            {% include "partials/book.love.button.html" %}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

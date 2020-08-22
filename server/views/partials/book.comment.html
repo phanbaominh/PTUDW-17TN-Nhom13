@@ -25,9 +25,12 @@
                     PHẢN HỒI
                 </button>
                 {% if comment.repliesCount > 0 %}
-                <button type="button" data-id="{{comment.id}}" 
-                        data-book-id="{{bookId}}"
-                        class="book__comment__more-button hover:text-black font-bold">
+                <button
+                    type="button" 
+                    data-id="{{comment.id}}" 
+                    data-book-id="{{bookId}}"
+                    data-count-comment="{{comment.repliesCount}}"
+                    class="book__comment__more-button hover:text-black font-bold">
                     Xem {{comment.repliesCount}} câu trả lời
                 </button>
                 {% endif %}

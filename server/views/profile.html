@@ -26,10 +26,10 @@
                 {% for book in books %}
                 <div class="px-4">
                     <div class="profile__book rounded shadow">
-                        <div class="profile__book__cover-image">
+                        <a href="/books/{{ book.id }}" class="profile__book__cover-image">
                             <img class="absolute h-full w-full object-cover object-center" src="{{ book.coverImage }}"
                                 alt="Cover image for {{ book.title }}">
-                        </div>
+                        </a>
                         <div class="profile__book__detail pt-3 md:pt-0">
                             <div>
                                 <h3 class="hover:underline tracking-widest text-indigo-500 text-xs font-medium title-font">

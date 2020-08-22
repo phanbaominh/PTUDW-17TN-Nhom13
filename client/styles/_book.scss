@@ -21,8 +21,9 @@
   @apply text-indigo-500 border-b-2 border-indigo-500;
 }
 .book__comment-form-container {
-  @apply w-full;
-  max-width: 500px;
+  // @apply w-full;
+  // max-width: 500px;
+  @apply flex-grow;
 }
 
 .book__comment-form__send-button {

@@ -25,7 +25,8 @@ function setupShowMoreButton(): void {
       const showMoreButton = $(event.target);
       const commentId = showMoreButton.data("id");
       const bookId = showMoreButton.data("book-id");
-      let buttonText = "Xem trả lời";
+      const commentCount = showMoreButton.data("count-comment");
+      let buttonText = `Xem ${commentCount} câu trả lời`;
       const replySection = showMoreButton
         .closest(".book__comment")
         .children(".book__comment__content")
