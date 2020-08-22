@@ -14,7 +14,7 @@ router.get("/login", function (req, res) {
     return;
   }
   renderTemplate(req, res, "login", {
-    title: "Login"
+    title: "Login",
   });
 });
 
@@ -29,7 +29,7 @@ router.post("/login", async function (req: Request, res, next) {
       passport.authenticate("local", function (err, user: User | null) {
         if (err || (user && user.isAdmin)) {
           reject(
-            "Tài khoản không tồn tại. Bạn hãy liên hệ với thư viện để học lớp hướng dẫn sử dụng thư viện, sau đó sẽ được tạo tài khoản."
+            "Tài khoản không tồn tại. Bạn hãy liên hệ với thư viện để học lớp hướng dẫn sử dụng thư viện, sau đó sẽ được tạo tài khoản.",
           );
           return;
         }
@@ -57,10 +57,10 @@ router.post("/login", async function (req: Request, res, next) {
         title: "Login",
         flash: {
           type: "error",
-          content: err
-        }
+          content: err,
+        },
       },
-      400
+      400,
     );
   }
 });
@@ -72,19 +72,19 @@ router.get("/logout", function (req, res, next) {
 
 router.get("/profile", requireAuth, async function (req, res, next) {
   try {
-    const currentUser = (req.user as User);
+    const currentUser = req.user as User;
     const options = getRedirectOption(req);
     const borrowCards = await currentUser.getBorrowCards();
-    const bAndRBooks: Book[] = [] ;
+    const bAndRBooks: Book[] = [];
     const returnedBooks: Book[] = [];
     const followedBooks: Book[] = [];
     const mapReturned = new Map<number, boolean>();
-    borrowCards.forEach(card => {
+    borrowCards.forEach((card) => {
       card.book.currentCard = card;
       if (BorrowCard.isTakeBook(card.status)) {
         bAndRBooks.push(card.book);
-      } else if (card.status === BorrowStatus.RETURNED){
-        if (!mapReturned.has(card.book.id)){
+      } else if (card.status === BorrowStatus.RETURNED) {
+        if (!mapReturned.has(card.book.id)) {
           returnedBooks.push(card.book);
           mapReturned.set(card.book.id, true);
         }
@@ -99,7 +99,7 @@ router.get("/profile", requireAuth, async function (req, res, next) {
       followedBooks,
       ...options,
     });
-  } catch (err){
+  } catch (err) {
     redirectWithOption(req, res, "/", {
       flash: {
         type: "error",
@@ -107,12 +107,11 @@ router.get("/profile", requireAuth, async function (req, res, next) {
       },
     });
   }
-  
 });
 
 router.get("/forgot-password", function (req, res, next) {
   renderTemplate(req, res, "forgot-password", {
-    title: "Forgot password"
+    title: "Forgot password",
   });
 });
 

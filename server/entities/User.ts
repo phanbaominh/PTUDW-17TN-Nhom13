@@ -102,7 +102,7 @@ export class User extends BaseEntity {
           }).orWhere(":status2 = card.status", {
             status2: BorrowStatus.BORROWED,
           });
-        })
+        }),
       )
       .getCount();
   }
@@ -115,7 +115,7 @@ export class User extends BaseEntity {
       .getOne();
   }
 
-  async getLoveStatus(bookId: number): Promise<Boolean> {
+  async getLoveStatus(bookId: number): Promise<boolean> {
     const love = await this.getLoveForBook(bookId);
     const status = love ? true : false;
     return status;

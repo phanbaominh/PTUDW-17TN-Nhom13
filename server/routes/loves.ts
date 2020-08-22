@@ -8,12 +8,7 @@ import { redirectWithOption } from "./helpers";
 import { getNextFreeDate } from "../utils/time";
 var router = express.Router();
 
-function renderSuccessResponse(
-  book: Book,
-  isLove: Boolean,
-  flashMsg: string,
-  user: User
-) {
+function renderSuccessResponse(book: Book, isLove: boolean, flashMsg: string, user: User) {
   return nunjucks.render("partials/book.love.button.html", {
     book,
     isLove,
@@ -66,12 +61,7 @@ router.delete("/:bookId/love", requireAuth, async function (req, res) {
     if (love) {
       await love.remove();
       let flashMsg = "Bạn đã bỏ thích sách này";
-      const template = renderSuccessResponse(
-        book,
-        false,
-        flashMsg,
-        currentUser
-      );
+      const template = renderSuccessResponse(book, false, flashMsg, currentUser);
       res.json({ template });
     } else {
       res.status(400).json({ template: "" });

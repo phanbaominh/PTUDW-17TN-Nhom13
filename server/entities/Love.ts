@@ -1,10 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  BaseEntity,
-  ManyToOne,
-  JoinColumn,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, JoinColumn } from "typeorm";
 import { Book } from "./Book";
 import { User } from "./User";
 
@@ -21,12 +15,12 @@ export class Love extends BaseEntity {
   @JoinColumn({ name: "username" })
   user: User;
 
-  static getLoveRef(status: Boolean, bookId: number) {
+  static getLoveRef(status: boolean, bookId: number) {
     if (status) return `/books/${bookId}/love?_method=DELETE`;
     else return `/books/${bookId}/love`;
   }
 
-  static getLoveForm(status: Boolean, bookId: number): string {
+  static getLoveForm(status: boolean, bookId: number): string {
     let action = Love.getLoveRef(status, bookId);
     let style = status ? "bg-red-500 text-white" : "bg-gray-500 text-gray-200";
     return `

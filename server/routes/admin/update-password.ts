@@ -16,16 +16,16 @@ router.post("/update-password", async function (req, res) {
       res,
       "admin-update-password.html",
       {
-        errorMessage: err.message
+        errorMessage: err.message,
       },
-      400
+      400,
     );
   }
 
   let {
     password,
     newPassword,
-    newPassword2
+    newPassword2,
   }: {
     password: string;
     newPassword: string;
@@ -58,7 +58,7 @@ router.post("/update-password", async function (req, res) {
     .save()
     .then(function () {
       renderTemplate(req, res, "admin-update-password.html", {
-        successMessage: "Cập nhật thành công"
+        successMessage: "Cập nhật thành công",
       });
     })
     .catch(next);

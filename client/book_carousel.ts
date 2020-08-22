@@ -12,8 +12,8 @@ function setup() {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 1
-        }
+          slidesToScroll: 1,
+        },
       },
       {
         breakpoint: 767,
@@ -21,8 +21,8 @@ function setup() {
           slidesToShow: 2,
           slidesToScroll: 1,
           autoplay: true,
-          autoplaySpeed: 3000
-        }
+          autoplaySpeed: 3000,
+        },
       },
       {
         breakpoint: 350,
@@ -30,10 +30,10 @@ function setup() {
           slidesToShow: 1,
           slidesToScroll: 1,
           autoplay: true,
-          autoplaySpeed: 3000
-        }
-      }
-    ]
+          autoplaySpeed: 3000,
+        },
+      },
+    ],
   };
   $(".book-carousel").on("init", function (event, slick) {
     const carousel = $(event.target);

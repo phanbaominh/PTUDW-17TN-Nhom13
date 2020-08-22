@@ -14,7 +14,7 @@ router.get("/", function (req, res) {
 router.post("/", function (req, res) {
   function next(err) {
     renderTemplate(req, res, "admin-reader.html", {
-      errorMessage: err
+      errorMessage: err,
     });
   }
 
@@ -34,14 +34,14 @@ router.post("/", function (req, res) {
         rawUserList.push({
           ...rawUser,
           password: rawUser.phone,
-          birthdate: new Date(rawUser.birthdate)
+          birthdate: new Date(rawUser.birthdate),
         });
       })
       .on("end", async function () {
         try {
           await Promise.allSettled(rawUserList.map((user) => User.parseUser(user).save()));
           renderTemplate(req, res, "admin-reader.html", {
-            successMessage: "Đã import thành công"
+            successMessage: "Đã import thành công",
           });
         } catch (err) {
           next(err);

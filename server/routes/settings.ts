@@ -5,7 +5,7 @@ let router = Router();
 
 router.get("/", requireAuth, function (req, res, next) {
   renderTemplate(req, res, "settings", {
-    title: "Settings"
+    title: "Settings",
   });
 });
 
