@@ -82,6 +82,8 @@ export class Book extends BaseEntity {
   @JoinColumn({ name: "category_id" })
   category: Category;
 
+  borrowCount = 0;
+
   @ManyToMany((type) => Tag, (tag) => tag.books)
   @JoinTable({
     name: "taggings",
