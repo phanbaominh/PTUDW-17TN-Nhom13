@@ -59,7 +59,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-  })
+  }),
 );
 
 (async function () {
@@ -70,10 +70,7 @@ app.use(
     console.log(e);
     return;
   }
-  await Promise.all([
-    BorrowCard.deleteNotTakenCards(),
-    BorrowCard.sendDueNotifications(),
-  ]);
+  await Promise.all([BorrowCard.deleteNotTakenCards(), BorrowCard.sendDueNotifications()]);
   // await testDB();
   initPassport();
 

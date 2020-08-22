@@ -14,7 +14,7 @@ async function getRepliesHTML(commentId, bookId): Promise<string> {
   const template = nunjucks.render("partials/book.comments.html", {
     comments: replies,
     isTopLevel: false,
-    bookId
+    bookId,
   });
   return template;
 }
@@ -38,24 +38,24 @@ function getCommentResponse(comment: Comment, bookId, isTopLevel): any {
     isResponse: true,
     flash: {
       type: "success",
-      content: "Đã thêm bình luận thành công"
-    }
+      content: "Đã thêm bình luận thành công",
+    },
   });
   return {
     template,
-    id: comment.id
+    id: comment.id,
   };
 }
 
-router.post("/:bookId/comments/:parentId?/create", requireAuth, async function (req, res){
+router.post("/:bookId/comments/:parentId?/create", requireAuth, async function (req, res) {
   try {
     const book = await Book.findOneOrFail(Number(req.params.bookId), { relations: ["comments"] });
     const next = (err) => {
       const template = nunjucks.render("flash.html", {
         flash: {
           type: "error",
-          content: err.message
-        }
+          content: err.message,
+        },
       });
       res.status(404).json({ template });
     };
@@ -68,7 +68,7 @@ router.post("/:bookId/comments/:parentId?/create", requireAuth, async function (
       let isTopLevel = true;
       if (req.params.parentId) {
         const parentComment = book.comments.find(
-          (comment) => comment.id === Number(req.params.parentId)
+          (comment) => comment.id === Number(req.params.parentId),
         );
         if (!parentComment) throw new Error("Không tìm thấy bình luận cha");
         comment.parent = parentComment;
@@ -91,10 +91,10 @@ router.post("/:bookId/comments/:parentId?/create", requireAuth, async function (
         title: "Homepage",
         flash: {
           type: "error",
-          content: err
-        }
+          content: err,
+        },
       },
-      404
+      404,
     );
   }
 });
