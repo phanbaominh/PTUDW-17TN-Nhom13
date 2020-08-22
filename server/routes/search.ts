@@ -5,6 +5,7 @@ import { BookLanguage } from "../entities/BookLanguage";
 import { BookType } from "../entities/BookType";
 import { Environment } from "nunjucks";
 import { Book } from "../entities/Book";
+import { BorrowStatus } from "../entities/BorrowCard";
 
 let router = Router();
 let PAGE_SIZE = 4;
@@ -52,12 +53,12 @@ function parseSearchParamsFromRequest(req: Request): SearchParams {
     languageId: Number(languageId) || undefined,
     bookTypeId: Number(bookTypeId) || undefined,
     sort,
-    page: Number(page) || 1
+    page: Number(page) || 1,
   };
 }
 
 async function queryBooks(
-  params: SearchParams
+  params: SearchParams,
 ): Promise<{ bookList: Book[]; bookCount: number; pageCount: number }> {
   let query = Book.createQueryBuilder("book")
     .innerJoinAndSelect("book.category", "category")
@@ -65,7 +66,6 @@ async function queryBooks(
     .innerJoinAndSelect("book.type", "type");
   if (params.categoryId) {
     let categoryId = params.categoryId;
-    console.log({ categoryId, x: typeof categoryId });
     query = query.andWhere("category.id = :categoryId", { categoryId });
   }
   if (params.languageId) {
@@ -81,29 +81,54 @@ async function queryBooks(
 
   query = query.andWhere(
     "(book.author like :q OR book.title like :q OR book.publisher like :q OR category.name like :q OR _tag.name like :q)",
-    { q: "%" + params.q + "%" }
+    { q: "%" + params.q + "%" },
   );
 
   let bookCount = await query.getCount();
+  let bookList: Book[] = [];
 
   switch (params.sort) {
     case "date":
-      query = query.orderBy("book.createdAt", "DESC");
-      break;
-    case "borrow-count":
-      // TODO: handle sort by borrow count
+      query = query
+        .orderBy("book.createdAt", "DESC")
+        .skip((params.page - 1) * PAGE_SIZE)
+        .take(PAGE_SIZE);
+      bookList = await query.getMany();
       break;
     case "publish-year":
-      query = query.orderBy("book.publishingYear", "DESC");
+      query = query
+        .orderBy("book.publishingYear", "DESC")
+        .skip((params.page - 1) * PAGE_SIZE)
+        .take(PAGE_SIZE);
+      bookList = await query.getMany();
+      break;
+    case "borrow-count":
+      query = query.loadRelationCountAndMap(
+        "book.borrowCount",
+        "book.borrowCards",
+        "borrowCards",
+        function (qb) {
+          return qb.andWhere(
+            "(borrowCards.status = :status1 OR borrowCards.status = :status2 OR borrowCards.status = :status3)",
+            {
+              status1: BorrowStatus.REQUESTED,
+              status2: BorrowStatus.RETURNED,
+              status3: BorrowStatus.BORROWED,
+            },
+          );
+        },
+      );
+      bookList = await query.getMany();
+      bookList = bookList
+        .sort((book1, book2) => book2.borrowCount - book1.borrowCount)
+        .slice((params.page - 1) * PAGE_SIZE, params.page * PAGE_SIZE);
       break;
   }
 
-  query = query.skip((params.page - 1) * PAGE_SIZE);
-  query = query.take(PAGE_SIZE);
   return {
-    bookList: await query.getMany(),
+    bookList,
     bookCount,
-    pageCount: Math.ceil(bookCount / PAGE_SIZE)
+    pageCount: Math.ceil(bookCount / PAGE_SIZE),
   };
 }
 
@@ -113,18 +138,18 @@ router.get("/", async function (req, res) {
 
     let categoryList = await Category.find({
       order: {
-        id: "ASC"
-      }
+        id: "ASC",
+      },
     });
     let languageList = await BookLanguage.find({
       order: {
-        name: "ASC"
-      }
+        name: "ASC",
+      },
     });
     let bookTypeList = await BookType.find({
       order: {
-        name: "ASC"
-      }
+        name: "ASC",
+      },
     });
 
     let { bookList, bookCount, pageCount } = await queryBooks(params);
@@ -134,7 +159,7 @@ router.get("/", async function (req, res) {
       max: Math.min(pageCount, params.page + 2),
       page_size: PAGE_SIZE,
       minBook: (params.page - 1) * PAGE_SIZE + 1,
-      maxBook: Math.min(bookCount, params.page * PAGE_SIZE)
+      maxBook: Math.min(bookCount, params.page * PAGE_SIZE),
     };
 
     renderTemplate(req, res, "search", {
@@ -144,15 +169,15 @@ router.get("/", async function (req, res) {
       bookList,
       categoryList,
       languageList,
-      bookTypeList
+      bookTypeList,
     });
   } catch (err) {
     console.log(err);
     renderTemplate(req, res, "search.html", {
       flash: {
         type: "error",
-        content: "Lỗi hệ thống"
-      }
+        content: "Lỗi hệ thống",
+      },
     });
   }
 });

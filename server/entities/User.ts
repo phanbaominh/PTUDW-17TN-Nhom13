@@ -1,9 +1,21 @@
-import { Entity, PrimaryColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, Brackets } from "typeorm";
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
+  OneToMany,
+  Brackets,
+  Like,
+} from "typeorm";
 import bcrypt from "bcrypt";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { Comment } from "./Comment";
 import { BorrowCard, BorrowStatus } from "./BorrowCard";
+import { Love } from "./Love";
 import UserNotification from "./UserNotification";
+import { type } from "jquery";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
@@ -37,13 +49,16 @@ export class User extends BaseEntity {
   @Column({ name: "is_admin" })
   isAdmin: boolean;
 
-  @OneToMany(type => Comment, comment => comment.user)
+  @OneToMany((type) => Comment, (comment) => comment.user)
   comments: Comment[];
 
-  @OneToMany(type => BorrowCard, card => card.user)
+  @OneToMany((type) => BorrowCard, (card) => card.user)
   borrowCards: BorrowCard[];
 
-  @OneToMany(type => UserNotification, noti => noti.user)
+  @OneToMany((type) => Love, (love) => love.user)
+  loves: Love[];
+
+  @OneToMany((type) => UserNotification, (noti) => noti.user)
   notifications: UserNotification[];
 
   strip() {
@@ -51,44 +66,59 @@ export class User extends BaseEntity {
     this.password = this.password.trim();
   }
 
-  async getBorrowCardForBook(bookId: number): Promise<BorrowCard>{
-    return await BorrowCard
-      .createQueryBuilder("card")
+  async getBorrowCardForBook(bookId: number): Promise<BorrowCard> {
+    return await BorrowCard.createQueryBuilder("card")
       .leftJoin("card.book", "book")
-      .where(":username = card.username", { username: this.username})
+      .where(":username = card.username", { username: this.username })
       .andWhere(":bookId = book.id", { bookId })
       .andWhere(":status <> card.status", { status: BorrowStatus.CANCELED })
       .andWhere(":status2 <> card.status", { status2: BorrowStatus.RETURNED })
       .orderBy("card.id", "DESC")
       .getOne();
   }
-  async getBookStatus(bookId: number): Promise<BorrowStatus>{
+  async getBookStatus(bookId: number): Promise<BorrowStatus> {
     const card = await this.getBorrowCardForBook(bookId);
     const status = card ? card.status : BorrowStatus.CANCELED;
     return status;
   }
 
-  async getBorrowCards(): Promise<BorrowCard[]>{
-    return await BorrowCard
-      .createQueryBuilder("card")
+  async getBorrowCards(): Promise<BorrowCard[]> {
+    return await BorrowCard.createQueryBuilder("card")
       .leftJoinAndSelect("card.book", "book")
       .leftJoinAndSelect("book.borrowCards", "cards")
-      .where(":username = card.username", { username: this.username} )
+      .where(":username = card.username", { username: this.username })
       .andWhere(":status <> card.status", { status: BorrowStatus.CANCELED })
       .getMany();
   }
 
   async getRAndBCount(): Promise<number> {
-    return BorrowCard
-    .createQueryBuilder("card")
-    .leftJoinAndSelect("card.book", "book")
-    .where(":username = card.username", { username: this.username} )
-    .andWhere(new Brackets(qb => {
-      qb.where(":status = card.status", { status: BorrowStatus.REQUESTED })
-        .orWhere(":status2 = card.status", { status2: BorrowStatus.BORROWED })
-      })
-    )
-    .getCount();
+    return BorrowCard.createQueryBuilder("card")
+      .leftJoinAndSelect("card.book", "book")
+      .where(":username = card.username", { username: this.username })
+      .andWhere(
+        new Brackets((qb) => {
+          qb.where(":status = card.status", {
+            status: BorrowStatus.REQUESTED,
+          }).orWhere(":status2 = card.status", {
+            status2: BorrowStatus.BORROWED,
+          });
+        })
+      )
+      .getCount();
+  }
+
+  async getLoveForBook(bookId: number): Promise<Love> {
+    return await Love.createQueryBuilder("love")
+      .leftJoinAndSelect("love.book", "book")
+      .where(":username = love.username", { username: this.username })
+      .andWhere(":bookId = book.id", { bookId })
+      .getOne();
+  }
+
+  async getLoveStatus(bookId: number): Promise<Boolean> {
+    const love = await this.getLoveForBook(bookId);
+    const status = love ? true : false;
+    return status;
   }
 
   @BeforeUpdate()
@@ -109,7 +139,7 @@ export class User extends BaseEntity {
     user.email = raw.email as string;
     user.phone = raw.phone as string;
     user.address = raw.address as string;
-    user.isAdmin = raw.isAdmin as boolean; 
+    user.isAdmin = raw.isAdmin as boolean;
     return user;
   }
 }
