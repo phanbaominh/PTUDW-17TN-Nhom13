@@ -1,69 +1,30 @@
 $(document).ready(() => {
-  $(document).on("keypress", "#tags_input *", function(event) {
+  $(document).on("keypress", "#tags_input *", function (event) {
     if (event.key == "Enter") {
       event.preventDefault();
     }
   });
 
-  $('.input-group.date').datepicker({
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    calendarWeeks: true,
-    autoclose: true
-  });
-  var $image = $(".image-crop > img");
-  var $cropped = $($image).cropper({
-    aspectRatio: 1.618,
-    preview: ".img-preview",
-    done: function(data) {
-      // Output the result data for cropping image.
-    }
-  });
+  // $(".input-group.date").datepicker({
+  //   todayBtn: "linked",
+  //   keyboardNavigation: false,
+  //   forceParse: false,
+  //   calendarWeeks: true,
+  //   autoclose: true,
+  // });
 
-  var $inputImage = $("#inputImage");
-  if (window.FileReader) {
-    $inputImage.change(function() {
-      var fileReader = new FileReader(),
-        files = this.files,
-        file;
-
-      if (!files.length) {
-        return;
-      }
-
-      file = files[0];
-      if (/^image\/\w+$/.test(file.type)) {
-        fileReader.readAsDataURL(file);
-        fileReader.onload = function() {
-          // $inputImage.val("");
-          $image.cropper("reset", true).cropper("replace", this.result);
-        };
+  $("#book-cover-input").change(function (e) {
+    let files = e.target.files;
+    if (files.length > 0) {
+      let url = URL.createObjectURL(files[0]);
+      $("#book-cover-preview").removeClass("hidden").addClass("grid").find("img").attr("src", url);
+    } else {
+      let src = $("#book-cover-preview").data("src");
+      if (!src) {
+        $("#book-cover-preview").removeClass("grid").addClass("hidden");
       } else {
-        showMessage("Please choose an image file.");
+        $("#book-cover-preview").find("img").attr("src", src);
       }
-    });
-  } else {
-    $inputImage.addClass("hide");
-  }
-
-  $("#zoomIn").click(function() {
-    $image.cropper("zoom", 0.1);
-  });
-
-  $("#zoomOut").click(function() {
-    $image.cropper("zoom", -0.1);
-  });
-
-  $("#rotateLeft").click(function() {
-    $image.cropper("rotate", 45);
-  });
-
-  $("#rotateRight").click(function() {
-    $image.cropper("rotate", -45);
-  });
-
-  $("#setDrag").click(function() {
-    $image.cropper("setDragMode", "crop");
+    }
   });
 });

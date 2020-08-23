@@ -31,46 +31,27 @@
 <input type="text" value="{{book.testimonial | dump}}" hidden name="testimonial">
 {% endif %}
 
-{% if book.coverImage %}
-<div class="form-group row">
-  <label class="col-sm-2 col-form-label">Ảnh bìa hiện tại</label>
-  <div class="col-sm-10">
-    <img src="{{book.coverImage}}">
-    <input type="text" value="{{book.coverImage}}" name="coverImage" hidden>
-  </div>
-</div>
-{{ dashedDivider() }}
-{% endif %}
-
 <div class="form-group row">
   <label class="col-sm-2 col-form-label">Ảnh bìa</label>
   <div class="col-sm-10">
-    <div class="col-md-6">
-      <div class="image-crop">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==">
+    {% if book.coverImage %}
+    <div id="book-cover-preview" class="grid" data-src="{{ book.coverImage }}" style="grid-template-columns: minmax(0, 370px);">
+      <div style="padding-bottom: 130%;" class="h-0 relative">
+        <img src="{{ book.coverImage }}" class="absolute top-0 left-0 h-full w-full object-cover object-center">
       </div>
     </div>
-    <div class="col-md-6">
-      <h4>Preview image</h4>
-      <div class="img-preview img-preview-sm"></div>
-      <div>
-        <label title="Upload image file" for="inputImage" class="btn btn-primary">
-          <input type="file" accept="image/*" name="file" id="inputImage" style="display:none">
-          Upload image
-        </label>
-      </div>
-      <br>
-      <h4>Modify image</h4>
-      <div class="btn-group">
-        <button class="btn btn-white" id="zoomIn" type="button">Zoom In</button>
-        <button class="btn btn-white" id="zoomOut" type="button">Zoom Out</button>
-        <button class="btn btn-white" id="rotateLeft" type="button">Rotate Left</button>
-        <button class="btn btn-white" id="rotateRight" type="button">Rotate Right</button>
-        <button class="btn btn-warning" id="setDrag" type="button">New crop</button>
+    <input type="text" value="{{ book.coverImage }}" name="coverImage" hidden>
+    {% else %}
+    <div id="book-cover-preview" class="hidden" style="grid-template-columns: minmax(0, 370px);">
+      <div style="padding-bottom: 130%;" class="h-0 relative">
+        <img class="absolute top-0 left-0 h-full w-full object-cover object-center">
       </div>
     </div>
+    {% endif %}
+    <input type="file" name="file" accept="image/*" class="mt-4" id="book-cover-input">
   </div>
 </div>
+
 <div class="hr-line-dashed"></div>
 <div class="form-group row">
   <div class="col-sm-4 col-sm-offset-2">
