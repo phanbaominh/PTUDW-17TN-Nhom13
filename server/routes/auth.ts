@@ -68,12 +68,12 @@ router.post("/login", async function (req: Request, res, next) {
   }
 });
 
-router.get("/logout", function (req, res, next) {
+router.get("/logout", function (req, res) {
   req.logout();
   res.redirect("/");
 });
 
-router.get("/profile", requireAuth, async function (req, res, next) {
+router.get("/profile", requireAuth, async function (req, res) {
   try {
     const currentUser = req.user as User;
     const options = getRedirectOption(req);
@@ -112,7 +112,7 @@ router.get("/profile", requireAuth, async function (req, res, next) {
   }
 });
 
-router.get("/forgot-password", function (req, res) {
+router.get("/forgot-password", function (req, res, next) {
   renderTemplate(req, res, "forgot-password", {
     title: "Forgot password",
     ...getRedirectOption(req),

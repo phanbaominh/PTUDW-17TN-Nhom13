@@ -88,7 +88,7 @@ app.use(
   app.use("/books", borrowsRouter);
   app.use("/books", lovesRouter);
   app.use("/news", newsRouter);
-  app.use("/settings", settingsRouter);
+  app.use("/", settingsRouter);
   app.use("/search", searchRouter);
   app.use("/notifications", notificationRouter);
   app.use("/admin", adminRouter);
