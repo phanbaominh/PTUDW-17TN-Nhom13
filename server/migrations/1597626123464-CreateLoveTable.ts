@@ -1,9 +1,4 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
 export class CreateLoveTable1597626123464 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -27,7 +22,7 @@ export class CreateLoveTable1597626123464 implements MigrationInterface {
           },
         ],
       }),
-      true
+      true,
     );
     const createFK = async (columnName, tableName, ref) => {
       await queryRunner.createForeignKey(
@@ -37,7 +32,7 @@ export class CreateLoveTable1597626123464 implements MigrationInterface {
           referencedColumnNames: [ref],
           referencedTableName: `${tableName}`,
           onDelete: "SET NULL",
-        })
+        }),
       );
     };
 

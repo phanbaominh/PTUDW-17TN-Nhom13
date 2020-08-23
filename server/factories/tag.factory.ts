@@ -1,6 +1,6 @@
-import Faker from 'faker';
-import { define } from 'typeorm-seeding';
-import { Tag } from '../entities/Tag';
+import Faker from "faker";
+import { define } from "typeorm-seeding";
+import { Tag } from "../entities/Tag";
 
 define(Tag, (faker: typeof Faker) => {
   const tag = new Tag();

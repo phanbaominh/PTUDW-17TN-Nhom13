@@ -25,6 +25,7 @@ import notificationRouter from "./routes/notification";
 
 import "./configs";
 import db from "./configs/database";
+import email from "./configs/email";
 import setupBorrowFilter from "./configs/borrowFilter";
 import setupLoveFilter from "./configs/loveFilter";
 import { setupMomentFilter } from "./configs/helperFilter";
@@ -59,21 +60,19 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-  })
+  }),
 );
 
 (async function () {
   let connection: Connection = null;
   try {
     connection = await db.initialise();
+    await email.setup();
   } catch (e) {
     console.log(e);
     return;
   }
-  await Promise.all([
-    BorrowCard.deleteNotTakenCards(),
-    BorrowCard.sendDueNotifications(),
-  ]);
+  await Promise.all([BorrowCard.deleteNotTakenCards(), BorrowCard.sendDueNotifications()]);
   // await testDB();
   initPassport();
 
@@ -89,7 +88,7 @@ app.use(
   app.use("/books", borrowsRouter);
   app.use("/books", lovesRouter);
   app.use("/news", newsRouter);
-  app.use("/settings", settingsRouter);
+  app.use("/", settingsRouter);
   app.use("/search", searchRouter);
   app.use("/notifications", notificationRouter);
   app.use("/admin", adminRouter);

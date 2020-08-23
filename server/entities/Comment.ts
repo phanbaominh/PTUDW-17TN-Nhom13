@@ -6,7 +6,7 @@ import {
   JoinColumn,
   Column,
   OneToMany,
-  AfterLoad
+  AfterLoad,
 } from "typeorm";
 import { User } from "./User";
 import { Book } from "./Book";

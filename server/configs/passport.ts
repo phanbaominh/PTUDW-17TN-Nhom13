@@ -17,7 +17,7 @@ function initPassport() {
       } catch (err) {
         cb(err);
       }
-    })
+    }),
   );
 
   passport.serializeUser(function (user: User, cb) {

@@ -9,7 +9,7 @@ router.get("/catalogue", async function (req, res, next) {
     const categories: Category[] = await Category.getAllWithBooks();
     renderTemplate(req, res, "catalogue", {
       title: "Catalogue",
-      categories
+      categories,
     });
   } catch (err) {
     next(err);

@@ -20,7 +20,9 @@
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
     "schema:drop": "typeorm schema:drop",
-    "db:rebuild": "export TYPEORM_URL=$DATABASE_URL && yarn schema:drop && yarn migration:run && yarn seed:run"
+    "db:rebuild": "export TYPEORM_URL=$DATABASE_URL && yarn schema:drop && yarn migration:run && yarn seed:run",
+    "lint": "eslint client/ server/ --ext .ts --fix",
+    "prettier": "prettier \"client/**/*.ts\" \"server/**/*.ts\" --write --loglevel=warn"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -34,26 +36,32 @@
     "express-session": "^1.17.1",
     "form-data": "^3.0.0",
     "formidable": "^1.2.2",
+    "googleapis": "^59.0.0",
     "http-errors": "^1.7.3",
     "http-terminator": "^2.0.3",
+    "husky": "^4.2.5",
     "jquery": "^3.5.1",
+    "lint-staged": "^10.2.11",
     "lodash": "^4.17.19",
     "method-override": "^3.0.0",
     "moment": "^2.27.0",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.11",
     "npm-run-all": "^4.1.5",
     "nunjucks": "^3.2.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.2.1",
+    "prettier": "^2.0.5",
     "reflect-metadata": "^0.1.13",
     "rss-parser": "^3.9.0",
     "slugify": "^1.4.5",
     "tailwindcss": "^1.4.6",
     "ts-node": "^8.10.2",
     "typeorm": "^0.2.25",
-    "typeorm-seeding": "^1.6.1"
+    "typeorm-seeding": "^1.6.1",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.2.0",
@@ -72,15 +80,17 @@
     "@types/morgan": "^1.9.0",
     "@types/node": "^14.0.1",
     "@types/node-fetch": "^2.5.7",
+    "@types/nodemailer": "^6.4.0",
     "@types/nunjucks": "^3.1.3",
     "@types/passport": "^1.0.4",
     "@types/passport-local": "^1.0.33",
     "@types/slick-carousel": "^1.6.34",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "autoprefixer": "^9.7.6",
     "css-loader": "^3.5.3",
-    "eslint": "^7.0.0",
+    "eslint": "^7.7.0",
     "eslint-loader": "^4.0.2",
     "mini-css-extract-plugin": "^0.9.0",
     "nodemon": "^2.0.4",
@@ -98,5 +108,16 @@
     "typescript": "^3.9.2",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --allow-empty"
+    }
+  },
+  "lint-staged": {
+    "*.(ts|json)": [
+      "yarn prettier",
+      "yarn lint"
+    ]
   }
 }

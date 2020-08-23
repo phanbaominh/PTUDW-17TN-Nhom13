@@ -23,9 +23,9 @@ router.post("/create-librarian", function (req, res) {
       res,
       "admin-create-librarian.html",
       {
-        errorMessage: err.message
+        errorMessage: err.message,
       },
-      400
+      400,
     );
   }
 
@@ -61,7 +61,7 @@ router.post("/create-librarian", function (req, res) {
     .save()
     .then(function () {
       renderTemplate(req, res, "admin-create-librarian.html", {
-        successMessage: "Tạo tài khoản thành công"
+        successMessage: "Tạo tài khoản thành công",
       });
     })
     .catch(next);

@@ -9,7 +9,7 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
           {
             name: "username",
             type: "varchar(20)",
-            isPrimary: true
+            isPrimary: true,
           },
           {
             name: "password",
@@ -17,15 +17,15 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
           },
           {
             name: "fullname",
-            type: "text"
+            type: "text",
           },
           {
             name: "profile_picture",
-            type: "text"
+            type: "text",
           },
           {
             name: "birthdate",
-            type: "date"
+            type: "date",
           },
           {
             name: "gender",
@@ -33,7 +33,7 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
           },
           {
             name: "email",
-            type: "text"
+            type: "text",
           },
           {
             name: "phone",
@@ -41,16 +41,16 @@ export class CreateUserTable1593396878033 implements MigrationInterface {
           },
           {
             name: "address",
-            type: "text"
+            type: "text",
           },
           {
             name: "is_admin",
             type: "bool",
-            default: false
-          }
-        ]
+            default: false,
+          },
+        ],
       }),
-      true
+      true,
     );
   }
 

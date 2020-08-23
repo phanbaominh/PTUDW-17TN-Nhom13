@@ -88,7 +88,7 @@ function addSubmitListener(form: JQuery<HTMLElement>) {
       const replySection = commentSection.find("> .book__comment__replies");
       if (replySection.hasClass("hidden")) {
         const showMoreButton = commentSection.find(
-          "> .book__comment_buttons > .book__comment__more-button"
+          "> .book__comment_buttons > .book__comment__more-button",
         );
         replySection.toggleClass("hidden");
         showMoreButton.text("Ẩn các trả lời");
@@ -102,30 +102,26 @@ function addSubmitListener(form: JQuery<HTMLElement>) {
 }
 
 function setupReplyButton() {
-  $("#book__comment-section").on(
-    "click",
-    ".book__comment__reply-button",
-    function (event) {
-      const parentId = $(event.target).data("id");
-      const bookId = $(event.target).data("book-id");
-      if (!window.__USER__) {
-        location.href = "/login";
-        return;
-      }
-      let container = $(event.target)
-        .closest(".book__comment__content")
-        .find("> .book__comment-form--wrapper");
-      let commentFormHTML = $("#comment-form-tpl").html();
-      container.html(commentFormHTML);
-      const form = container.find("form");
-      form.attr("action", `/books/${bookId}/comments/${parentId}/create`);
-      addSubmitListener(form);
-      setupTextArea($(container).find("textarea"));
-      container.find("button[type='reset']").click(function () {
-        container.html("");
-      });
+  $("#book__comment-section").on("click", ".book__comment__reply-button", function (event) {
+    const parentId = $(event.target).data("id");
+    const bookId = $(event.target).data("book-id");
+    if (!window.__USER__) {
+      location.href = "/login";
+      return;
     }
-  );
+    let container = $(event.target)
+      .closest(".book__comment__content")
+      .find("> .book__comment-form--wrapper");
+    let commentFormHTML = $("#comment-form-tpl").html();
+    container.html(commentFormHTML);
+    const form = container.find("form");
+    form.attr("action", `/books/${bookId}/comments/${parentId}/create`);
+    addSubmitListener(form);
+    setupTextArea($(container).find("textarea"));
+    container.find("button[type='reset']").click(function () {
+      container.html("");
+    });
+  });
 }
 
 function setupCommentSubmitButton() {
