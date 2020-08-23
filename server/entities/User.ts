@@ -145,4 +145,8 @@ export class User extends BaseEntity {
     user.isAdmin = raw.isAdmin as boolean;
     return user;
   }
+
+  checkPassword(password: string) {
+    return bcrypt.compareSync(password, this.password);
+  }
 }

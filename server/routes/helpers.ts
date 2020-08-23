@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+
 function redirectWithOption(req: Request, res: Response<any>, url: string, options = null) {
   req.session.options = options;
   res.redirect(url);
