@@ -49,6 +49,9 @@ export class User extends BaseEntity {
   @Column({ name: "is_admin" })
   isAdmin: boolean;
 
+  @Column({ name: "reset_token" })
+  resetToken: string;
+
   @OneToMany((type) => Comment, (comment) => comment.user)
   comments: Comment[];
 

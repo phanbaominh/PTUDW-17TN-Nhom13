@@ -6,6 +6,7 @@ import settings from "./styles/settings";
 import responsiveSelect from "./responsive-width-select";
 import search from "./search";
 import notification from "./notification";
+import resetPassword from "./reset-password";
 
 function setupHeader() {
   $("#hamburger-button").click(function () {
@@ -38,4 +39,5 @@ $(document).ready(function () {
   responsiveSelect.setup();
   search.setup();
   notification.setup();
+  resetPassword.setup();
 });
