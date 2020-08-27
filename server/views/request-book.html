@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<section class="my-12 md:my-16 flex flex-col justify-center">
+    <div class="py-6 ">
+        <div class="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-xs lg:max-w-3xl">
+            <form action="/request-book" method="POST" class="w-full p-8">
+                <h2 class="text-2xl font-semibold text-gray-700 text-center">Yêu cầu thêm sách</h2>
+                <p class="text-xl text-gray-600 text-center">Bạn có thể yêu cầu thư viện đặt thêm một đầu sách mới</p>
+                <p class="border-b py-1"></p>
+                <div class="mt-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Tên sách</label>
+                    <input type="text" name="bookTitle" autofocus
+                        class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none">
+                </div>
+                <div class="mt-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Tên tác giả</label>
+                    <input type="text" name="bookAuthor"
+                        class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none">
+                </div>
+                <div class="mt-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Năm xuất bản</label>
+                    <input type="number" name="bookPublishedYear" min="1900"
+                        class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none">
+                </div>
+                <div class="mt-8">
+                    <button type="submit" class="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">
+                        Gửi yêu cầu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

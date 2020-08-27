@@ -14,6 +14,7 @@ import { Comment } from "./Comment";
 import { BorrowCard, BorrowStatus } from "./BorrowCard";
 import { Love } from "./Love";
 import UserNotification from "./UserNotification";
+import BookRequest from "./BookRequest";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
@@ -64,6 +65,9 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => UserNotification, (noti) => noti.user)
   notifications: UserNotification[];
+
+  @OneToMany((type) => BookRequest, (request) => request.user)
+  bookRequests: BookRequest[];
 
   strip() {
     this.username = this.username.trim();

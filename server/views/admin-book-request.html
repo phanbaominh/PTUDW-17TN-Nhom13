@@ -1,0 +1,145 @@
+{% extends "admin-layout.html" %}
+
+{% block breadcrumb %}
+<div class="col-lg-10">
+  <h2>Quản lý yêu cầu thêm sách</h2>
+  <ol class="breadcrumb">
+    <li>
+      <a href="/admin">Home</a>
+    </li>
+    <li class="active">
+      <strong>Quản lý yêu cầu thêm sách</strong>
+    </li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block style %}
+<link href="/css/admin-form.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Danh sách các yêu cầu thêm sách</h5>
+        <div class="ibox-tools">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="close-link">
+            <i class="fa fa-times"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="table-responsive">
+          <table id="request-table" class="table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tên sách</th>
+                <th>Tên tác giả</th>
+                <th>Năm xuất bản</th>
+                <th>Giáo viên yêu cầu</th>
+                <th>Tình trạng</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for bookRequest in requestList %}
+              <tr>
+                <td>{{ bookRequest.id }}</td>
+                <td>{{ bookRequest.bookTitle }}</td>
+                <td>{{ bookRequest.bookAuthor }}</td>
+                <td>{{ bookRequest.bookPublishedYear }}</td>
+                <td>{{ bookRequest.user.fullname }}</td>
+                <td id="status-{{ bookRequest.id }}">
+                  {% if not bookRequest.isDone %}
+                  <span class="label badge-default" title="Yêu cầu đang được xử lý">PENDING</span>
+                  {% else %}
+                  <span class="label badge-primary" title="Sách đã nhập về thư viện">DONE</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if not bookRequest.isDone %}
+                  <button
+                    type="button"
+                    class="action-btn text-navy mark-done-btn"
+                    data-id="{{ bookRequest.id }}"
+                    title="Xác nhận đã nhập sách">
+                    <i class="fa fa-check-circle-o" aria-hidden="true" style="font-size: 20px;margin-left: 5px"></i>
+                  </button>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(function() {
+    $("#request-table").DataTable({
+      pageLength: 10,
+      responsive: true,
+      dom: '<"html5buttons"B>lTfgitp',
+      buttons: [{
+          extend: "copy"
+        },
+        {
+          extend: "csv"
+        },
+        {
+          extend: "excel",
+          title: "ExampleFile"
+        },
+        {
+          extend: "pdf",
+          title: "ExampleFile"
+        },
+        {
+          extend: "print",
+          customize: function(win) {
+            $(win.document.body).addClass("white-bg");
+            $(win.document.body).css("font-size", "10px");
+
+            $(win.document.body)
+              .find("table")
+              .addClass("compact")
+              .css("font-size", "inherit");
+          }
+        }
+      ],
+    });
+    $(".mark-done-btn").click(function() {
+      if (!confirm('Bạn có chắc là yêu cầu đã hoàn thành không?')) {
+        return;
+      }
+      let requestId = $(this).data("id");
+      fetch(`/admin/book-request/${requestId}`, { method: "PUT" })
+        .then(function(res) {
+          if (res.ok) {
+            return res.json();
+          }
+          throw null;
+        })
+        .then((() => {
+          flash({ successMessage: "Cập nhật thành công" });
+          $(`#status-${requestId}`).find("span").removeClass("badge-default").addClass("badge-primary").text("DONE");
+          $(this).hide();
+        }))
+        .catch(function() {
+          flash({ errorMessage: "Lỗi hệ thống" });
+        });
+    })
+  });
+</script>
+{% endblock %}

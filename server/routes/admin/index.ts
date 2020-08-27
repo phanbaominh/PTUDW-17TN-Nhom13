@@ -7,6 +7,7 @@ import readerRouter from "./reader";
 import teacherRouter from "./teacher";
 import returnRouter from "./return";
 import categoryRouter from "./category";
+import bookRequestRouter from "./book-request";
 import updatePasswordRouter from "./update-password";
 import createLibrarianRouter from "./create-librarian";
 
@@ -35,6 +36,7 @@ router.use("/borrow", borrowRouter);
 router.use("/reader", readerRouter);
 router.use("/teacher", teacherRouter);
 router.use("/return", returnRouter);
+router.use("/book-request", bookRequestRouter);
 router.use("/", updatePasswordRouter);
 router.use("/", createLibrarianRouter);
 router.use("/category", categoryRouter);
