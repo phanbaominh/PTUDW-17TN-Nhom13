@@ -7,7 +7,6 @@ import {
   BeforeUpdate,
   OneToMany,
   Brackets,
-  Like,
 } from "typeorm";
 import bcrypt from "bcrypt";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
@@ -15,7 +14,6 @@ import { Comment } from "./Comment";
 import { BorrowCard, BorrowStatus } from "./BorrowCard";
 import { Love } from "./Love";
 import UserNotification from "./UserNotification";
-import { type } from "jquery";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
@@ -48,6 +46,9 @@ export class User extends BaseEntity {
 
   @Column({ name: "is_admin" })
   isAdmin: boolean;
+
+  @Column({ name: "is_teacher" })
+  isTeacher: boolean;
 
   @Column({ name: "reset_token" })
   resetToken: string;
