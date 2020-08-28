@@ -15,6 +15,7 @@ import authRouter from "./routes/auth";
 import catalogueRouter from "./routes/catalogue";
 import booksRouter from "./routes/books";
 import newsRouter from "./routes/news";
+import requestBookRouter from "./routes/request-book";
 import settingsRouter from "./routes/settings";
 import searchRouter from "./routes/search";
 import adminRouter from "./routes/admin";
@@ -88,6 +89,7 @@ app.use(
   app.use("/books", borrowsRouter);
   app.use("/books", lovesRouter);
   app.use("/news", newsRouter);
+  app.use("/request-book", requestBookRouter);
   app.use("/", settingsRouter);
   app.use("/search", searchRouter);
   app.use("/notifications", notificationRouter);

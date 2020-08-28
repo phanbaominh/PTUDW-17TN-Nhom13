@@ -103,6 +103,12 @@
                         class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
                         Cập nhật thông tin
                     </a>
+                    {% if user.isTeacher %}
+                    <a href="/request-book"
+                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                        Yêu cầu thêm sách
+                    </a>
+                    {% endif %}
                     <a href="/logout"
                         class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
                         Đăng xuất
@@ -155,13 +161,18 @@
                             </div>
                         </button>
                         <div class="header__dropdown user-dropdown hidden">
-                            <div class="header__dropdown--content text-sm">
+                            <div class="header__dropdown--content text-sm font-medium text-gray-700">
                                 <a href="/profile" class="hover:bg-gray-700 hover:text-white">
                                     Trang cá nhân
                                 </a>
                                 <a href="/settings" class="hover:bg-gray-700 hover:text-white">
                                     Cập nhật thông tin
                                 </a>
+                                {% if user.isTeacher %}
+                                <a href="/request-book" class="hover:bg-gray-700 hover:text-white">
+                                    Yêu cầu thêm sách
+                                </a>
+                                {% endif %}
                                 <a href="/logout" class="hover:bg-gray-700 hover:text-white">
                                     Đăng xuất
                                 </a>

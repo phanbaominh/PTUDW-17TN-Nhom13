@@ -95,12 +95,21 @@
               <li class="{{ ['/category'] | activeRoute(url) }}">
                 <a href="/admin/category">Quản lý thể loại sách</a>
               </li>
+              <li class="{{ ['/book-request'] | activeRoute(url) }}">
+                <a href="/admin/book-request">Quản lý yêu cầu thêm sách</a>
+              </li>
             </ul>
           </li>
           <li class="{{ ['/reader'] | activeRoute(url) }}">
             <a href="/admin/reader">
               <i class="fa fa-users"></i>
               <span class="nav-label">Import sinh viên</span>
+            </a>
+          </li>
+          <li class="{{ ['/teacher'] | activeRoute(url) }}">
+            <a href="/admin/teacher">
+              <i class="fa fa-user-plus"></i>
+              <span class="nav-label">Import giáo viên</span>
             </a>
           </li>
         </ul>
