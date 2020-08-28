@@ -7,7 +7,7 @@ import BookRequest from "../entities/BookRequest";
 type BookRequestBody = {
   bookTitle: string;
   bookAuthor: string;
-  noteRequest?: string;
+  noteRequest: string;
 };
 
 let router = Router();
@@ -38,7 +38,7 @@ router.post("/", requireAuth, async function (req, res) {
       typeof bookAuthor !== "string" ||
       typeof noteRequest !== "string"
     ) {
-      throw new Error("Don't do that 1");
+      throw new Error("Don't do that");
     }
 
     let request = new BookRequest();
