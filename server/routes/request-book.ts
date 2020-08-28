@@ -7,7 +7,7 @@ import BookRequest from "../entities/BookRequest";
 type BookRequestBody = {
   bookTitle: string;
   bookAuthor: string;
-  bookPublishedYear?: string;
+  noteRequest?: string;
 };
 
 let router = Router();
@@ -30,22 +30,21 @@ router.post("/", requireAuth, async function (req, res) {
     return;
   }
 
-  let { bookTitle, bookAuthor }: BookRequestBody = req.body;
-  let bookPublishedYear = parseInt((req.body as BookRequestBody).bookPublishedYear);
+  let { bookTitle, bookAuthor, noteRequest }: BookRequestBody = req.body;
 
   try {
     if (
       typeof bookTitle !== "string" ||
       typeof bookAuthor !== "string" ||
-      isNaN(bookPublishedYear)
+      typeof noteRequest !== "string"
     ) {
-      throw new Error("Don't do that");
+      throw new Error("Don't do that 1");
     }
 
     let request = new BookRequest();
     request.bookTitle = bookTitle;
     request.bookAuthor = bookAuthor;
-    request.bookPublishedYear = bookPublishedYear;
+    request.noteRequest = noteRequest;
     request.user = currentUser;
     await request.save();
 

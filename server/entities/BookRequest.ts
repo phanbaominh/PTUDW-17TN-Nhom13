@@ -16,8 +16,8 @@ export default class BookRequest extends BaseEntity {
   @Column({ name: "book_author" })
   bookAuthor: string;
 
-  @Column({ name: "book_published_year" })
-  bookPublishedYear: number;
+  @Column({ name: "note_request" })
+  noteRequest: string;
 
   @Column({ name: "is_done" })
   isDone: boolean;

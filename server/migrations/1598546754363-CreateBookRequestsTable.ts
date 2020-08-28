@@ -25,8 +25,8 @@ export class CreateBookRequestsTable1598546754363 implements MigrationInterface 
             type: "varchar",
           },
           {
-            name: "book_published_year",
-            type: "int",
+            name: "note_request",
+            type: "varchar",
           },
           {
             name: "is_done",

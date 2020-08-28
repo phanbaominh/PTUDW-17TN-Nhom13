@@ -41,7 +41,7 @@
                 <th>ID</th>
                 <th>Tên sách</th>
                 <th>Tên tác giả</th>
-                <th>Năm xuất bản</th>
+                <th>Ghi chú</th>
                 <th>Giáo viên yêu cầu</th>
                 <th>Tình trạng</th>
                 <th></th>
@@ -53,7 +53,7 @@
                 <td>{{ bookRequest.id }}</td>
                 <td>{{ bookRequest.bookTitle }}</td>
                 <td>{{ bookRequest.bookAuthor }}</td>
-                <td>{{ bookRequest.bookPublishedYear }}</td>
+                <td>{{ bookRequest.noteRequest }}</td>
                 <td>{{ bookRequest.user.fullname }}</td>
                 <td id="status-{{ bookRequest.id }}">
                   {% if not bookRequest.isDone %}

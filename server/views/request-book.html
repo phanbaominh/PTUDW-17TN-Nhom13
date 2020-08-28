@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<section class="my-12 md:my-16 flex flex-col justify-center">
+<section class="container px-6 py-12 mx-auto">
     <div class="py-6 ">
-        <div class="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-xs lg:max-w-3xl">
+        <div class="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto lg:max-w-3xl">
             <form action="/request-book" method="POST" class="w-full p-8">
                 <h2 class="text-2xl font-semibold text-gray-700 text-center">Yêu cầu thêm sách</h2>
                 <p class="text-xl text-gray-600 text-center">Bạn có thể yêu cầu thư viện đặt thêm một đầu sách mới</p>
@@ -19,9 +19,9 @@
                         class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none">
                 </div>
                 <div class="mt-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Năm xuất bản</label>
-                    <input type="number" name="bookPublishedYear" min="1900"
-                        class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Ghi chú sách</label>
+                    <textarea type="textarea" name="noteRequest" rows="3"
+                        class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"></textarea>
                 </div>
                 <div class="mt-8">
                     <button type="submit" class="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">
