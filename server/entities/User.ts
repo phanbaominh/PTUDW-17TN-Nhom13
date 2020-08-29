@@ -69,6 +69,13 @@ export class User extends BaseEntity {
   @OneToMany((type) => BookRequest, (request) => request.user)
   bookRequests: BookRequest[];
 
+  @BeforeInsert()
+  setDefaultProfilePicture() {
+    this.profilePicture =
+      this.profilePicture ||
+      "https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g";
+  }
+
   strip() {
     this.username = this.username.trim();
     this.password = this.password.trim();
