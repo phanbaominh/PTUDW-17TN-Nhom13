@@ -1,5 +1,5 @@
 {% if user %}
-<div class="flex flex-wrap w-full mt-0 md:mt-4 mb-8">
+<div class="flex flex-wrap w-full mt-12 md:mt-8">
     <div class="hidden md:block ml-1 mr-8 xs:ml-0">
         <img src="{{ user.profilePicture }}" alt="Your profile picture" class="rounded-full h-12 w-12 mb-2 lg:mb-0">
     </div>
@@ -10,9 +10,9 @@
             <textarea
                 name="content" placeholder="Phản hồi công khai..."
                 class="w-full border px-4 py-2 rounded hover:shadow"></textarea>
-            <div>
-                <button type="submit" class="" value="Gửi">Gửi</button>
-                <button type="reset" class="book__comment-form__cancel-button">Hủy bỏ</button>
+            <div class="w-full flex justify-end">
+                <button type="reset" class="book__comment-form__cancel-button">HỦY</button>
+                <button type="submit" class="book__comment-form__send-button" value="Gửi">PHẢN HỒI</button>
             </div>
         </form>
     </div>

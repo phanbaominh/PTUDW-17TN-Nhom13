@@ -18,26 +18,31 @@ function setupBookDetail() {
 }
 
 function setupShowMoreButton(): void {
-  $("#book__comment-section").on("click", ".book__comment__more-button", (event) => {
-    const showMoreButton = $(event.target);
-    const commentId = showMoreButton.data("id");
-    const bookId = showMoreButton.data("book-id");
-    let buttonText = "Xem trả lời";
-    const replySection = showMoreButton
-      .closest(".book__comment")
-      .children(".book__comment__content")
-      .children(".book__comment__replies");
-    replySection.toggleClass("hidden");
-    if (!replySection.hasClass("hidden")) {
-      buttonText = "Ẩn trả lời";
-      $.get(`/books/${bookId}/comments/${commentId}/replies`, (data) => {
-        replySection.html(data);
+  $("#book__comment-section").on(
+    "click",
+    ".book__comment__more-button",
+    (event) => {
+      const showMoreButton = $(event.target);
+      const commentId = showMoreButton.data("id");
+      const bookId = showMoreButton.data("book-id");
+      const commentCount = showMoreButton.data("count-comment");
+      let buttonText = `Xem ${commentCount} câu trả lời`;
+      const replySection = showMoreButton
+        .closest(".book__comment")
+        .children(".book__comment__content")
+        .children(".book__comment__replies");
+      replySection.toggleClass("hidden");
+      if (!replySection.hasClass("hidden")) {
+        buttonText = "Ẩn trả lời";
+        $.get(`/books/${bookId}/comments/${commentId}/replies`, (data) => {
+          replySection.html(data);
+          showMoreButton.text(buttonText);
+        });
+      } else {
         showMoreButton.text(buttonText);
-      });
-    } else {
-      showMoreButton.text(buttonText);
+      }
     }
-  });
+  );
 }
 
 function autoExpand(field: HTMLElement) {
@@ -86,7 +91,7 @@ function addSubmitListener(form: JQuery<HTMLElement>) {
           "> .book__comment_buttons > .book__comment__more-button",
         );
         replySection.toggleClass("hidden");
-        showMoreButton.text("Ẩn trả lời");
+        showMoreButton.text("Ẩn các trả lời");
       }
       replySection.append(data);
     };

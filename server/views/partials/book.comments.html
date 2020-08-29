@@ -1,3 +1,9 @@
-{% for comment in comments %}
-    {% include "partials/book.comment.html" %}
-{% endfor %}
+{% if comments.length > 0 %}
+    {% for comment in comments %}
+        {% include "partials/book.comment.html" %}
+    {% endfor %}
+{% else %}
+    {% if (not user) %}
+        <div class='h-16'></div>
+    {% endif %}
+{% endif %}
