@@ -1,12 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  OneToMany,
-  BeforeInsert,
-  BeforeUpdate,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
 import { Book } from "./Book";
 
 @Entity({ name: "categories" })
@@ -33,11 +25,5 @@ export class Category extends BaseEntity {
     return Category.createQueryBuilder("category")
       .leftJoinAndSelect("category.books", "book")
       .getMany();
-  }
-
-  @BeforeUpdate()
-  @BeforeInsert()
-  setDefaultPosition() {
-    this.position = this.position ?? this.id;
   }
 }
