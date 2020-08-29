@@ -45,6 +45,10 @@ setupMomentFilter(env);
 setupBorrowFilter(env);
 setupLoveFilter(env);
 
+env.addFilter("getFirstName", function (fullname) {
+  return fullname.split(" ").slice(-1)[0];
+});
+
 app.set("engine", env);
 
 app.set("views", path.join(__dirname, "views"));

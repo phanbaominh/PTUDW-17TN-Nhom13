@@ -18,16 +18,25 @@
 
 
 <nav class="bg-white shadow fixed top-0 left-0 w-full z-50">
-    <div class="container mx-auto px-6 py-3">
-        <div class="md:flex md:items-center md:justify-between">
-            <div class="flex justify-between items-center">
-                <div class="text-xl font-semibold text-gray-700">
-                    <a href="/" class="text-gray-800 text-xl font-bold hover:text-gray-700 md:text-2xl">FITLIB</a>
+    <div class="container mx-auto px-6 py-4">
+        <div class="lg:flex lg:items-center lg:justify-between">
+            <div class="flex md:flex-grow lg:flex-grow-0 justify-between items-center">
+                <div class="flex items-center">
+                    <div class="text-xl font-semibold text-gray-700">
+                        <a href="/" class="text-gray-800 text-xl font-bold hover:text-gray-700 md:text-2xl">FITLIB</a>
+                    </div>
+                    <form action="/search" method="GET" class="hidden md:block lg:hidden md:ml-8">
+                        <input type="text" placeholder="Search" aria-label="Search"
+                            class="w-full px-4 py-2 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
+                            style="width: 360px;"
+                            name="q" value="{{ params.q if params else '' }}" required>
+                    </form>
                 </div>
-                <div class="flex md:hidden">
+                <!-- Notification button / Hamburger button for mobile -->
+                <div class="flex lg:hidden">
                     {% if user %}
                     <button type="button" aria-label="toggle menu"
-                        class="relative text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600 mr-3"
+                        class="md:hidden relative text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600 mr-3"
                         id="notification-button">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6">
                             <path
@@ -39,6 +48,43 @@
                         <span class="notification-count">{{ unreadNotificationCount }}</span>
                         {% endif %}
                     </button>
+                    <div class="header__dropdown--wrapper hidden md:block">
+                        <button type="button" aria-label="show notifications"
+                            class="header__dropdown--trigger relative mx-2 hidden md:block text-gray-600 hover:text-gray-700 focus:text-gray-700 focus:outline-none">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6">
+                                <path
+                                    d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                </path>
+                            </svg>
+                            {% if unreadNotificationCount > 0 %}
+                            <span class="notification-count">{{ unreadNotificationCount }}</span>
+                            {% endif %}
+                        </button>
+                        <div class="header__dropdown notification-dropdown hidden">
+                            <div class="header__dropdown--header text-sm">
+                                <h2>Notifications</h2>
+                                <button type="button" class="mark-all-as-read-btn text-blue-700 hover:underline focus:underline">
+                                    Mark all as read
+                                </button>
+                            </div>
+                            {% if notificationList.length > 0 %}
+                            <div class="header__dropdown--content">
+                                {% for notification in notificationList %}
+                                {{ noti(notification) }}
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="header__dropdown--content empty">
+                                <p class="text-md mb-2">No notifications yet</p>
+                                <p class="text-sm">
+                                    Stay tuned! Notifications about your subscribed books will show up here.
+                                </p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
                     {% endif %}
                     <button type="button" aria-label="toggle menu"
                         class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
@@ -51,6 +97,7 @@
                     </button>
                 </div>
             </div>
+            <!-- Notification menu for mobile -->
             <div id="notification-menu" class="md:items-center md:justify-between flex-1 hidden">
                 <div class="flex justify-between items-center text-sm p-2" style="border-bottom: 1px solid #ddd;">
                     <h2>Notifications</h2>
@@ -73,51 +120,76 @@
                 </div>
                 {% endif %}
             </div>
-            <div id="header-menu" class="md:flex md:items-center md:justify-between flex-1 hidden">
-                <div class="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
-                    <a href="/"
-                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                        Trang chủ
-                    </a>
-                    <a href="/catalogue"
-                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                        Kho sách
-                    </a>
-                    <a href="/#news"
-                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                        Tin tức
-                    </a>
-                    <form action="/search" method="GET" class="hidden md:block">
-                        <input type="text" placeholder="Search" aria-label="Search"
-                            class="w-full px-4 py-3 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
-                            name="q" value="{{ params.q if params else '' }}" required>
-                    </form>
+            <!-- Main header (except logo) -->
+            <div id="header-menu" class="lg:flex md:items-center md:justify-between flex-1 hidden">
+                <form action="/search" method="GET" class="hidden lg:block md:ml-8 xl:pr-24">
+                    <input type="text" placeholder="Search" aria-label="Search"
+                        class="w-full px-4 py-2 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
+                        style="width: 360px;"
+                        name="q" value="{{ params.q if params else '' }}" required>
+                </form>
+                <div class="md:flex">
+                    <!-- Links to pages -->
+                    <div class="flex flex-col -mx-4 md:flex-row md:items-center md:mt-4 lg:mt-0 lg:mx-8">
+                        <a href="/"
+                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                            Trang chủ
+                        </a>
+                        <a href="/catalogue"
+                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                            Kho sách
+                        </a>
+                        <a href="/#news"
+                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                            Tin tức
+                        </a>
+                    </div>
+                    {% if user %}
+                    <!-- User menu for Mobile -->
+                    <div class="flex flex-col -mx-4 md:flex-row md:items-center lg:mx-8 lg:hidden md:mt-4 md:ml-4">
+                        <a href="/profile"
+                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                            Trang cá nhân
+                        </a>
+                        <a href="/settings"
+                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                            Cập nhật thông tin
+                        </a>
+                        {% if user.isTeacher %}
+                        <a href="/request-book"
+                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                            Yêu cầu thêm sách
+                        </a>
+                        {% endif %}
+                        <a href="/logout"
+                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                            Đăng xuất
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="flex flex-col -mx-4 md:flex-row md:items-center lg:mx-8 lg:hidden md:mt-4 md:ml-4">
+                        <a href="/login"
+                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+                            Đăng nhập
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
                 {% if user %}
-                <div class="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8 md:hidden">
-                    <a href="/profile"
-                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                        Trang cá nhân
+                <!-- Notification menu / User menu for desktop -->
+                <div class="lg:flex items-center hidden">
+                    <a href="/profile" class="flex items-center focus:outline-none hover:bg-gray-300 rounded-md pl-1">
+                        <div class="hidden md:block h-6 w-6 overflow-hidden rounded-full border-2 border-gray-400">
+                            <img src="{{ user.profilePicture }}"
+                                alt="avatar" class="h-full w-full object-cover">
+                        </div>
+                        <span class="mx-1 mt-2 md:mt-0 pl-1 pr-1 py-1 text-sm text-gray-700 font-medium">
+                            {{ user.fullname | getFirstName }}
+                        </span>
                     </a>
-                    <a href="/settings"
-                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                        Cập nhật thông tin
-                    </a>
-                    {% if user.isTeacher %}
-                    <a href="/request-book"
-                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                        Yêu cầu thêm sách
-                    </a>
-                    {% endif %}
-                    <a href="/logout"
-                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                        Đăng xuất
-                    </a>
-                </div>
-                <div class="md:flex items-center hidden">
                     <div class="header__dropdown--wrapper">
                         <button type="button" aria-label="show notifications"
-                            class="header__dropdown--trigger relative mx-4 hidden md:block text-gray-600 hover:text-gray-700 focus:text-gray-700 focus:outline-none">
+                            class="header__dropdown--trigger relative mx-2 hidden md:block text-gray-600 hover:text-gray-700 focus:text-gray-700 focus:outline-none">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6">
                                 <path
                                     d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9"
@@ -153,18 +225,14 @@
                         </div>
                     </div>
                     <div class="header__dropdown--wrapper">
-                        <button type="button" aria-label="toggle profile dropdown"
-                            class="header__dropdown--trigger flex items-center focus:outline-none">
-                            <div class="hidden md:block h-8 w-8 overflow-hidden rounded-full border-2 border-gray-400">
-                                <img src="{{user.profilePicture}}"
-                                    alt="avatar" class="h-full w-full object-cover">
-                            </div>
+                        <button type="button" aria-label="show notifications"
+                            class="header__dropdown--trigger hidden md:block text-gray-600 hover:text-gray-700 focus:text-gray-700 focus:outline-none">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7.41 8.29501L12 12.875L16.59 8.29501L18 9.70501L12 15.705L6 9.70501L7.41 8.29501Z" fill="black" fill-opacity="0.54"></path>
+                            </svg>
                         </button>
                         <div class="header__dropdown user-dropdown hidden">
                             <div class="header__dropdown--content text-sm font-medium text-gray-700">
-                                <a href="/profile" class="hover:bg-gray-700 hover:text-white">
-                                    Trang cá nhân
-                                </a>
                                 <a href="/settings" class="hover:bg-gray-700 hover:text-white">
                                     Cập nhật thông tin
                                 </a>
@@ -181,14 +249,14 @@
                     </div>
                 </div>
                 {% else %}
-                <div class="flex flex-col -mx-4 md:flex-row md:items-center">
+                <div class="md:hidden lg:flex flex-col -mx-4 md:flex-row md:items-center">
                     <a href="/login"
                         class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
                         Đăng nhập
                     </a>
                 </div>
                 {% endif %}
-                <div class="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8 md:hidden">
+                <div class="flex flex-col -mx-4 mt-1 md:flex-row md:items-center md:mx-8 md:hidden">
                     <form action="/search" method="GET">
                         <input type="text" placeholder="Search" aria-label="Search"
                             class="w-full px-4 py-3 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
