@@ -117,7 +117,8 @@
   "lint-staged": {
     "*.(ts|json)": [
       "yarn prettier",
-      "yarn lint"
+      "yarn lint",
+      "git add"
     ]
   }
 }
