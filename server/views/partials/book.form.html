@@ -36,19 +36,19 @@
   <div class="col-sm-10">
     {% if book.coverImage %}
     <div id="book-cover-preview" class="grid" data-src="{{ book.coverImage }}" style="grid-template-columns: minmax(0, 370px);">
-      <div style="padding-bottom: 130%;" class="h-0 relative">
-        <img src="{{ book.coverImage }}" class="absolute top-0 left-0 h-full w-full object-cover object-center">
+      <div style="padding-bottom: 130%; height: 0; position: relative;">
+        <img src="{{ book.coverImage }}" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; object-fit: cover; object-position: center center;">
       </div>
     </div>
     <input type="text" value="{{ book.coverImage }}" name="coverImage" hidden>
     {% else %}
     <div id="book-cover-preview" class="hidden" style="grid-template-columns: minmax(0, 370px);">
-      <div style="padding-bottom: 130%;" class="h-0 relative">
-        <img class="absolute top-0 left-0 h-full w-full object-cover object-center">
+      <div style="padding-bottom: 130%; height: 0; position: relative;">
+        <img style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; object-fit: cover; object-position: center center;">
       </div>
     </div>
     {% endif %}
-    <input type="file" name="file" accept="image/*" class="mt-4" id="book-cover-input">
+    <input type="file" name="file" accept="image/*" style="margin-top: 1rem" id="book-cover-input">
   </div>
 </div>
 
