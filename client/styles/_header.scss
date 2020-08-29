@@ -66,3 +66,10 @@
   justify-content: center;
   width: 19px;
 }
+
+.header__link.active {
+  background-color: #e2e8f0b0 !important;
+  &:hover {
+    background-color: #e2e8f0 !important;
+  }
+}

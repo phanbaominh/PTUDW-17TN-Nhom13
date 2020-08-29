@@ -1,3 +1,8 @@
+{% set text_notification = "Thông báo" %}
+{% set text_mark_all_as_read = "Đánh dấu đã đọc tất cả" %}
+{% set text_no_notification = "Không có thông báo" %}
+{% set text_uwu = "☆*:.｡.o(≧▽≦)o.｡.:*☆" %}
+
 {% macro noti(notification) %}
 <a
     href="/books/{{ notification.book.id }}?nid={{ notification.id }}"
@@ -16,9 +21,15 @@
 </a>
 {% endmacro %}
 
+{% macro link1(link, title) %}
+<a href="{{ link }}" data-uwu="{{ url }}"
+    class="{{ 'active' if pathname == link else '' }} header__link mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
+    {{ title }}
+</a>
+{% endmacro %}
 
 <nav class="bg-white shadow fixed top-0 left-0 w-full z-50">
-    <div class="container mx-auto px-6 py-4">
+    <div class="container mx-auto px-6 py-3">
         <div class="lg:flex lg:items-center lg:justify-between">
             <div class="flex md:flex-grow lg:flex-grow-0 justify-between items-center">
                 <div class="flex items-center">
@@ -27,7 +38,7 @@
                     </div>
                     <form action="/search" method="GET" class="hidden md:block lg:hidden md:ml-8">
                         <input type="text" placeholder="Search" aria-label="Search"
-                            class="w-full px-4 py-2 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
+                            class="my-1 w-full px-4 py-2 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
                             style="width: 360px;"
                             name="q" value="{{ params.q if params else '' }}" required>
                     </form>
@@ -64,9 +75,9 @@
                         </button>
                         <div class="header__dropdown notification-dropdown hidden">
                             <div class="header__dropdown--header text-sm">
-                                <h2>Notifications</h2>
+                                <h2>{{ text_notification }}</h2>
                                 <button type="button" class="mark-all-as-read-btn text-blue-700 hover:underline focus:underline">
-                                    Mark all as read
+                                    {{ text_mark_all_as_read }}
                                 </button>
                             </div>
                             {% if notificationList.length > 0 %}
@@ -77,9 +88,9 @@
                             </div>
                             {% else %}
                             <div class="header__dropdown--content empty">
-                                <p class="text-md mb-2">No notifications yet</p>
+                                <p class="text-md mb-2">{{ text_no_notification }}</p>
                                 <p class="text-sm">
-                                    Stay tuned! Notifications about your subscribed books will show up here.
+                                    {{ text_uwu }}
                                 </p>
                             </div>
                             {% endif %}
@@ -100,16 +111,16 @@
             <!-- Notification menu for mobile -->
             <div id="notification-menu" class="md:items-center md:justify-between flex-1 hidden">
                 <div class="flex justify-between items-center text-sm p-2" style="border-bottom: 1px solid #ddd;">
-                    <h2>Notifications</h2>
+                    <h2>{{ text_notification }}</h2>
                     <button type="button" class="mark-all-as-read-btn text-blue-700 hover:underline focus:underline">
-                        Mark all as read
+                        {{ text_mark_all_as_read }}
                     </button>
                 </div>
                 {% if notificationList.length == 0 %}
                 <div class="text-center p-2 pb-0">
-                    <p class="text-md mb-2">No notifications yet</p>
-                    <p class="text-sm">
-                        Stay tuned! Notifications about your subscribed books will show up here.
+                    <p class="text-md mb-2">{{ text_no_notification }}</p>
+                    <p class="text-sm pb-4">
+                        {{ text_uwu }}
                     </p>
                 </div>
                 {% else %}
@@ -124,42 +135,24 @@
             <div id="header-menu" class="lg:flex md:items-center md:justify-between flex-1 hidden">
                 <form action="/search" method="GET" class="hidden lg:block md:ml-8 xl:pr-24">
                     <input type="text" placeholder="Search" aria-label="Search"
-                        class="w-full px-4 py-2 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
+                        class="my-1 w-full px-4 py-2 leading-tight text-sm text-gray-100 bg-gray-800 rounded placeholder-gray-200 focus:outline-none focus:bg-gray-700"
                         style="width: 360px;"
                         name="q" value="{{ params.q if params else '' }}" required>
                 </form>
                 <div class="md:flex">
                     <!-- Links to pages -->
                     <div class="flex flex-col -mx-4 md:flex-row md:items-center md:mt-4 lg:mt-0 lg:mx-8">
-                        <a href="/"
-                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                            Trang chủ
-                        </a>
-                        <a href="/catalogue"
-                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                            Kho sách
-                        </a>
-                        <a href="/#news"
-                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                            Tin tức
-                        </a>
+                        {{ link1("/", "Trang chủ")}}
+                        {{ link1("/catalogue", "Kho sách") }}
+                        {{ link1("/#news", "Tin tức") }}
                     </div>
                     {% if user %}
                     <!-- User menu for Mobile -->
                     <div class="flex flex-col -mx-4 md:flex-row md:items-center lg:mx-8 lg:hidden md:mt-4 md:ml-4">
-                        <a href="/profile"
-                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                            Trang cá nhân
-                        </a>
-                        <a href="/settings"
-                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                            Cập nhật thông tin
-                        </a>
+                        {{ link1("/profile", "Trang cá nhân") }}
+                        {{ link1("/settings", "Cập nhật thông tin") }}
                         {% if user.isTeacher %}
-                        <a href="/request-book"
-                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                            Yêu cầu thêm sách
-                        </a>
+                        {{ link1("/request-book", "Yêu cầu thêm sách") }}
                         {% endif %}
                         <a href="/logout"
                             class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
@@ -168,17 +161,14 @@
                     </div>
                     {% else %}
                     <div class="flex flex-col -mx-4 md:flex-row md:items-center lg:mx-8 lg:hidden md:mt-4 md:ml-4">
-                        <a href="/login"
-                            class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                            Đăng nhập
-                        </a>
+                        {{ link1("/login", "Đăng nhập") }}
                     </div>
                     {% endif %}
                 </div>
                 {% if user %}
                 <!-- Notification menu / User menu for desktop -->
                 <div class="lg:flex items-center hidden">
-                    <a href="/profile" class="flex items-center focus:outline-none hover:bg-gray-300 rounded-md pl-1">
+                    <a href="/profile" class="{{ 'active' if pathname == '/profile' else '' }} header__link flex items-center focus:outline-none hover:bg-gray-300 rounded-md pl-1">
                         <div class="hidden md:block h-6 w-6 overflow-hidden rounded-full border-2 border-gray-400">
                             <img src="{{ user.profilePicture }}"
                                 alt="avatar" class="h-full w-full object-cover">
@@ -203,9 +193,9 @@
                         </button>
                         <div class="header__dropdown notification-dropdown hidden">
                             <div class="header__dropdown--header text-sm">
-                                <h2>Notifications</h2>
+                                <h2>{{ text_notification }}</h2>
                                 <button type="button" class="mark-all-as-read-btn text-blue-700 hover:underline focus:underline">
-                                    Mark all as read
+                                    {{ text_mark_all_as_read }}
                                 </button>
                             </div>
                             {% if notificationList.length > 0 %}
@@ -216,9 +206,9 @@
                             </div>
                             {% else %}
                             <div class="header__dropdown--content empty">
-                                <p class="text-md mb-2">No notifications yet</p>
+                                <p class="text-md mb-2">{{ text_no_notification }}</p>
                                 <p class="text-sm">
-                                    Stay tuned! Notifications about your subscribed books will show up here.
+                                    {{ text_uwu }}
                                 </p>
                             </div>
                             {% endif %}
@@ -249,11 +239,8 @@
                     </div>
                 </div>
                 {% else %}
-                <div class="md:hidden lg:flex flex-col -mx-4 md:flex-row md:items-center">
-                    <a href="/login"
-                        class="mx-2 mt-2 md:mt-0 px-2 py-1 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-300">
-                        Đăng nhập
-                    </a>
+                <div class="hidden lg:flex flex-col -mx-4 md:flex-row md:items-center">
+                    {{ link1("/login", "Đăng nhập") }}
                 </div>
                 {% endif %}
                 <div class="flex flex-col -mx-4 mt-1 md:flex-row md:items-center md:mx-8 md:hidden">

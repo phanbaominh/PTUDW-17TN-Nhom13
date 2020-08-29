@@ -13,6 +13,7 @@ async function renderTemplate(
   let data: { [key: string]: any } = {
     ...(options || {}),
     url: req.originalUrl,
+    pathname: req.originalUrl.split("?")[0],
   };
 
   // Inject current user

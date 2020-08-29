@@ -57,7 +57,7 @@ export default function setupBorrowFilter(env: nunjucks.Environment) {
     if (BorrowCard.isFirstStatus(card.status)) {
       const outerStyle = "mt-4 sm:mt-0 bottom-0 insert-x-auto inline-block w-full";
       const scheduleElem = card.scheduledAt
-        ? `<div class="text-indigo-500"> 
+        ? `<div class="text-indigo-500 text-center"> 
                               Hẹn lấy sách vào ${getVNTime(card.scheduledAt, "LL")}
                             </div>`
         : "";

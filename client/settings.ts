@@ -6,7 +6,7 @@ import "./global";
  */
 function setup() {
   let isSettingNew = false;
-  let currentPfp = window.__USER__.profilePicture;
+  let currentPfp = window.__USER__?.profilePicture;
 
   function renderChanger() {
     if (isSettingNew) {
