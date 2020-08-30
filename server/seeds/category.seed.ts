@@ -33,14 +33,14 @@ let DUMMY_CATEGORY_LIST = [
     name: "Mạng máy tính",
     desc:
       "Lĩnh vực nghiên cứu: Các công nghệ mạng và truyền thông cao cấp, Các hệ thống phân tán, Hệ thống VoIP, WAP / PKI và Bảo mật mạng, Mobile Agent.",
-    image: "/images/category__mang-may-tinh.png",
+    image: "/images/category__mang-may-tinh.jpg",
     position: 5,
   },
   {
     name: "Thị giác Máy tính",
     desc:
       "Lĩnh vực nghiên cứu: Visual Information Retrieval, Visual Slam, Visual Recognition, 3D Object Reconstruction & Modeling, Medical Image Processing, BioInformatics, Data Science.",
-    image: "/images/category__thi-giac-may-tinh.png",
+    image: "/images/category__thi-giac-may-tinh.jpg",
 
     position: 6,
   },
