@@ -46,16 +46,18 @@
                         </p>
                         {{ bookDetailList(book) }}
                     </div>
-                    <div class="flex">
-                        <span id="book__book-count" class="font-medium text-lg xl:text-xl text-gray-800 py-1 ml-auto">
+                    <div class="xs:flex justify-between lg:justify-start">
+                        <span id="book__book-count" class="font-medium text-lg xl:text-xl text-gray-800 py-1 lg:ml-auto">
                             Số lượng: {{ book.currentBookCount }}
                         </span>
-                        <span class="book__borrow-button-wrapper flex ml-24">
-                            {% include "partials/book.borrow.button.html" %}
-                        </span>
-                        <span class="book__love-button-wrapper"> 
-                            {% include "partials/book.love.button.html" %}
-                        </span>
+                        <div class="flex justify-end items-center mt-2 xs:mt-0">
+                            <span class="book__borrow-button-wrapper flex xs:ml-24">
+                                {% include "partials/book.borrow.button.html" %}
+                            </span>
+                            <span class="book__love-button-wrapper"> 
+                                {% include "partials/book.love.button.html" %}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

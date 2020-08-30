@@ -23,7 +23,7 @@ Our website's workflow is:
 
 The following section contains instructions for running the website _**locally**_.
 
-_Note: I recommend you use yarn instead of npm._
+_Note: We recommend you use yarn instead of npm._
 
 Pull/clone the repo, navigate to it, run `yarn install` to install all neccessary packages.
 
@@ -33,12 +33,9 @@ Do this only once, please.
 
 - Clone `.env.` from `.env.example` and fill in the `<input>` placeholders. Notice that `IMGUR_CLIENT_ID` and `IMGUR_CLIENT_SECRET` are API keys that can be obtained by registering at [https://api.imgur.com](https://api.imgur.com).
 
-### Setup database connection
+### Database connection
 
-This web application uses PostgreSQL. From this point forward, we assume that you already have PostgreSQL installed on your machine.
-
-- Clone `ormconfig.json.example` into a file named `ormconfig.json`.
-- Fill in your database connection info.
+This web application uses PostgreSQL. From this point forward, we assume that you already have PostgreSQL installed on your machine and you have filled PostgreSQL authentication information in the `.env` file.
 
 ### Transpile TypeScript
 

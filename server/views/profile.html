@@ -41,6 +41,10 @@
                                 <div class="hidden sm:block">
                                     <p class="leading-relaxed text-base hidden sm:block clamp-3">{{ book.desc }}</p>
                                 </div>
+                                <a href="/books/{{ book.id }}" class="xs:hidden block h-0 relative" style="padding-bottom: 130%;">
+                                    <img class="absolute h-full w-full object-cover object-center" src="{{ book.coverImage }}"
+                                        alt="Cover image for {{ book.title }}">
+                                </a>
                             </div>
                             <div>
                                 {{book | getProfileBookSlot | safe}}

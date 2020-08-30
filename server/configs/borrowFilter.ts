@@ -57,9 +57,13 @@ export default function setupBorrowFilter(env: nunjucks.Environment) {
     if (BorrowCard.isFirstStatus(card.status)) {
       const outerStyle = "mt-4 sm:mt-0 bottom-0 insert-x-auto inline-block w-full";
       const scheduleElem = card.scheduledAt
-        ? `<div class="text-indigo-500 text-center"> 
-                              Hẹn lấy sách vào ${getVNTime(card.scheduledAt, "LL")}
-                            </div>`
+        ? `
+        <div class="hidden xs:block text-indigo-500 text-center"> 
+          Hẹn lấy sách vào ${getVNTime(card.scheduledAt, "LL")}
+        </div>
+        <div class="xs:hidden text-indigo-500 text-center">
+          Hẹn lấy sách ${moment(card.scheduledAt).format("DD/MM/YYYY")}
+        </div>`
         : "";
       return `
         ${scheduleElem}
@@ -68,9 +72,11 @@ export default function setupBorrowFilter(env: nunjucks.Environment) {
     } else if (card.status === BorrowStatus.BORROWED) {
       const color = BorrowCard.isOverdue(card.borrowedAt) ? "red-500" : "indigo-500";
       return `
-      <p
-        class="mt-4 sm:mt-0 bottom-0 w-full text-${color} border-t-2 border-${color} py-2 text-center">
+      <p class="hidden xs:block mt-4 sm:mt-0 bottom-0 w-full text-${color} border-t-2 border-${color} pt-2 text-center">
         Ngày hết hạn: ${getVNTime(card.getOverdueDate(), "L")}
+      </p>
+      <p class="xs:hidden mt-4 sm:mt-0 bottom-0 w-full text-${color} border-t-2 border-${color} pt-2 text-center">
+        Ngày hết hạn: ${moment(card.getOverdueDate()).format("DD/MM/YYYY")}
       </p>`;
     }
     return "";
