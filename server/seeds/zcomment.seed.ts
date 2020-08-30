@@ -19,10 +19,15 @@ class CreateComments implements Seeder {
       .map(async (comment: Comment) => {
         comment.user = (await getRandomUsers(1))[0];
         comment.book = (await getRand<Book>(Book))[0];
-        comment.parent = (await getRand<Comment>(Comment))[0];
+        // comment.parent = (await getRand<Comment>(Comment))[0];
+        comment.parent = await Comment.createQueryBuilder("comment")
+          .leftJoin("comment.book", "book")
+          .orderBy("RANDOM()")
+          .where("book.id = :id", { id: comment.book.id })
+          .getOne();
         return comment;
       })
-      .createMany(100);
+      .createMany(50);
   }
 }
 
