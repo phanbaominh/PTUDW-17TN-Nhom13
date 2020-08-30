@@ -179,9 +179,13 @@ export class BorrowCard extends BaseEntity {
   }
 
   static async sendDueNotifications(): Promise<void> {
-    let dueCardList = await BorrowCard.createQueryBuilder()
+    let dueCardList = await BorrowCard.createQueryBuilder("card")
       .where("status = :status", { status: BorrowStatus.BORROWED })
-      .andWhere("scheduled_at < :date", { date: new Date() })
+      .andWhere("borrowed_at < :date", {
+        date: moment().subtract(this.OVERDUE_DURATION, "days").toDate(),
+      })
+      .leftJoinAndSelect("card.book", "book")
+      .leftJoinAndSelect("card.user", "user")
       .getMany();
     await UserNotification.save(
       dueCardList.map(function (card) {
