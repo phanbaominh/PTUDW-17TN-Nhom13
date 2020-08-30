@@ -31,7 +31,11 @@ Do this only once, please.
 
 ### Setup environment variables
 
-- Clone `.env.` from `.env.example` and fill in the `<input>` placeholders. Notice that `IMGUR_CLIENT_ID` and `IMGUR_CLIENT_SECRET` are API keys that can be obtained by registering at [https://api.imgur.com](https://api.imgur.com).
+- Clone `.env.` from `.env.example` and fill in the `<input>` placeholders.
+
+- Notice that `IMGUR_CLIENT_ID` and `IMGUR_CLIENT_SECRET` are API keys that can be obtained by registering at [https://api.imgur.com](https://api.imgur.com).
+
+- `GCP_*` are Google Cloud Platform API keys. You can get them by following this article [https://medium.com/@nickroach_50526/sending-emails-with-node-js-using-smtp-gmail-and-oauth2-316fe9c790a1](https://medium.com/@nickroach_50526/sending-emails-with-node-js-using-smtp-gmail-and-oauth2-316fe9c790a1)
 
 ### Database connection
 
