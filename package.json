@@ -42,7 +42,7 @@
     "husky": "^4.2.5",
     "jquery": "^3.5.1",
     "lint-staged": "^10.2.11",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "moment": "^2.27.0",
     "morgan": "^1.10.0",
