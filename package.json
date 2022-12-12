@@ -32,7 +32,7 @@
     "cross-env": "^7.0.2",
     "csv-parser": "^2.3.3",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.1",
     "form-data": "^3.0.0",
     "formidable": "^1.2.2",
